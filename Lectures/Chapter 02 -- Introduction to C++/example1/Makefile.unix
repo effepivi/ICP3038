@@ -1,0 +1,27 @@
+CXX=g++
+CXXFLAGS=-Iinclude
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	LDLIBS=-lGL -lglut
+endif
+
+ifeq ($(UNAME_S),Darwin)
+	LDLIBS=-framework OpenGL -framework GLUT
+endif
+
+all: example1
+
+main.o: src/main.cpp
+	$(CXX) -c $< $(CXXFLAGS) -o $@
+
+Window.o: src/Window.cpp
+	$(CXX) -c $< $(CXXFLAGS) -o $@
+
+example1: main.o Window.o
+	$(CXX) $? $(LDLIBS) -o $@
+
+clean:
+	$(RM) main.o
+	$(RM) Window.o
+	$(RM) example1
