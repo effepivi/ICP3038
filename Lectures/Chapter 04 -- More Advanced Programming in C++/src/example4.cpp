@@ -58,19 +58,19 @@ Integer& Integer::operator*=(int anInteger)
     return (*this);
 }
 
-
+/*
 Integer& Integer::operator++()
 {
     m_value++;
     return (*this);
-}
+}*/
 
-
+/*
 Integer& Integer::operator--()
 {
     m_value--;
     return (*this);
-}
+}*/
 
 
 std::ostream& operator<<(std::ostream& aStream, const Integer& anInteger)
