@@ -20,9 +20,9 @@ public:
     Integer& operator*=(const Integer& anInteger);
     Integer& operator*=(int anInteger);
     
-   /* Integer& operator++();
+    Integer& operator++();
     Integer& operator--();
-*/
+
     friend std::ostream& operator<<(std::ostream& aStream, const Integer& anInteger);
     friend std::istream& operator>>(std::istream& aStream, Integer& anInteger);
   
