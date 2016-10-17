@@ -1,4 +1,6 @@
-project(Lab1)
+cmake_minimum_required(VERSION 2.6)
+
+project(ICP3038--Lab01--answers)
 
 add_executable(Task1-solution1 src/task1-solution1.cpp)
 add_executable(Task1-solution2 src/task1-solution2.cpp)

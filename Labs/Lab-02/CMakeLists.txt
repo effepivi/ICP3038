@@ -1,4 +1,6 @@
-project(Lab2)
+cmake_minimum_required(VERSION 2.6)
+
+project(ICP3038--Lab02)
 
 include_directories(include)
 
