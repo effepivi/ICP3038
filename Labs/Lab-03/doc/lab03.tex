@@ -1,0 +1,163 @@
+% !TEX root = ./ICP3038_Lab_03.tex
+
+\section*{Laboratory 3: Introduction to Templates in C++}
+
+%This is a typical script that you will be working with at each
+%laboratory session. To work with these scripts efficiently, follow the
+%guidelines below.
+%\begin{enumerate}
+%  \item The script is not a step-by-step tutorial. It introduces the
+%    problem but it is your task to solve it.
+%
+%  \item If you get stuck, make sure that you read \emph{Help} section
+%    at the end of the document.
+%
+%  \item If you still have problems, ask the lecturer, demonstrator or
+%    fellow students for help.
+%
+%  \item Try to do as much work as possible in the class, where it is
+%    easier to get help.
+%    
+%  \item If you need help when working at home, use the Blackboard
+%    discussion board.
+%    
+%  \item Finish all assignments at least a week before the deadline. If you get
+%    stuck, you will still have one week to ask for help.
+%\end{enumerate}
+
+The aims of today's lab are:
+\begin{itemize}
+\item Finish Lab~2 (the \verb+StringInverter+ class);
+\item Introduce the \verb+vector+ class of the Standard Template Library (STL);
+\item Understand the concept of template functions. 
+%\item Get familiar with template classes.
+\end{itemize}
+
+Next week, we will start working on the assignment (start writing an \verb+Image+ class).
+
+\section*{Task -1: Last week}
+
+Make sure you finish the \verb+StringInverter+ class from Lab~2!
+
+\section*{Task 0: Using CMake}
+
+Same as last week, we will use CMake to make our lives easier. 
+%In the lecture, you saw yesterday that it can be extremely complicated to use the IDE to maintain the project files, etc. particularly if students use Windows, Mac, or Linux. 
+%There is a ZIP file on Blackboard with 4 (almost) empty C++ source files. There is also a `CMakeLists.txt' file. 
+%It is a good practice to organise your source code using directories, etc. Do not compile code in the same directory as your source code. It can get messy... 
+%Extract the ZIP file, and set up the compilation environment using \verb+cmake+. 
+%In the GUI, the source directory corresponds to the direction in which `CMakeLists.txt' is. 
+%The binary directory is where the code will be compiled. Often, we call this directory `bin'. 
+%Once the paths are set, press `Configure'. 
+%The first time you run the configuration tool, you have to select a generator.
+%If you want to use MSVC++ in the lab, make sure to use \emph{Visual Studio 14 2015 Win64}. 
+%For Mac OS X, you may want to use the Xcode generator. 
+%For Linux, you may choose Makefile. 
+%Once the configuration step is over, press `Generate'. 
+%The project files are now ready in the `bin' directory. 
+%You can compile the code using the preferred IDE.
+
+\section*{Task 1: STL Vector}
+
+To store $X$ elements of the same type,
+C developers would tend to use an array whereas C++ programmers would favour the \verb+vector+ class provided by the STL. 
+The first solution is not practical when $X$ varies and would require dynamic allocation and recopies of the data. 
+
+For the first task of the week, you are given one C++ file (\verb+src/TestVector.cpp+), which corresponds to a short program to get familiar with this \verb+vector+ class. At the moment it only contains some C code, your task is to improve it. 
+
+\begin{enumerate}
+
+\item To use the \verb+vector+ class, add:
+\begin{lstlisting}
+#include <vector>
+\end{lstlisting}
+The documentation is in \url{http://www.cplusplus.com/reference/vector/vector/}
+
+\item In the main, create a vector of 50 random double precision floating point numbers between 0.0 and 1.0. To produce random numbers, you can use the function \verb+randd()+ that we provide. The header you need is \verb+<cstdlib>+ (for \verb+srand+, \verb+rand()+ and \verb+time(0)+). 
+
+\item Display every element of the vector using a \verb+const_iterator+, a \verb+for+ loop, and \verb+std::cout <<+. 
+Remember to visit \verb+cplusplus.com+ to access the official C++ documentation, e.g.~\url{http://www.cplusplus.com/reference/vector/vector/begin/}.
+
+\item In the \verb+for+ loop you just wrote, replace \verb+.begin()+ by \verb+.rbegin()+, and \verb+.end()+ by \verb+.rend()+. What happened?
+
+\item Instead of the for loop, use \verb+std::copy+ to display every element of the vector. To do so, you need to include another 2 header files:
+\verb+#include <algorithm>+ for \verb+std::copy+, and \verb+#include <iterator>+ for \verb+std::ostream_iterator+. 
+In \url{http://www.cplusplus.com/reference/iterator/ostream_iterator/}, you can see an example. 
+\begin{lstlisting}
+// ostream_iterator example
+#include <iostream>     // std::cout
+#include <iterator>     // std::ostream_iterator
+#include <vector>       // std::vector
+#include <algorithm>    // std::copy
+
+int main () {
+  std::vector<int> myvector;
+  for (int i=1; i<10; ++i) myvector.push_back(i*10);
+
+  std::ostream_iterator<int> out_it (std::cout,", ");
+  std::copy ( myvector.begin(), myvector.end(), out_it );
+  
+  // Most people would write:
+  std::copy ( myvector.begin(), 
+              myvector.end(), 
+              std::ostream_iterator<int>( std::cout,", " )
+             );
+ 
+  return 0;
+}
+\end{lstlisting}
+Adapt this code to your own problem. The main difference is the template argument. 
+You have a vector of \verb+double+s, in the example it is an array of \verb+int+s.
+
+\item Remove the last $N$ elements of the vector with:
+$$
+	N = 10 \times \mathrm{randd()}
+$$
+You can use the method \verb+vector::erase+ or \verb+vector::pop_back+. 
+
+\item Now, display the smallest and largest values contained in the vector. To do so, use \verb+std::min_element+ and \verb+std::max_element+ provided in the \verb+<algorithm>+ header. Note that these functions return an iterator. Iterators are a bit like pointers. To display the value pointed by an iterator, add a \verb+*+ before it, e.g. \verb+*ite+.
+
+\item Finally, display the average value. 
+To get the number of elements in the vector, use its \verb+size()+ method. 
+To get the sum of all the elements of the vector, use \verb+std::accumulate()+ function. 
+It is provided by the \verb+<numeric>+ header. 
+The last parameter is:
+\verb+0+ if you are summing integer numbers,
+\verb+0.0+ for double-precision floating-point numbers, or 
+\verb+0.0f+ for single-precision floating-point numbers.
+\end{enumerate}
+
+\section*{Task 2: Create your own template functions}
+
+For this task, you are given two C++ files:
+\begin{enumerate}
+  \item \verb+include/Utils.h+, a header file with the declarations of some functions.
+  \item \verb+src/TestUtils.cpp+, a test program to try your template functions.
+\end{enumerate}
+
+Modify \verb+include/Utils.h+ to convert every function as a template function. 
+To implement every function, you need to write the code directly in the header. 
+In \verb+src/TestUtils.cpp+, test every template function with different data types.
+
+
+%\section*{Task 3: Create your own template class}
+%
+%This time, you have to create your own files and modify CMakeLists.txt. 
+%We propose to create a template class to handle square matrices, e.g. n-by-n matrices. 
+%The class should contain:
+%\begin{itemize}
+%\item a default constructor, 
+%\item a copy constructor, 
+%\item a copy operator, 
+%\item \verb+operator<<+, 
+%\item \verb+operator>>+,
+%\item \verb+unsigned int m_size+ (default: 4) the number of rows 
+%\item \verb+unsigned int getSize() const+
+%\item \verb+void setSize(unsigned int)+
+%\item \verb+T& get(unsigned int i, unsigned int j) const+
+%\item \verb+void set(unsigned int i, unsigned int j, const T& aValue)+
+%\item \verb+void setIdentity()+
+%\end{itemize}
+%Each method should be tested and validated in a test program. 
+%Do not wait until the end to test your code. 
+%A good programming strategy is to test a function just after it has been implemented. 
