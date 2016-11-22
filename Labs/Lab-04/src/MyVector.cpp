@@ -371,7 +371,7 @@ bool MyVector::operator==(const MyVector& aVector) const
     std::vector<float>::const_iterator ite1(aVector.m_data.begin());
     
     // Check every corresponding pair of elements
-    while (ite0 != aVector.m_data.end() && ite1 != aVector.m_data.end())
+    while (ite0 != m_data.end() && ite1 != aVector.m_data.end())
     {
         // Does not take into account numerical inacuracy
         if (*ite0++ != *ite1++) return (false);
