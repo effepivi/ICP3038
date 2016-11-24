@@ -177,13 +177,13 @@ You can use them to compare the results of your computations.
   \textbf{Test case} & \textbf{Min} & \textbf{Max} & \textbf{Sum} & \textbf{Average} ($\overline{X}$)& \textbf{Variance} ($\sigma^2$) & \textbf{Standard deviation} ($\sigma$)\\
   \hline
   \hline
-  $\mathbf{Y}$ & 9.5774e-29 & 5.0000 & 300.80 & 0.75011 & 1.8371 & 1.3554 \\
+  $\mathbf{Y}$ & 9.5774e-29 & 5 & 300.795 & 0.750113 & 1.8325 & 1.3537 \\
   \hline
-  $\mathbf{Y_{quadriple}}$ & 3.8310e-28 & 20.000 & 1203.2 & 3.0005 & 29.393 & 5.4216 \\
+  $\mathbf{Y_{quadriple}}$ & 3.83096e-28 & 20 & 1203.18 & 3.00045 & 29.3201 & 5.4148 \\
   \hline
-  $\mathbf{Y_{noise}}$ & -0.83714 & 5.3959 & 303.32 & 0.75641 & 1.9532 & 1.3976 \\
+  $\mathbf{Y_{noise}}$ & -0.837137 & 5.39592 & 303.319 & 0.756407 & 1.94837 & 1.39584 \\
   \hline
-  $\mathbf{Y_{negative}}$ & -5.0000 & -9.5774e-29 & -300.80 & -0.75011 & 1.8371 & 1.3554 \\
+  $\mathbf{Y_{negative}}$ & -5 & -9.5774e-29 & -300.795 & -0.750113 & 1.8325 & 1.3537 \\
   \hline
  \end{tabular}
 \end{footnotesize}
@@ -339,9 +339,10 @@ One of the main advantages of the SAE is that it is fast to compute.
 However, it has limitations. 
 To test your computations, here are the results for:
 \begin{itemize}
-\item $SAE(\mathbf{Y}, \mathbf{Y_{quadriple}}) =  902.39$
-\item $SAE(\mathbf{Y}, \mathbf{Y_{negative}}) =  601.59$
-\item $SAE(\mathbf{Y}, \mathbf{Y_{noise}}) =  108.52$
+\item $SAE(\mathbf{Y}, \mathbf{Y}) =  0$
+\item $SAE(\mathbf{Y}, \mathbf{Y_{quadriple}}) =  902.386$
+\item $SAE(\mathbf{Y}, \mathbf{Y_{negative}}) =  601.591$
+\item $SAE(\mathbf{Y}, \mathbf{Y_{noise}}) =  104.505$
 \end{itemize}
 $\mathbf{Y_{quadriple}}$ is equal to $4 \times \mathbf{Y}$. 
 However, the SAE between $\mathbf{Y_{quadriple}}$ and $\mathbf{Y}$ is the largest. 
@@ -365,9 +366,10 @@ NCC(\mathbf{Y_1}, \mathbf{Y_2}) = \frac{1}{N}\sum^{N-1}_{i=0} \frac{(\mathbf{Y_1
 Often the NCC is expressed as a percentage. 
 With our examples, we get:
 \begin{itemize}
-\item $NCC(\mathbf{Y}, \mathbf{Y_{quadriple}}) = 1 = 100\%$
-\item $NCC(\mathbf{Y}, \mathbf{Y_{negative}}) = -1 = -100\%$
-\item $NCC(\mathbf{Y}, \mathbf{Y_{noise}}) =  0.97 = 97\%$
+\item $NCC(\mathbf{Y}, \mathbf{Y}) = 0.999996 =	99.9996\%$
+\item $NCC(\mathbf{Y}, \mathbf{Y_{quadriple}}) = 0.999996 =	99.9996\%$
+\item $NCC(\mathbf{Y}, \mathbf{Y_{negative}}) = 0.999996 =	-99.9996\%$
+\item $NCC(\mathbf{Y}, \mathbf{Y_{noise}}) =  0.97188 =	97.188\%$
 \end{itemize}
 
 
