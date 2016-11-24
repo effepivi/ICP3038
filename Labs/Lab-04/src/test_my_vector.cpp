@@ -125,10 +125,10 @@ int main()
 
         // Compute the NCC between vectors
         // (to test your method check the alues against the ones given in the lab script)
-        std::cout << "NCC(Y, Y)"           << y.NCC(y)           << std::endl;
-        std::cout << "NCC(Y, Y_quadriple)" << y.NCC(y_quadriple) << std::endl;
-        std::cout << "NCC(Y, Y_noise)"     << y.NCC(y_noise)     << std::endl;
-        std::cout << "NCC(Y, Y_negative)"  << y.NCC(y_negative)  << std::endl;
+        std::cout << "NCC(Y, Y)"           << y.NCC(y)           << y.NCC(y)           * 100.0 << std::endl;
+        std::cout << "NCC(Y, Y_quadriple)" << y.NCC(y_quadriple) << y.NCC(y_quadriple) * 100.0 << std::endl;
+        std::cout << "NCC(Y, Y_noise)"     << y.NCC(y_noise)     << y.NCC(y_noise)     * 100.0 << std::endl;
+        std::cout << "NCC(Y, Y_negative)"  << y.NCC(y_negative)  << y.NCC(y_negative)  * 100.0 << std::endl;
         std::cout << std::endl;
     }
     // There was an error
