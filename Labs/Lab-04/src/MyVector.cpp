@@ -398,7 +398,7 @@ float MyVector::SAE(const MyVector& aVector) const
 //------------------------------------------------
 {
     // Replace with your own code
-    return (true);
+    return (0.0);
 }
 
 
@@ -407,5 +407,5 @@ float MyVector::NCC(const MyVector& aVector) const
 //------------------------------------------------
 {
     // Replace with your own code
-    return (true);
+    return (0.0);
 }
