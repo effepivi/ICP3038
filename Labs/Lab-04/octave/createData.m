@@ -8,7 +8,7 @@ function value = gauss(A, B, C, x)
 end
 
 function NCC = computeNCC(y1, y2)
-    NCC=100*sum(((y1 .- mean(y1)).*(y2 .- mean(y2))) ./ (std(y1)*std(y2))) / (size(y1, 1) * size(y1, 2));
+    NCC=100*sum(((y1 .- mean(y1)).*(y2 .- mean(y2))) ./ (std(y1, 1)*std(y2, 1))) / (size(y1, 1) * size(y1, 2));
 end
 
 function SAE = computeSAE(y1, y2)
@@ -40,29 +40,29 @@ y_min = min(y)
 y_max = max(y)
 y_sum = sum(y)
 y_average = mean(y)
-y_variance = var(y)
-y_std_dev = std(y)
+y_variance = var(y, 1)
+y_std_dev = std(y, 1)
 
 y_quadriple_min = min(y_quadriple)
 y_quadriple_max = max(y_quadriple)
 y_quadriple_sum = sum(y_quadriple)
 y_quadriple_average = mean(y_quadriple)
-y_quadriple_variance = var(y_quadriple)
-y_quadriple_std_dev = std(y_quadriple)
+y_quadriple_variance = var(y_quadriple, 1)
+y_quadriple_std_dev = std(y_quadriple, 1)
 
 y_noise_min = min(y_noise)
 y_noise_max = max(y_noise)
 y_noise_sum = sum(y_noise)
 y_noise_average = mean(y_noise)
-y_noise_variance = var(y_noise)
-y_noise_std_dev = std(y_noise)
+y_noise_variance = var(y_noise, 1)
+y_noise_std_dev = std(y_noise, 1)
 
 y_negative_min = min(y_negative)
 y_negative_max = max(y_negative)
 y_negative_sum = sum(y_negative)
 y_negative_average = mean(y_negative)
-y_negative_variance = var(y_negative)
-y_negative_std_dev = std(y_negative)
+y_negative_variance = var(y_negative, 1)
+y_negative_std_dev = std(y_negative, 1)
 
 
 save -ascii "../datay.mat" y
