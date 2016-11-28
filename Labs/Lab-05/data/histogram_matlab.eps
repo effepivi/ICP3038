@@ -1,11 +1,12 @@
 %!PS-Adobe-2.0 EPSF-1.2
 %%Creator: MATLAB, The MathWorks, Inc. Version 8.3.0.532 (R2014a). Operating System: Microsoft Windows 7 Enterprise .
 %%Title: .\histogram_matlab.eps
-%%CreationDate: 11/24/2015  09:37:25
+%%CreationDate: 11/28/2016  17:07:45
 %%DocumentNeededFonts: Helvetica
 %%DocumentProcessColors: Cyan Magenta Yellow Black
+%%Extensions: CMYK
 %%Pages: 1
-%%BoundingBox:    38   187   548   613
+%%BoundingBox:    34   185   548   614
 %%EndComments
 
 %%BeginProlog
@@ -143,12 +144,14 @@ ISOLatin1Encoding WindowsLatin1Encoding copy pop
   smat stri tri_to_matrix tmat2 concatmatrix } bdef
 /ds {stri astore pop} bdef
 /dt {dtri astore pop} bdef
-/db {2 copy /cols xdef /rows xdef mul dup string
+/db {2 copy /cols xdef /rows xdef mul dup 3 mul string
   currentfile exch readhexstring pop
-  /bmap xdef pop pop} bdef
+  dup 0 3 index getinterval /rbmap xdef
+  dup 2 index dup getinterval /gbmap xdef
+  1 index dup 2 mul exch getinterval /bbmap xdef pop pop}bdef
 /it {gs np dtri aload pop moveto lineto lineto cp c
   cols rows 8 compute_transform 
-  {bmap} image gr}bdef
+  rbmap gbmap bbmap true 3 colorimage gr}bdef
 /il {newpath moveto lineto stroke}bdef
 currentdict end def
 %%EndProlog
@@ -163,7 +166,7 @@ end
 
 %%Page: 1 1
 %%BeginPageSetup
-%%PageBoundingBox:    38   187   548   613
+%%PageBoundingBox:    34   185   548   614
 MathWorks begin
 bpage
 %%EndPageSetup
@@ -174,7 +177,7 @@ bplot
 /dpi2point 12 def
 portraitMode 0216 7344 csm
 
-  243   -14  6120  5106 MR c np
+  203   -28  6167  5143 MR c np
 85 dict begin %Colortable dictionary
 /c0 { 0.000000 0.000000 0.000000 sr} bdef
 /c1 { 1.000000 1.000000 1.000000 sr} bdef
@@ -206,69 +209,69 @@ SO
  899 4616 mt  899 4562 L
  899  389 mt  899  442 L
 %%IncludeResource: font Helvetica
-/Helvetica /WindowsLatin1Encoding 192 FMSR
+/Helvetica /WindowsLatin1Encoding 216 FMSR
 
- 734 4828 mt 
+ 713 4851 mt 
 (-1) s
 1665 4616 mt 1665 4562 L
 1665  389 mt 1665  442 L
-1612 4828 mt 
+1605 4851 mt 
 (0) s
 2431 4616 mt 2431 4562 L
 2431  389 mt 2431  442 L
-2378 4828 mt 
+2371 4851 mt 
 (1) s
 3197 4616 mt 3197 4562 L
 3197  389 mt 3197  442 L
-3144 4828 mt 
+3137 4851 mt 
 (2) s
 3963 4616 mt 3963 4562 L
 3963  389 mt 3963  442 L
-3910 4828 mt 
+3903 4851 mt 
 (3) s
 4729 4616 mt 4729 4562 L
 4729  389 mt 4729  442 L
-4676 4828 mt 
+4669 4851 mt 
 (4) s
 5495 4616 mt 5495 4562 L
 5495  389 mt 5495  442 L
-5442 4828 mt 
+5435 4851 mt 
 (5) s
 6261 4616 mt 6261 4562 L
 6261  389 mt 6261  442 L
-6208 4828 mt 
+6201 4851 mt 
 (6) s
  899 4616 mt  952 4616 L
 6261 4616 mt 6207 4616 L
- 758 4687 mt 
+ 744 4696 mt 
 (0) s
  899 4012 mt  952 4012 L
 6261 4012 mt 6207 4012 L
- 651 4083 mt 
+ 624 4092 mt 
 (20) s
  899 3408 mt  952 3408 L
 6261 3408 mt 6207 3408 L
- 651 3479 mt 
+ 624 3488 mt 
 (40) s
  899 2804 mt  952 2804 L
 6261 2804 mt 6207 2804 L
- 651 2875 mt 
+ 624 2884 mt 
 (60) s
  899 2200 mt  952 2200 L
 6261 2200 mt 6207 2200 L
- 651 2271 mt 
+ 624 2280 mt 
 (80) s
  899 1596 mt  952 1596 L
 6261 1596 mt 6207 1596 L
- 544 1667 mt 
+ 504 1676 mt 
 (100) s
  899  992 mt  952  992 L
 6261  992 mt 6207  992 L
- 544 1063 mt 
+ 504 1072 mt 
 (120) s
  899  389 mt  952  389 L
 6261  389 mt 6207  389 L
- 544  460 mt 
+ 504  469 mt 
 (140) s
  899  389 mt 6261  389 L
  899 4616 mt 6261 4616 L
@@ -352,18 +355,21 @@ PP
 0 sg
 -238 0 0 212 238 0 0 -212 5082 4616 5 MP stroke
 c8
-0 151 239 0 0 -151 5380 4616 4 MP
+0 182 239 0 0 -182 5380 4616 4 MP
 PP
 0 sg
--239 0 0 151 239 0 0 -151 5380 4616 5 MP stroke
+-239 0 0 182 239 0 0 -182 5380 4616 5 MP stroke
 5362 0 899 4616 2 MP stroke
 gr
 
-2610  237 mt 
+%%IncludeResource: font Helvetica
+/Helvetica /WindowsLatin1Encoding 192 FMSR
+
+2610  223 mt 
 (Histogram with 16 bins) s
-3221 5024 mt 
+3221 5047 mt 
 (Intensity) s
- 446 2759 mt  -90 rotate
+ 406 2759 mt  -90 rotate
 (Count) s
 90 rotate
 

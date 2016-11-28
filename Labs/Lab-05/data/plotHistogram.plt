@@ -14,6 +14,10 @@ set style fill solid
 # Make sure the output will be an EPS file
 set term post enh color eps font 'Helvetica,16'
 
+# Set the range of x values
+# (note that it is optional)
+set xrange[-1:6]
+
 # Set the name of the EPS file
 set output("histogram_gnuplot.eps")
 
