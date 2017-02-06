@@ -35,3 +35,28 @@ TARGET_LINK_LIBRARIES (meanFilter     ${requiredLibs})
 TARGET_LINK_LIBRARIES (medianFilter   ${requiredLibs})
 TARGET_LINK_LIBRARIES (gaussianFilter ${requiredLibs})
 
+# If windows is used, copy the dlls into the project directory
+IF (WIN32)
+	
+	IF (EXISTS "${OpenCV_DIR}/x64/vc14/bin/opencv_ffmpeg320_64.dll")
+        FILE (COPY        "${OpenCV_DIR}/x64/vc14/bin/opencv_ffmpeg320_64.dll"
+              DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+    ELSE ()
+	    MESSAGE (WARNING "opencv_ffmpeg320_64.dll is not in ${OpenCV_DIR}/x64/vc14/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+	ENDIF ()
+
+    IF (EXISTS "${OpenCV_DIR}/x64/vc14/bin/opencv_world320.dll")
+        FILE (COPY        "${OpenCV_DIR}/x64/vc14/bin/opencv_world320.dll"
+              DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+    ELSE ()
+	    MESSAGE (WARNING "opencv_world320.dll is not in ${OpenCV_DIR}/x64/vc14/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+	ENDIF ()
+	
+	IF (EXISTS "${OpenCV_DIR}/x64/vc14/bin/opencv_world320d.dll")
+        FILE (COPY        "${OpenCV_DIR}/x64/vc14/bin/opencv_world320d.dll"
+              DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+    ELSE ()
+	    MESSAGE (WARNING "opencv_world320d.dll is not in ${OpenCV_DIR}/x64/vc14/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+	ENDIF ()
+	
+ENDIF (WIN32)
