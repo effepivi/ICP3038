@@ -27,7 +27,7 @@ ADD_EXECUTABLE (videoFromFile    videoFromFile.cxx)
 # Add OpenCV libraries to each executable programs
 TARGET_LINK_LIBRARIES (videoFromFile    ${requiredLibs})
 #TARGET_LINK_LIBRARIES (videoFromCamera  ${requiredLibs})
-#TARGET_LINK_LIBRARIES (Pyramids.cpp     ${requiredLibs})
+#TARGET_LINK_LIBRARIES (Pyramids         ${requiredLibs})
 
 
 # If windows is used, copy the dlls into the project directory
