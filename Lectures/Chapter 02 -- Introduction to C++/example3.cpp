@@ -1,11 +1,11 @@
-#include<iostream>
-using namespace std;
+#include <iostream>
+#include <cmath>
 
 int main()
 {
 	float f1, f2;
-	cout << "Enter 2 floating point numbers :";
-	cin >> f1 >> f2;
-	cout << "sum = " << f1 + f2 << endl;
+	std::cout << "Enter 2 floating point numbers :";
+	std::cin >> f1 >> f2;
+	std::cout << "sum = " << f1 + f2 << std::endl;
 	return 0;
 }

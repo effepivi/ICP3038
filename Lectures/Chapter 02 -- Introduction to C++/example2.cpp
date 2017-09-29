@@ -1,11 +1,7 @@
 #include <iostream>
-#include <cmath>
 
-int main()
+void main(int argc, char** argv)
 {
-	float f1, f2;
-	std::cout << "Enter 2 floating point numbers :";
-	std::cin >> f1 >> f2;
-	std::cout << "sum = " << f1 + f2 << std::endl;
-	return 0;
+    std::cout << "Hello world!" << std::endl;
 }
+
