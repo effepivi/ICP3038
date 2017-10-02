@@ -1,12 +1,28 @@
-project(example1)
+PROJECT(example1)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+INCLUDE_DIRECTORIES(${example1_SOURCE_DIR}/include)
 
-find_package(OpenGL REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIRS})
+IF (WIN32)
+    IF (${MSVC_CXX_ARCHITECTURE_ID} MATCHES X86)
+        SET (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
+        SET (CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /SAFESEH:NO")
+        SET (CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /SAFESEH:NO")
+    ENDIF ()
+
+    IF (EXISTS "${CMAKE_SOURCE_DIR}/windows/dll/glut32.dll")
+        FILE (COPY        "${CMAKE_SOURCE_DIR}/windows/dll/glut32.dll"
+              DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+    ENDIF ()
+ENDIF ()
+
+
+FIND_PACKAGE(OpenGL)
+INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIRS})
 
 find_package(GLUT REQUIRED)
-include_directories(${GLUT_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIRS})
 
-add_executable(example1 include/Window.h src/Window.cpp src/main.cpp)
-target_link_libraries(example1 ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+IF (OpenGL_FOUND AND GLUT_FOUND)
+    ADD_EXECUTABLE(example1 include/Window.h src/Window.cpp src/main.cpp)
+    TARGET_LINK_LIBRARIES(example1 ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+ENDIF ()
