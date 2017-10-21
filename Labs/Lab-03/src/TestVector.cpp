@@ -22,11 +22,11 @@
 #include <iostream> // To use cout
 #include <cstdlib>  // To use rand(), etc.
 
-//## 1 -- add header file here to use the STL vector class
-//## 5a -- add header file here to use std::copy
-//## 5b -- add header file here to use the ostream_iterator needed by std::copy
-//## 7a -- add header file here to use std::min_element and std::max_element
-//## 8a -- add header file here to use std::accumulate
+//## 1 -- add header file  <vector> here to use the STL vector class
+//## 5a -- add header file <algorithm> here to use std::copy
+//## 5b -- add header file <iterator> here to use the ostream_iterator needed by std::copy
+//## 7a -- add header <algorithm> file here to use std::min_element and std::max_element
+//## 8a -- add header <numeric> file here to use std::accumulate
 
 
 //******************************************************************************
@@ -50,41 +50,61 @@ int main()
     
     
     //**************************************************************************
-    //	Start of C code
+    //	Start of ineffective C++ code
     //**************************************************************************
     
-    // Create an array of fifty random numbers between 0 and 1
-    double p_random_number_set[50];
+    // Create an array of fifty elements
+    double* p_random_number_set = new double[50];
+    
+    // Initialise them to 50 random numbers between 0 and 1
     for (unsigned int i(0); i < 50; ++i)
     {
         p_random_number_set[i] = randd();
     }
 
+    // Display every element
     for (unsigned int i(0); i < 50; ++i)
     {
         cout << p_random_number_set[i] << "\t";
     }
     cout << endl << endl;
+    
+    // Create a temporary array
+    double* p_temp = new double[40];
+    
+    // Copy 50 - 10 elements in p_temp
+    for (unsigned int i(0); i < 40; ++i)
+    {
+        p_temp[i] = p_random_number_set[i];
+    }
+    
+    // Release old array
+    delete [] p_random_number_set;
+    
+    // Copy pointers
+    p_random_number_set = p_temp;
 
     //**************************************************************************
-    //	End of C code
+    //	End of ineffective C++ code
     //**************************************************************************
 
 
     // Not easy to add new elements to the array
     // Not easy to remove exisiting elements from the array
     
-    // Replace the C code above by C++ code using the `vector' class from STL
+    // Replace the code above by better C++ code using the `vector' class from STL
     
     //## 2a -- Create a vector of fifty double precision floating point numbers
     
     //## 2b -- Replace each element of the vector by random numbers between 0 and 1
     // Hint, use a for loop with an iterator
     
+    
+    
     //## 3 -- Display every element of the vector using a const_iterator, a for loop, and std::cout <<
 
 
-    //## 4 -- In the for loop you just wrote, replace .begin() by .rbegin(), and .end() by .rend()
+    //## 4 -- In the for loop that you just wrote, replace .begin() by .rbegin(), and .end() by .rend()
 
     
     //## 5c -- Instead of the for loop, use std::copy to display every element of the vector
@@ -97,6 +117,9 @@ int main()
     //## 8b -- get the sum of all the values in the vector using std::accumulate()
 
     //## 8c -- using the sum value you just computed, display the average value (you will need to use the method std::vector<T>::size())
+    
+    // Release memory
+    delete [] p_random_number_set;
     
     return (0);
 }

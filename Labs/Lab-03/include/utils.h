@@ -24,7 +24,7 @@
 // for example "int getMinValue(int i, int j);"
 // becomes
 
-int getMinValue(int i, int j);
+//int getMinValue(int i, int j);
 int getMaxValue(int i, int j);
 void swap(int& i, int& j);
 void sort(int& i, int& j);
@@ -33,7 +33,13 @@ double getAverage(int i, int j); // Always returns a double
 
 
 // For a template function, write the code in the header file
-
+template <typename T> T getMinValue(T i, T j)
+{
+    return (i < j? i : j);
+    
+    // "return (i < j? i : j)" means:
+    // if (i < j) is equal to true, then return i, else return j.
+}
 
 
 

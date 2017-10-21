@@ -33,7 +33,7 @@ The aims of today's lab are:
 %\item Get familiar with template classes.
 \end{itemize}
 
-Next week, we will start working on the assignment (start writing an \verb+Image+ class).
+Once you are done,  start working on the assignment.
 
 \section*{Task -1: Last week}
 
@@ -41,7 +41,7 @@ Make sure you finish the \verb+StringInverter+ class from Lab~2!
 
 \section*{Task 0: Using CMake}
 
-Same as last week, we will use CMake to make our lives easier. 
+Same as before, use CMake to generate the project files for XCode, MS VC++, or Makefiles. 
 %In the lecture, you saw yesterday that it can be extremely complicated to use the IDE to maintain the project files, etc. particularly if students use Windows, Mac, or Linux. 
 %There is a ZIP file on Blackboard with 4 (almost) empty C++ source files. There is also a `CMakeLists.txt' file. 
 %It is a good practice to organise your source code using directories, etc. Do not compile code in the same directory as your source code. It can get messy... 
@@ -60,20 +60,40 @@ Same as last week, we will use CMake to make our lives easier.
 \section*{Task 1: STL Vector}
 
 To store $X$ elements of the same type,
-C developers would tend to use an array whereas C++ programmers would favour the \verb+vector+ class provided by the STL. 
-The first solution is not practical when $X$ varies and would require dynamic allocation and recopies of the data. 
+C developers would tend to use an array. C++ programmers would favour the \verb+vector+ class provided by the STL. 
+The first solution is not practical when $X$ varies and would require dynamic allocation and recopies of the data, which makes it slow and inefficient. 
 
 For the first task of the week, you are given one C++ file (\verb+src/TestVector.cpp+), which corresponds to a short program to get familiar with this \verb+vector+ class. At the moment it only contains some C code, your task is to improve it. 
 
 \begin{enumerate}
 
-\item To use the \verb+vector+ class, add:
+\item To use the \verb+vector+ class, add at the top of the file:
 \begin{lstlisting}
 #include <vector>
 \end{lstlisting}
 The documentation is in \url{http://www.cplusplus.com/reference/vector/vector/}
 
 \item In the main, create a vector of 50 random double precision floating point numbers between 0.0 and 1.0. To produce random numbers, you can use the function \verb+randd()+ that we provide. The header you need is \verb+<cstdlib>+ (for \verb+srand+, \verb+rand()+ and \verb+time(0)+). 
+You can see an example below:
+\begin{lstlisting}
+#include <vector>       // std::vector
+
+int main () {
+  std::vector<int> myvector1;
+  for (int i=0; i<50; ++i) myvector1.push_back(i*10);
+
+  int i = 0;
+  std::vector<int> myvector2(50);
+  for (std::vector<int>::iterator ite = myvector2.begin();
+       ite != myvector2.end();
+       ite++)
+  {
+       *ite = (i++*10);
+  } 
+  return 0;
+}
+\end{lstlisting}
+Adapt this code to your own problem.
 
 \item Display every element of the vector using a \verb+const_iterator+, a \verb+for+ loop, and \verb+std::cout <<+. 
 Remember to visit \verb+cplusplus.com+ to access the official C++ documentation, e.g.~\url{http://www.cplusplus.com/reference/vector/vector/begin/}.
@@ -116,16 +136,19 @@ $$
 You can use the method \verb+vector::erase+ or \verb+vector::pop_back+. 
 
 \item Now, display the smallest and largest values contained in the vector. To do so, use \verb+std::min_element+ and \verb+std::max_element+ provided in the \verb+<algorithm>+ header. Note that these functions return an iterator. Iterators are a bit like pointers. To display the value pointed by an iterator, add a \verb+*+ before it, e.g. \verb+*ite+.
+See \url{http://en.cppreference.com/w/cpp/algorithm/min_element} for an example.
 
 \item Finally, display the average value. 
 To get the number of elements in the vector, use its \verb+size()+ method. 
 To get the sum of all the elements of the vector, use \verb+std::accumulate()+ function. 
+See \url{http://en.cppreference.com/w/cpp/algorithm/accumulate} for an example. 
 It is provided by the \verb+<numeric>+ header. 
 The last parameter is:
 \verb+0+ if you are summing integer numbers,
 \verb+0.0+ for double-precision floating-point numbers, or 
 \verb+0.0f+ for single-precision floating-point numbers.
 \end{enumerate}
+
 
 \section*{Task 2: Create your own template functions}
 
