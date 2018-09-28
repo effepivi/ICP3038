@@ -1,13 +1,13 @@
 /**
 ********************************************************************************
 *
-*	@file		task1.cpp
+*	@file		task2.cpp
 *
 *	@brief		Here explain here what is the file about.
 *
 *	@version	1.0
 *
-*	@date		04/10/2016
+*	@date		01/10/2018
 *
 *	@author		Your name
 *
@@ -43,6 +43,9 @@ using namespace std;
 //******************************************************************************
 int main()
 {
+    // Use of cout, <<, and sizeof
+
+    
     // Exit code
     return (0);
 }
