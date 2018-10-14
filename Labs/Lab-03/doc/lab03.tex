@@ -1,5 +1,6 @@
 % !TEX root = ./ICP3038_Lab_03.tex
 
+  
 \section*{Laboratory 3: Introduction to Templates in C++}
 
 %This is a typical script that you will be working with at each
@@ -33,13 +34,13 @@ The aims of today's lab are:
 %\item Get familiar with template classes.
 \end{itemize}
 
-Once you are done,  start working on the assignment.
-
-\section*{Task -1: Last week}
+% Once you are done,  start working on the assignment.
+\setcounter{section}{-1}
+\section{Finish Last Week's Lab}
 
 Make sure you finish the \verb+StringInverter+ class from Lab~2!
 
-\section*{Task 0: Using CMake}
+\section{Using CMake}
 
 Same as before, use CMake to generate the project files for XCode, MS VC++, or Makefiles. 
 %In the lecture, you saw yesterday that it can be extremely complicated to use the IDE to maintain the project files, etc. particularly if students use Windows, Mac, or Linux. 
@@ -57,10 +58,11 @@ Same as before, use CMake to generate the project files for XCode, MS VC++, or M
 %The project files are now ready in the `bin' directory. 
 %You can compile the code using the preferred IDE.
 
-\section*{Task 1: STL Vector}
+\section{STL Vector}
 
 To store $X$ elements of the same type,
-C developers would tend to use an array. C++ programmers would favour the \verb+vector+ class provided by the STL. 
+C developers would tend to use an array. 
+C++ programmers would favour the \verb+vector+ class provided by the STL. 
 The first solution is not practical when $X$ varies and would require dynamic allocation and recopies of the data, which makes it slow and inefficient. 
 
 For the first task of the week, you are given one C++ file (\verb+src/TestVector.cpp+), which corresponds to a short program to get familiar with this \verb+vector+ class. At the moment it only contains some C code, your task is to improve it. 
@@ -73,36 +75,65 @@ For the first task of the week, you are given one C++ file (\verb+src/TestVector
 \end{lstlisting}
 The documentation is in \url{http://www.cplusplus.com/reference/vector/vector/}
 
-\item In the main, create a vector of 50 random double precision floating point numbers between 0.0 and 1.0. To produce random numbers, you can use the function \verb+randd()+ that we provide. The header you need is \verb+<cstdlib>+ (for \verb+srand+, \verb+rand()+ and \verb+time(0)+). 
-You can see an example below:
+\item a) In the main, create an empty vector of double precision floating point numbers. See below for an example (but of integers):
 \begin{lstlisting}
-#include <vector>       // std::vector
-
-int main () {
-  std::vector<int> myvector1;
-  for (int i=0; i<50; ++i) myvector1.push_back(i*10);
-
-  int i = 0;
-  std::vector<int> myvector2(50);
-  for (std::vector<int>::iterator ite = myvector2.begin();
-       ite != myvector2.end();
-       ite++)
-  {
-       *ite = (i++*10);
-  } 
-  return 0;
-}
+    // Create an empty vector of integers
+    vector<int> vec;
 \end{lstlisting}
-Adapt this code to your own problem.
 
-\item Display every element of the vector using a \verb+const_iterator+, a \verb+for+ loop, and \verb+std::cout <<+. 
-Remember to visit \verb+cplusplus.com+ to access the official C++ documentation, e.g.~\url{http://www.cplusplus.com/reference/vector/vector/begin/}.
+ b) Double check the size of the vector, i.e.~ how many numbers are currently stored in the vector:
+\begin{lstlisting}
+    // Display the original size of vec
+    cout << "vector size = " << vec.size() << endl;
+\end{lstlisting}
 
-\item In the \verb+for+ loop you just wrote, replace \verb+.begin()+ by \verb+.rbegin()+, and \verb+.end()+ by \verb+.rend()+. What happened?
+c) Add 50 random numbers between 0.0 and 1.0. 
+To produce random numbers, you can use the function \verb+randd()+ that the C language provides. The header file you need is \verb+<cstdlib>+ (for \verb+srand+, \verb+randd()+ and \verb+time(0)+). 
+It is already included (see L.~23 of \verb+TestVector.cpp+).
+The code below shows how to add 5 values into the vector:
+\begin{lstlisting}
+    // Push 5 values into the vector
+    for(unsigned int i = 0; i < 5; ++i)
+    {
+        vec.push_back(i);
+    }
+\end{lstlisting}
 
-\item Instead of the for loop, use \verb+std::copy+ to display every element of the vector. To do so, you need to include another 2 header files:
+d) Double check the size of the vector. Yes again, just to be sure it is 50.
+
+\item a) Display every element of the vector. 
+Vectors work a bit like C arrays. 
+You can recycle the same \verb+for+ loop as L.~65 to L.~70. 
+The problem is that you have to know the size of the array. 
+Here, with the vector, do not hard code \verb+50+. 
+Use the \verb+size()+ method of the \verb+vector+ class. 
+
+b) Display every element of the vector again. 
+This time as a C++ developer: 
+using a \verb+const_iterator+, a \verb+for+ loop, and \verb+std::cout <<+. 
+The loop below shows how to sequentially access all the elements of the array using an iterator:
+\begin{lstlisting}
+    for (vector<int>::const_iterator ite = vec.begin();
+            vec != vec.end();
+            ++ite)
+    {
+        int temp = *ite;
+    }
+\end{lstlisting}
+The iterator (here \verb+ite+) behaves like a pointer. 
+To retrieve the value pointed by the iterator, use the \verb+*+ operator. 
+To move to the next element, use the \verb!++! operator
+(similarly, to move to the previous element, use the \verb!--! operator). 
+
+
+% Remember to visit \verb+cplusplus.com+ to access the official C++ documentation, e.g.~\url{http://www.cplusplus.com/reference/vector/vector/begin/}.
+
+\item In the previous \verb+for+ loop, replace \verb+.begin()+ by \verb+.rbegin()+, and \verb+.end()+ by \verb+.rend()+. What happened?
+
+\item Instead of the \verb+for+ loop, use \verb+std::copy+ to display every element of the vector. To do so, you need to include another 2 header files:
 \verb+#include <algorithm>+ for \verb+std::copy+, and \verb+#include <iterator>+ for \verb+std::ostream_iterator+. 
 In \url{http://www.cplusplus.com/reference/iterator/ostream_iterator/}, you can see an example. 
+Two further examples are given below for your convenience:
 \begin{lstlisting}
 // ostream_iterator example
 #include <iostream>     // std::cout
@@ -110,21 +141,18 @@ In \url{http://www.cplusplus.com/reference/iterator/ostream_iterator/}, you can 
 #include <vector>       // std::vector
 #include <algorithm>    // std::copy
 
-int main () {
-  std::vector<int> myvector;
-  for (int i=1; i<10; ++i) myvector.push_back(i*10);
-
-  std::ostream_iterator<int> out_it (std::cout,", ");
-  std::copy ( myvector.begin(), myvector.end(), out_it );
+    ...
+    ...
+    std::ostream_iterator<int> out_it (std::cout,", ");
+    std::copy ( vec.begin(), vec.end(), out_it );
   
-  // Most people would write:
-  std::copy ( myvector.begin(), 
-              myvector.end(), 
+    // but most people would write:
+    std::copy ( vec.begin(), 
+              vec.end(), 
               std::ostream_iterator<int>( std::cout,", " )
              );
- 
-  return 0;
-}
+    ...
+    ...
 \end{lstlisting}
 Adapt this code to your own problem. The main difference is the template argument. 
 You have a vector of \verb+double+s, in the example it is an array of \verb+int+s.
@@ -134,53 +162,63 @@ $$
 	N = 10 \times \mathrm{randd()}
 $$
 You can use the method \verb+vector::erase+ or \verb+vector::pop_back+. 
+See \url{http://www.cplusplus.com/reference/vector/vector/erase/} and \url{http://www.cplusplus.com/reference/vector/vector/pop_back/}.
 
-\item Now, display the smallest and largest values contained in the vector. To do so, use \verb+std::min_element+ and \verb+std::max_element+ provided in the \verb+<algorithm>+ header. Note that these functions return an iterator. Iterators are a bit like pointers. To display the value pointed by an iterator, add a \verb+*+ before it, e.g. \verb+*ite+.
+\item Now, display the 
+
+a) smallest and 
+
+b) largest values contained in the vector. 
+
+To do so, use \verb+std::min_element+ and \verb+std::max_element+ provided in the \verb+<algorithm>+ header. Note that these functions return an iterator. Again, iterators are a bit like pointers. To display the value pointed by an iterator, add a \verb+*+ before it, e.g. \verb+*ite+.
 See \url{http://en.cppreference.com/w/cpp/algorithm/min_element} for an example.
 
 \item Finally, display the average value. 
-To get the number of elements in the vector, use its \verb+size()+ method. 
-To get the sum of all the elements of the vector, use \verb+std::accumulate()+ function. 
+
+a) To get the sum of all the elements of the vector, use \verb+std::accumulate()+ function. 
 See \url{http://en.cppreference.com/w/cpp/algorithm/accumulate} for an example. 
 It is provided by the \verb+<numeric>+ header. 
 The last parameter is:
 \verb+0+ if you are summing integer numbers,
 \verb+0.0+ for double-precision floating-point numbers, or 
 \verb+0.0f+ for single-precision floating-point numbers.
+
+b) To get the number of elements in the vector, use its \verb+size()+ method. You can't hard code 50 as the number of element because you just delete $N$ elements...
 \end{enumerate}
 
+Note that the STL vector class implements other functionalities, such as copy constructor, \vector+operator=+, etc. It can be used as an array (like in C) or as a FILO. See \url{http://www.cplusplus.com/reference/vector/vector/} for more information.
 
-\section*{Task 2: Create your own template functions}
 
-For this task, you are given two C++ files:
+\section{Advanced C++ Programming: Create your own Template Functions}
+
+For this task, you are given three C++ files:
 \begin{enumerate}
-  \item \verb+include/Utils.h+, a header file with the declarations of some functions.
+  \item \verb+include/utils.h+, a header file with the declarations of some functions (i.e.~the functions' signature).
+  \item \verb+include/utils.inl+, a header file with the definitions of these functions (i.e.~the functions' implementation).
   \item \verb+src/TestUtils.cpp+, a test program to try your template functions.
 \end{enumerate}
 
-Modify \verb+include/Utils.h+ to convert every function as a template function. 
-To implement every function, you need to write the code directly in the header. 
+Modify \verb+include/utils.h+ and \verb+include/utils.inl+ to convert every function as a template function. 
+To implement every function, you need to write the code directly in \verb+include/utils.inl+, which is included in the header file. 
+This is due to the way C++ compilers handle inline and template functions. 
 In \verb+src/TestUtils.cpp+, test every template function with different data types.
 
+For each function to convert from inline to template, there are~3 steps to follow:
+\begin{enumerate}
+ \item Remove \verb'inline' (in utils.inl).
+      In C, we used macros as an optimized technique for compilers to reduce the execution time. In C++, we used inline functions (see \url{http://www.cplusplus.com/articles/2LywvCM9/} for an online article on this topic). The keyword \verb'inline' needs to be remove for template functions.
 
-%\section*{Task 3: Create your own template class}
-%
-%This time, you have to create your own files and modify CMakeLists.txt. 
-%We propose to create a template class to handle square matrices, e.g. n-by-n matrices. 
-%The class should contain:
-%\begin{itemize}
-%\item a default constructor, 
-%\item a copy constructor, 
-%\item a copy operator, 
-%\item \verb+operator<<+, 
-%\item \verb+operator>>+,
-%\item \verb+unsigned int m_size+ (default: 4) the number of rows 
-%\item \verb+unsigned int getSize() const+
-%\item \verb+void setSize(unsigned int)+
-%\item \verb+T& get(unsigned int i, unsigned int j) const+
-%\item \verb+void set(unsigned int i, unsigned int j, const T& aValue)+
-%\item \verb+void setIdentity()+
-%\end{itemize}
-%Each method should be tested and validated in a test program. 
-%Do not wait until the end to test your code. 
-%A good programming strategy is to test a function just after it has been implemented. 
+ \item Add \verb'template <typename T>' at the front of every function declaration (in utils.h and in utils.inl). \verb'template <typename T>' means that the corresponding function is template, and that the template type is \verb'T'. It is a sort of virtual type that the compiler replaces during the compilation with the corresponding type (\verb'int', \verb'double', \verb'char', etc.). 
+ 
+ \item Replaces occurrences of \verb'int' by \verb'T' (in \verb'utils.inl').
+\end{enumerate}
+To call a template function, you can explicit the template type:
+\begin{lstlisting}
+    std::cout << getMinValue<int>(1, 2) << std::endl;
+\end{lstlisting}
+or the compiler can try to guess (if it can't, a compilation error will be generated):
+\begin{lstlisting}
+std::cout << getMinValue(1, 2) << std::endl;
+\end{lstlisting}
+
+Note: There are also template classes. The STL vector class is one of them.

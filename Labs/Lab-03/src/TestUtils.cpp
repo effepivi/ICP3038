@@ -7,7 +7,7 @@
 *
 *	@version	1.0
 *
-*	@date		20/10/2015
+*	@date		14/10/2018
 *
 *	@author		Your name
 *
@@ -35,6 +35,12 @@ int main()
     std::cout << getMinValue(3.5, 2.5) << std::endl;
     std::cout << getMinValue<double>(3.5, 2.5) << std::endl;
 
-    
+    // Will show '2' if not template function (will use the 'int' implementation that is provided by default)
+    // Will show '2.5' when the template function is implemented
+    std::cout << getMaxValue(1.0, 2.5) << std::endl;
+
+
+    // Test other functions here with different types
+
     return (0);
 }

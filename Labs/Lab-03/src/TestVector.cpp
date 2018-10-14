@@ -7,7 +7,7 @@
 *
 *	@version	1.0
 *
-*	@date		17/10/2016
+*	@date		14/10/2018
 *
 *	@author		Your name
 *
@@ -22,7 +22,7 @@
 #include <iostream> // To use cout
 #include <cstdlib>  // To use rand(), etc.
 
-//## 1 -- add header file  <vector> here to use the STL vector class
+//## 1  -- add header file  <vector> here to use the STL vector class
 //## 5a -- add header file <algorithm> here to use std::copy
 //## 5b -- add header file <iterator> here to use the ostream_iterator needed by std::copy
 //## 7a -- add header <algorithm> file here to use std::min_element and std::max_element
@@ -69,8 +69,16 @@ int main()
     }
     cout << endl << endl;
     
+    // Display every element in reverse order
+    for (unsigned int i(50); i > 0; --i)
+    {
+        cout << p_random_number_set[i - 1] << "\t";
+    }
+    cout << endl << endl;
+    
     // Create a temporary array
     double* p_temp = new double[40];
+    
     
     // Copy 50 - 10 elements in p_temp
     for (unsigned int i(0); i < 40; ++i)
@@ -84,6 +92,10 @@ int main()
     // Copy pointers
     p_random_number_set = p_temp;
 
+    // Release memory
+    delete [] p_random_number_set;
+    
+    
     //**************************************************************************
     //	End of ineffective C++ code
     //**************************************************************************
@@ -94,32 +106,47 @@ int main()
     
     // Replace the code above by better C++ code using the `vector' class from STL
     
-    //## 2a -- Create a vector of fifty double precision floating point numbers
-    
-    //## 2b -- Replace each element of the vector by random numbers between 0 and 1
-    // Hint, use a for loop with an iterator
+    //## 2a - Create an empty vector of double precision floating point numbers
     
     
+    //## 2b -- Check the size of the vector (how many elements stored in the array)
     
-    //## 3 -- Display every element of the vector using a const_iterator, a for loop, and std::cout <<
+    
+    //## 2c -- Add 50 random numbers between 0 and 1
+    // Hint, use the push_back method
+    
+    
+    //## 2d -- Check the size of the vector. Yes, same as 2b, just to be sure it is 50.
 
 
-    //## 4 -- In the for loop that you just wrote, replace .begin() by .rbegin(), and .end() by .rend()
+    //## 3a -- Display every element of the vector using the same method as in C (and cout <<)
+    
+    
+    
+    //## 3b -- Display every element of the vector using a const_iterator, a for loop, and cout <<
+
+
+    //## 4 -- In the previous for loop, replace .begin() by .rbegin(), and .end() by .rend()
 
     
     //## 5c -- Instead of the for loop, use std::copy to display every element of the vector
     
+    
     //## 6 -- Remove the last N elements of the vector, with N a random number equal to 10*randd()
     
-    //## 7b -- display the smallest contained in the vector using std::min_element
+    
+    //## 7a -- display the smallest contained in the vector using std::min_element
+    
+    
     //## 7b -- display the largest contained in the vector using std::max_element
     
-    //## 8b -- get the sum of all the values in the vector using std::accumulate()
+    
+    //## 8a -- get the sum of all the values in the vector using std::accumulate()
 
-    //## 8c -- using the sum value you just computed, display the average value (you will need to use the method std::vector<T>::size())
+
+    //## 8b -- using the sum value you just computed, display the average value (you will need to use the method std::vector<T>::size())
+
     
-    // Release memory
-    delete [] p_random_number_set;
-    
+
     return (0);
 }
