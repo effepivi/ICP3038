@@ -21,6 +21,8 @@
 //******************************************************************************
 #include <iostream> // To use cout
 #include <cstdlib>  // To use rand(), etc.
+#include <ctime>    // To use time()
+
 
 //## 1  -- add header file  <vector> here to use the STL vector class
 //## 5a -- add header file <algorithm> here to use std::copy
@@ -127,6 +129,8 @@ int main()
 
 
     //## 4 -- In the previous for loop, replace .begin() by .rbegin(), and .end() by .rend()
+    // Also replace const_iterator by const_reverse_iterator
+    
 
     
     //## 5c -- Instead of the for loop, use std::copy to display every element of the vector

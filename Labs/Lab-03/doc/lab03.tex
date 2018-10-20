@@ -114,7 +114,7 @@ using a \verb+const_iterator+, a \verb+for+ loop, and \verb+std::cout <<+.
 The loop below shows how to sequentially access all the elements of the array using an iterator:
 \begin{lstlisting}
     for (vector<int>::const_iterator ite = vec.begin();
-            vec != vec.end();
+            ite != vec.end();
             ++ite)
     {
         int temp = *ite;
@@ -128,7 +128,7 @@ To move to the next element, use the \verb!++! operator
 
 % Remember to visit \verb+cplusplus.com+ to access the official C++ documentation, e.g.~\url{http://www.cplusplus.com/reference/vector/vector/begin/}.
 
-\item In the previous \verb+for+ loop, replace \verb+.begin()+ by \verb+.rbegin()+, and \verb+.end()+ by \verb+.rend()+. What happened?
+\item In the previous \verb+for+ loop, replace \verb+.begin()+ by \verb+.rbegin()+, and \verb+.end()+ by \verb+.rend()+. Also replace \verb+const_iterator+ with \verb+const_reverse_iterator+. What happened?
 
 \item Instead of the \verb+for+ loop, use \verb+std::copy+ to display every element of the vector. To do so, you need to include another 2 header files:
 \verb+#include <algorithm>+ for \verb+std::copy+, and \verb+#include <iterator>+ for \verb+std::ostream_iterator+. 
@@ -186,7 +186,7 @@ The last parameter is:
 b) To get the number of elements in the vector, use its \verb+size()+ method. You can't hard code 50 as the number of element because you just delete $N$ elements...
 \end{enumerate}
 
-Note that the STL vector class implements other functionalities, such as copy constructor, \vector+operator=+, etc. It can be used as an array (like in C) or as a FILO. See \url{http://www.cplusplus.com/reference/vector/vector/} for more information.
+Note that the STL vector class implements other functionalities, such as copy constructor, \verb+operator=+, etc. It can be used as an array (like in C) or as a FILO. See \url{http://www.cplusplus.com/reference/vector/vector/} for more information.
 
 
 \section{Advanced C++ Programming: Create your own Template Functions}

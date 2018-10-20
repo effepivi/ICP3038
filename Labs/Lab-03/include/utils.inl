@@ -1,7 +1,7 @@
 // For a template function, write the code in the header file
 template <typename T> T getMinValue(T i, T j)
 {
-    return (i < j? i : j);
+    return (i < j ? i : j);
     
     // "return (i < j? i : j)" means:
     // if (i < j) is equal to true, then return i, else return j.

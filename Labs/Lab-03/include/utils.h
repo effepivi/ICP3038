@@ -24,7 +24,13 @@
 // for example "int getMinValue(int i, int j);"
 // becomes
 
+//char getMinValue(char i, char j);
+//unsigned char getMinValue(unsigned char i, unsigned char j);
 //int getMinValue(int i, int j);
+
+// ....
+
+
 template <typename T> T getMinValue(T i, T j);
 
 
