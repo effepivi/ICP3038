@@ -122,7 +122,7 @@ The aims of today's lab are:
 		\item Sum of Squared Errors (SSE),
 		\item Mean Squared Errors (MSE),
 		\item Root Mean Squared Errors (RMSE),  and 
-		\item Normalised Cross-Correlation (NCC).
+		\item Zero Mean Normalised Cross-Correlation (ZNCC).
 %	\item Compare two arrays using \verb+operator==+ and \verb+operator!=+.
     \end{itemize}
 \end{itemize}
@@ -419,26 +419,26 @@ To test your computations, here are the results for:
 \end{itemize}
 
 
-\section{How similar two vectors are: the NCC}
+\section{How similar two vectors are: the ZNCC}
 
-NCC stands for normalised cross-correlation. 
-The normalisation in NCC addresses the limitation highlighted in our tests. 
+ZNCC stands for Zero Mean Normalised Cross-Correlation. 
+The normalisation in ZNCC addresses the limitation highlighted in our tests. 
 The formula is:
 \begin{equation}
-NCC(\mathbf{Y_1}, \mathbf{Y_2}) = \frac{1}{N}\sum^{i < N}_{i=0} \frac{(\mathbf{Y_1}(i)-\overline{\mathbf{Y_1}})(\mathbf{Y_2}(i)-\overline{\mathbf{Y_2}})}{\sigma_{Y_1}\sigma_{Y_2}}
+ZNCC(\mathbf{Y_1}, \mathbf{Y_2}) = \frac{1}{N}\sum^{i < N}_{i=0} \frac{(\mathbf{Y_1}(i)-\overline{\mathbf{Y_1}})(\mathbf{Y_2}(i)-\overline{\mathbf{Y_2}})}{\sigma_{Y_1}\sigma_{Y_2}}
 \end{equation}
 \begin{itemize}
-\item $NCC(\mathbf{Y_1}, \mathbf{Y_2})$ = 1, if $\mathbf{Y_1}$ and $\mathbf{Y_2}$ are fully correlated (e.g. $\mathbf{Y_1} = \alpha \mathbf{Y_2}$);
-\item $NCC(\mathbf{Y_1}, \mathbf{Y_2})$ = -1, if $\mathbf{Y_1}$ and $\mathbf{Y_2}$ are fully anti-correlated (e.g. $\mathbf{Y_1} = -\alpha \mathbf{Y_2}$);
-\item $NCC(\mathbf{Y_1}, \mathbf{Y_2})$ = 0, if $\mathbf{Y_1}$ and $\mathbf{Y_2}$ are fully uncorrelated (they are unrelated).
+\item $ZNCC(\mathbf{Y_1}, \mathbf{Y_2})$ = 1, if $\mathbf{Y_1}$ and $\mathbf{Y_2}$ are fully correlated (e.g. $\mathbf{Y_1} = \alpha \mathbf{Y_2}$);
+\item $ZNCC(\mathbf{Y_1}, \mathbf{Y_2})$ = -1, if $\mathbf{Y_1}$ and $\mathbf{Y_2}$ are fully anti-correlated (e.g. $\mathbf{Y_1} = -\alpha \mathbf{Y_2}$);
+\item $ZNCC(\mathbf{Y_1}, \mathbf{Y_2})$ = 0, if $\mathbf{Y_1}$ and $\mathbf{Y_2}$ are fully uncorrelated (they are unrelated).
 \end{itemize}
-Often the NCC is expressed as a percentage. 
+Often the ZNCC is expressed as a percentage. 
 With our examples, we get:
 \begin{itemize}
-\item $NCC(\mathbf{Y}, \mathbf{Y}) = 0.999996 =	99.9996\%$
-\item $NCC(\mathbf{Y}, \mathbf{Y_{quadriple}}) = 0.999996 =	99.9996\%$
-\item $NCC(\mathbf{Y}, \mathbf{Y_{negative}}) = -0.999996 =	-99.9996\%$
-\item $NCC(\mathbf{Y}, \mathbf{Y_{noise}}) =  0.97188 =	97.188\%$
+\item $ZNCC(\mathbf{Y}, \mathbf{Y}) = 0.999996 =	99.9996\%$
+\item $ZNCC(\mathbf{Y}, \mathbf{Y_{quadriple}}) = 0.999996 =	99.9996\%$
+\item $ZNCC(\mathbf{Y}, \mathbf{Y_{negative}}) = -0.999996 =	-99.9996\%$
+\item $ZNCC(\mathbf{Y}, \mathbf{Y_{noise}}) =  0.97188 =	97.188\%$
 \end{itemize}
 
 
@@ -451,13 +451,13 @@ Today, you saw how to compare 1-D vectors in six different ways:
 \item SSE
 \item MSE
 \item RMSE
-\item NCC
+\item ZNCC
 \end{itemize}
 You will adapt them to the assignments and use them next Semester to perform computer vision tasks.
 
-%\item $NCC_y_y_quadriple =  99.751$
-%\item $NCC_y_y_negative = -99.751$
-%\item $NCC_y_y_noise =  96.845$
+%\item $ZNCC_y_y_quadriple =  99.751$
+%\item $ZNCC_y_y_negative = -99.751$
+%\item $ZNCC_y_y_noise =  96.845$
 
 
 %

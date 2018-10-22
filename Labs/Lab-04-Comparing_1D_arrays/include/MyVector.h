@@ -1,5 +1,5 @@
-#ifndef MY_VECTOR_H
-#define MY_VECTOR_H
+#ifndef __MyVector_h
+#define __MyVector_h
 
 
 /**
@@ -14,7 +14,7 @@
 *
 *	@version	1.0
 *
-*	@date		17/11/2015
+*	@date		22/10/2018
 *
 *	@author		Your name
 *
