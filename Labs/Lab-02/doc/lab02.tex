@@ -27,7 +27,7 @@
 
 The aims of today's lab are:
 \begin{itemize}
-\item Finish Lab~1 (the Bubble Sort);
+\item Finish Lab~1; %(the Bubble Sort);
 \item Understand the constructor in C++ and using initialisation lists;
 \item Get familiar with the implementation of (basic) classes;
 \item Overwrite some operators (\verb+=+, \verb+<<+ and \verb+>>+);
@@ -36,16 +36,16 @@ The aims of today's lab are:
 
 Next week, we will use the STL library and write our own template class.
 
-\section{Task -1: Last week}
+\section*{Task 0: Last week}
 
 Make sure you finish your Bubble Sort implementation!
 You can find a good example of Bubble Sort execution on Wikipedia:
 \url{https://en.wikipedia.org/wiki/Bubble_sort}
 There is an animated GIF file.
 
-\section{Task 0: Using CMake}
+\section*{Task 1: Using CMake}
 
-Same as last week, we will use CMake to make our lifes easier. 
+Same as last week, we will use CMake to make our lifes easier. So create your MS Visual Studio solutions, Xcode projects, or Unix Makefiles using CMake.
 %In the lecture, you saw yesterday that it can be extremely complicated to use the IDE to maintain the project files, etc. particularly if students use Windows, Mac, or Linux. 
 %There is a ZIP file on Blackboard with 4 (almost) empty C++ source files. There is also a `CMakeLists.txt' file. 
 %It is a good practice to organise your source code using directories, etc. Do not compile code in the same directory as your source code. It can get messy... 
@@ -61,7 +61,7 @@ Same as last week, we will use CMake to make our lifes easier.
 %The project files are now ready in the `bin' directory. 
 %You can compile the code using the preferred IDE.
 
-\section{Task 1: Illustrating the usefulness of initialisation lists}
+\section{Task 2: Illustrating the usefulness of initialisation lists}
 
 For this task, you are given three C++ files:
 \begin{enumerate}
@@ -72,47 +72,55 @@ For this task, you are given three C++ files:
 We want to adopt good C++ practice. 
 There are plenty of tutorials, forums, etc. on the Web that deal with how to write simple C++ classes. 
 I googled `How to write a simple class in C++?'. 
-The first return from Google is: \url{http://stackoverflow.com/questions/865922/how-to-write-a-simple-class-in-c}
+The first item returned from Google was: \url{http://stackoverflow.com/questions/865922/how-to-write-a-simple-class-in-c}
 The answers to the question on StackOverflow are mostly correct, but not perfect. 
 Most people did not use initialisation lists. 
-Today, we will demonstrate how bad some C++ code from the Web can be. 
+%Today, we will demonstrate how bad some C++ code from the Web can be. 
 
-Initialisation lists have been around for a very long time, but many people ignore them despite their advantages. 
+Initialisation lists have been around for a very long time, but many people still ignore them despite their advantages. 
 Initialisation lists are used in constructors to set the initial values of class members in an efficient manner. 
-On the web, we often see:
+On the web, we may often see:
 \begin{lstlisting}
 DummyClass my_instance;
 my_instance = 10;
+\end{lstlisting}
+%or
+%\begin{lstlisting}
+%DummyClass my_instance = 10;
+%\end{lstlisting}
+%
+%Both are equivalent and extremely bad. 
+This is not very good. 
+What will happen in practice?
+\begin{enumerate}
+\item One call of the default constructor (\verb+DummyClass::DummyClass()+);
+\item One call of the copy operator (\verb+DummyClass::operator=(int)+)
+\end{enumerate}
+i.e.~two function calls will be performed to declare and initialise the object. 
+It is obviously not very good if we consider how many times we may have to create objects in a large program. 
+Instead, we should use:
+\begin{lstlisting}
+DummyClass my_instance(10);
 \end{lstlisting}
 or
 \begin{lstlisting}
 DummyClass my_instance = 10;
 \end{lstlisting}
 
-Both are equivalent and extremely bad. 
-What will happen in practice is:
-\begin{enumerate}
-\item Call the default constructor (\verb+DummyClass::DummyClass()+);
-\item Call the copy operator (\verb+DummyClass::operator=(int)+)
-\end{enumerate}
-i.e.~two function calls will be performed to initialise the object. It is obviously not very good if we consider how many times we may have to create objects in a large program. 
-Instead, we should use:
-\begin{lstlisting}
-DummyClass my_instance(10);
-\end{lstlisting}
-In this case, only the constructor (\verb+DummyClass::DummyClass(int)+) will be called. 
+Both are equivalent and only the constructor (\verb+DummyClass::DummyClass(int)+) will be called. 
 This is more effective and it is better OOP practice. 
-Note that some compilers will automatically interpret
-\begin{lstlisting}
-DummyClass my_instance = 10;
-\end{lstlisting}
-as
-\begin{lstlisting}
-DummyClass my_instance(10);
-\end{lstlisting}
+%Note that some compilers will automatically interpret
+%\begin{lstlisting}
+%DummyClass my_instance = 10;
+%\end{lstlisting}
+%as
+%\begin{lstlisting}
+%DummyClass my_instance(10);
+%\end{lstlisting}
 
 Have a look at the code an execute it. 
 3 instances of Integer have been created and data has been printed in the standard output. 
+Look at the different values of \verb+m_data+ that have been printed and try to understand what happened.
 
 %Create a CMakeLists.txt file to generate a project for MS VC++ or Xcode (or whatever you may want to use). 
 For Task~1, you only have to modify \verb+Integer.cpp+. 
@@ -121,10 +129,11 @@ The methods that you need to modify are:
 Integer::Integer()
 Integer::Integer(int anInteger)
 \end{verbatim}
-\large\textbf{You need to identify what is happening.} To do this, have a look at the output in the console. 
+%\large\textbf{You need to identify what is happening.} To do this, have a look at the output in the console. 
 
-Now, look at the copy constructor. 
-It has an initilisation list. See the `\verb+:+' character at the end of Line~2 and look at Line~4 to see how to set the initial value of \verb+m_data+.
+But first, look below at the code of the copy constructor. 
+It has an initialisation list. 
+See the `\verb+:+' character at the end of Line~2 and look at Line~4 to see how to set the initial value of \verb+m_data+.
 \begin{lstlisting}[numbers=left]
 //-----------------------------------------
 Integer::Integer(const Integer& anInteger):
@@ -140,53 +149,62 @@ Integer::Integer(const Integer& anInteger):
 }
 \end{lstlisting}
 
-\large\textbf{Add an initialisation list to the other constructors.}
+\large\textbf{Add an initialisation list to the other constructors}
+(see \verb+src/Integer.cpp+ for further instructions).
 
 The code of the initialisation list is execute first, at the instanciation of the objet. 
 Then the body of the constructor is executed. 
-It is not unusual for constructors to have an empty body. 
+It is not unusual for C++ constructors to have an empty body. 
 Using the list is faster than using the copy \verb+operator=+ in the body of the constructor. 
 
 
-\section{Task 2: Create your own class}
+\section*{Task 3: Create your own class}
 
 You are going to write a new class called ``StringInverter''. 
-You need to add 3 files:
+You need 3 extra files:
 \begin{enumerate}
   \item \verb+include/StringInverter.h+, the header file defining a class to handle integer numbers;
   \item \verb+src/StringInverter.cpp+, the source file that implements the code;
   \item \verb+src/TestStringInverter.cpp+, a test program to try the class.
 \end{enumerate}
-For the moment, you can create three empty files. 
-Now, modify CMakeLists.txt to add a new project. 
+First, modify CMakeLists.txt to add a new project. 
 Just add:
 \begin{lstlisting}
 add_executable(Task2 
-	src/TestStringInverter.cpp 
 	include/StringInverter.h 
+	src/TestStringInverter.cpp 
 	src/StringInverter.cpp)
 \end{lstlisting}
 
-Now you can start implementing the class. It should include the methods as follows:
+Now you can start implementing the class. It should include the public methods as follows:
 \begin{lstlisting}
-StringInverter::StringInverter();
-StringInverter::StringInverter(const StringInverter& aString);
-StringInverter::StringInverter(const char* aString);
-StringInverter::StringInverter(const std::string& aString);
-
-void StringInverter::setString(const char* aString);
-void StringInverter::setString(const std::string& aString);
-
-const char* StringInverter::getString();
-const std::string& StringInverter::getString();
-
-const char* StringInverter::getInvertedString();
-const std::string& StringInverter::getInvertedString();
-
-StringInverter& operator=(const StringInverter& aString);
+    StringInverter();
+    StringInverter(const StringInverter& aString);
+    StringInverter(const char* aString);
+    StringInverter(const std::string& aString);
+    ~StringInverter();
+    void setString(const char* aString);
+    void setString(const std::string& aString);
+    const std::string& getString() const;
+    const std::string& getInvertedString() const;
+    StringInverter& operator=(const StringInverter& aString);
+    StringInverter& operator=(const char* aString);
+    StringInverter& operator=(const std::string& aString);
+    bool operator==(const StringInverter& aString) const;
+    bool operator==(const char* aString) const;
+    bool operator==(const std::string& aString) const;
+    bool operator!=(const StringInverter& aString) const;
+    bool operator!=(const char* aString) const;
+    bool operator!=(const std::string& aString) const;
 \end{lstlisting}
 
-Also add functions overloading \verb+operator<<+ and \verb+operator>>+:
+It should also include the following private method:
+\begin{lstlisting}
+void invertString();
+\end{lstlisting}
+
+
+Also add friend functions \verb+operator<<+ and \verb+operator>>+:
 \begin{lstlisting}
 std::ostream& operator<<(std::ostream& aStream, const StringInverter& aString);
 std::istream& operator>>(std::istream& aStream, StringInverter& aString);

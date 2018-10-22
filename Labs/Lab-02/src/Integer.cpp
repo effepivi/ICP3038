@@ -5,9 +5,9 @@
 *
 *	@brief		Class used to manage an Integer number.
 *
-*	@version	1.0
+*	@version	1.1
 *
-*	@date		13/10/2015
+*	@date		07/10/2018
 *
 *	@author		Your name
 *
@@ -25,6 +25,11 @@
 //-----------------
 Integer::Integer()
 //-----------------
+    // Uncomment the lines below to add an initialisation list
+    /*
+     :
+        m_data(0)
+     */
 //-----------------
 {
     std::cout << "IN: Integer::Integer()" << std::endl;
@@ -56,6 +61,11 @@ Integer::Integer(const Integer& anInteger):
 //------------------------------
 Integer::Integer(int anInteger)
 //------------------------------
+    // Uncomment the lines below to add an initialisation list
+    /*
+     :
+        m_data(anInteger)
+     */
 //------------------------------
 {
     std::cout << "IN: Integer::Integer(int anInteger)" << std::endl;

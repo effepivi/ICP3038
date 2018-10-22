@@ -1,5 +1,5 @@
-#ifndef INTEGER_H
-#define INTEGER_H
+#ifndef __Integer_h
+#define __Integer_h
 
 
 /**

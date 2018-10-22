@@ -55,6 +55,12 @@ int main()
     Integer integer3(2);
     cout << integer1 << endl;
     
+#ifdef WIN32
+#ifdef _DEBUG
+    system("pause");
+#endif
+#endif
+
     // Exit code
     return (0);
 }
