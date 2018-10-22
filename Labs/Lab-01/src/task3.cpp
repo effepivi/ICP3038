@@ -57,6 +57,12 @@ int main(int argc, char** argv)
     // - swap the two integers (complete the function below)
     // - Display the last two lines of the output
  
+#ifdef WIN32
+#ifdef _DEBUG
+    system("pause");
+#endif
+#endif
+
     // Exit code
     return (0);
 }

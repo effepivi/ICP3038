@@ -46,6 +46,12 @@ int main()
     // Use of cout, <<, and sizeof
 
     
+#ifdef WIN32
+#ifdef _DEBUG
+    system("pause");
+#endif
+#endif
+
     // Exit code
     return (0);
 }

@@ -62,6 +62,12 @@ int main()
     // Release the memory (we don't want any memory leak!
     delete [] p_float_val_set;
     
+#ifdef WIN32
+#ifdef _DEBUG
+    system("pause");
+#endif
+#endif
+
     // Exit code
     return (0);
 }

@@ -181,6 +181,12 @@ int main()
         std::cerr << "ERROR:\tUnknown" << std::endl;
     }
     
+#ifdef WIN32
+#ifdef _DEBUG
+    system("pause");
+#endif
+#endif
+
     return 0;
 }
 
