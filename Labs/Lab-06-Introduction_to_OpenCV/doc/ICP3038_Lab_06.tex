@@ -67,7 +67,7 @@
 \headheight 10mm
 
 
-\rhead{31/01/2017}
+\rhead{30/01/2018}
 \chead{}
 \lhead{ICP3038 --- Computer Vision}
 \rfoot{}
@@ -112,10 +112,11 @@ Some test images are provided in the \verb+images+ directory.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Installing OpenCV}
 \label{sec:Installing OpenCV}
 Before using OpenCV, you have to make sure it is installed on the machine you are using. 
-If it is a University's PC, we will consider that it is not installed (an old version is already installed but it is out-dated for the version of MS Visual C++ that we are using). 
+If it is a University's PC, we will consider that it is not installed (there is one, but it does not fully work with the version of MS Visual C++ that we are using in the lab). 
 %done and you can ignore this section. 
 %If not OpenCV has to be installed. 
 \begin{itemize}
@@ -124,8 +125,7 @@ If it is a University's PC, we will consider that it is not installed (an old ve
  \item There are pre-compiled versions on \url{http://www.opencv.org/} that can be used on Windows. 
 	 \begin{enumerate}
 	\item \textbf{Go to OpenCV's website} at \url{http://www.opencv.org/}. 
-	\item \textbf{Download the latest version} (i.e.~3.2.0): On the right hand side (see Figure~\ref{fig:main_page}), there is a link called \href{https://sourceforge.net/projects/opencvlibrary/files/opencv-win/3.2.0/opencv-3.2.0-vc14.exe/download}{``OpenCV for Windows''}. 
-		Clic on it to download \verb+opencv-3.2.0-vc14.exe+. 
+	\item \textbf{Download the latest version} (i.e.~3.4.0): On the top (see Figure~\ref{fig:main_page}), there is a link called `RELEASES', or just click on \url{https://sourceforge.net/projects/opencvlibrary/files/opencv-win/3.4.0/opencv-3.4.0-vc14_vc15.exe/download}. 
 		\begin{figure}[tbp]
 			\centering
 			\includegraphics[width=\textwidth]{opencv_mainpage.png}
@@ -502,10 +502,12 @@ Now you can display and save the image (see Figure~\ref{fig:logFilter}.
     
 \section{Additional tasks}
 
-If you still have some time left before the end of the lab, investigate the use of the median and Gaussian filters:
+Investigate the use of the median and Gaussian filters. 
+The help page for image filtering is availalbe at \url{https://docs.opencv.org/3.4.0/d4/d86/group__imgproc__filter.html}
+
 \begin{itemize}
-	\item \verb|cv::medianBlur|, see \url{http://docs.opencv.org/3.2.0/d4/d86/group__imgproc__filter.html#ga564869aa33e58769b4469101aac458f9} 
-	\item \verb|cv::GaussianBlur|, see \url{http://docs.opencv.org/3.2.0/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1}
+	\item For \verb|cv::medianBlur|, look at\\ \url{https://docs.opencv.org/3.4.0/d4/d86/group__imgproc__filter.html#ga564869aa33e58769b4469101aac458f9} 
+	\item For \verb|cv::GaussianBlur|, look at \url{https://docs.opencv.org/3.4.0/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1}
 \end{itemize}
 
 
