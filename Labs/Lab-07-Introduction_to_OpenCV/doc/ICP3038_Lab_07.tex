@@ -67,7 +67,7 @@
 \headheight 10mm
 
 
-\rhead{30/01/2018}
+\rhead{29/01/2019}
 \chead{}
 \lhead{ICP3038 --- Computer Vision}
 \rfoot{}
@@ -84,7 +84,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Laboratory 6: Introduction to OpenCV}
+\section*{Laboratory 7: Introduction to OpenCV}
 
 
 The aims of today's lab are:
@@ -116,29 +116,30 @@ Some test images are provided in the \verb+images+ directory.
 \section{Installing OpenCV}
 \label{sec:Installing OpenCV}
 Before using OpenCV, you have to make sure it is installed on the machine you are using. 
-If it is a University's PC, we will consider that it is not installed (there is one, but it does not fully work with the version of MS Visual C++ that we are using in the lab). 
+\textbf{If it is a University's PC, we will consider that it is installed (so skip this section).}
+
 %done and you can ignore this section. 
 %If not OpenCV has to be installed. 
 \begin{itemize}
-	\item On Mac, OpenCV is available via Homebrew (\verb+ brew install opencv3+), Fink and Macports;
+	\item On Mac, OpenCV is available via Homebrew (\verb+brew install opencv3+), Fink and Macports;
  \item Most Linux distributions have packages for OpenCV. Make sure you install the \verb+-devel+ package;
  \item There are pre-compiled versions on \url{http://www.opencv.org/} that can be used on Windows. 
 	 \begin{enumerate}
 	\item \textbf{Go to OpenCV's website} at \url{http://www.opencv.org/}. 
-	\item \textbf{Download the latest version} (i.e.~3.4.0): On the top (see Figure~\ref{fig:main_page}), there is a link called `RELEASES', or just click on \url{https://sourceforge.net/projects/opencvlibrary/files/opencv-win/3.4.0/opencv-3.4.0-vc14_vc15.exe/download}. 
+	\item \textbf{Download the latest version of OpenCV 3} (i.e.~3.4.5): On the top (see Figure~\ref{fig:main_page}), there is a link called `RELEASES', or just click on \url{https://sourceforge.net/projects/opencvlibrary/files/3.4.5/opencv-3.4.5-vc14_vc15.exe/download}. 
 		\begin{figure}[tbp]
 			\centering
 			\includegraphics[width=\textwidth]{opencv_mainpage.png}
 			\caption{\label{fig:main_page}OpenCV's website.}
 		\end{figure}
-	\item \textbf{Move the file} on \verb+D:+ drive using the File Explorer to avoid using the network (to speed-up the process). 
-	\item \textbf{Run the file} and extract the library in \verb+D:+ drive (see Figure~\ref{fig:d drive}). 
-	\begin{figure}[tbp]
-		\includegraphics[width=\textwidth]{D_drive.png}
-		\caption{\label{fig:d drive}Installing OpenCV on the D: drive.}
-	\end{figure}
+%	\item \textbf{Move the file} on \verb+C:+ drive using the File Explorer to avoid using the network (to speed-up the process). 
+	\item \textbf{Run the file} and extract the library in \verb+C:+ drive. % (see Figure~\ref{fig:c drive}). 
+	%\begin{figure}[tbp]
+		%\includegraphics[width=\textwidth]{C_drive.png}
+		%\caption{\label{fig:c drive}Installing OpenCV on the C: drive.}
+	%\end{figure}
 
-	\item \textbf{Job done:} There is a new directory called \verb+opencv+ in the \verb+D:+ drive.  
+	\item \textbf{Job done:} There is a new directory called \verb+opencv+ in the \verb+C:+ drive.  
 		 \end{enumerate}
 \end{itemize}
 
