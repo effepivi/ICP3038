@@ -1,14 +1,14 @@
 /**
 ********************************************************************************
 *
-*	@file		DisplayImage.cxx
+*	@file		displayImage.cxx
 *
 *	@brief		A simple program using OpenCV to open an image and 
 *               display it in a window.
 *
 *	@version	1.0
 *
-*	@date		30/01/2017
+*	@date		29/01/2019
 *
 *	@author		Franck Vidal
 *
@@ -86,6 +86,12 @@ int main(int argc, char** argv)
         // Display an error message in the console
         cerr << error << endl;
     }
+
+#ifdef WIN32
+#ifdef _DEBUG
+    system("pause");
+#endif
+#endif
 
     // Exit the program
     return 0;
