@@ -233,10 +233,28 @@ To declare the variable that will hold our image, type:
         cv::Mat image;
 \end{lstlisting}
 
-The image is loaded using:
- \begin{lstlisting}[language=c++,caption=Open an image.]
+In OpenCV 2 and 3, the image is loaded using:
+ \begin{lstlisting}[language=c++,caption=Open an image with OpenCV2 and 3.]
         // Open and read the image
         image = cv::imread( input_filename, CV_LOAD_IMAGE_COLOR );
+\end{lstlisting}
+
+In OpenCV 4, the image is loaded using:
+ \begin{lstlisting}[language=c++,caption=Open an image with OpenCV4.]
+        // Open and read the image
+        image = cv::imread( input_filename, cv::IMREAD_COLOR );
+\end{lstlisting}
+
+As a consequence, we can use the C pre-porcessor to make sure our code is compatible with either version of OpenCV:
+ \begin{lstlisting}[language=c++,caption=Open an image with any version of OpenCV.]
+        // Open and read the image
+#if CV_MAJOR_VERSION == 2
+        image = cv::imread( input_filename, CV_LOAD_IMAGE_COLOR );
+#elif CV_MAJOR_VERSION == 3
+        image = cv::imread( input_filename, CV_LOAD_IMAGE_COLOR );
+#elif CV_MAJOR_VERSION == 4
+        image = cv::imread( input_filename, cv::IMREAD_COLOR );
+#endif
 \end{lstlisting}
 
 It is a good practice to check if any error occurred, e.g.~to avoid unspecified behaviours and crashed. 
@@ -315,10 +333,16 @@ Modify the code accordingly.
 
 After displaying the RGB image and BEFORE \verb+cv::waitKey(0)+, create a new image called \verb+grey_image+. 
 To convert the original image in greyscale, simply type:
-\begin{lstlisting}[language=c++,caption=Convert the color model of the image.]
+\begin{lstlisting}[language=c++,caption=Convert the colour model of the image in OpenCV2 and 3.]
         // If the image is not a greyscale image, then convert it.
         cv::Mat grey_image;
         cv::cvtColor(image, grey_image, CV_RGB2GRAY);
+\end{lstlisting}
+
+\begin{lstlisting}[language=c++,caption=Convert the colour model of the image in OpenCV4.]
+        // If the image is not a greyscale image, then convert it.
+        cv::Mat grey_image;
+        cv::cvtColor(image, grey_image, cv::COLOR_RGB2GRAY);
 \end{lstlisting}
 
 In OpenCV in general, the first argument is the input image; the second argument is the output image; other arguments are the parameters of the function. 
@@ -504,11 +528,11 @@ Now you can display and save the image (see Figure~\ref{fig:logFilter}.
 \section{Additional tasks}
 
 Investigate the use of the median and Gaussian filters. 
-The help page for image filtering is availalbe at \url{https://docs.opencv.org/3.4.0/d4/d86/group__imgproc__filter.html}
+The help page for image filtering is availalbe at \url{https://docs.opencv.org/4.0.1/d4/d86/group__imgproc__filter.html}
 
 \begin{itemize}
-	\item For \verb|cv::medianBlur|, look at\\ \url{https://docs.opencv.org/3.4.0/d4/d86/group__imgproc__filter.html#ga564869aa33e58769b4469101aac458f9} 
-	\item For \verb|cv::GaussianBlur|, look at \url{https://docs.opencv.org/3.4.0/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1}
+	\item For \verb|cv::medianBlur|, look at\\ \url{https://docs.opencv.org/4.0.1/d4/d86/group__imgproc__filter.html#ga564869aa33e58769b4469101aac458f9} 
+	\item For \verb|cv::GaussianBlur|, look at \url{https://docs.opencv.org/4.0.1/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1}
 \end{itemize}
 
 
