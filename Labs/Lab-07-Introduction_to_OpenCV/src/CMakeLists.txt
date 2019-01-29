@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT(ICP3038--Lab6--Intro2OpenCV)
+PROJECT(ICP3038--Lab7--Intro2OpenCV)
 
 # Add where OpenCV might be installed (look in D: first, then in C:)
 IF (WIN32)
@@ -36,20 +36,28 @@ TARGET_LINK_LIBRARIES (medianFilter   ${requiredLibs})
 TARGET_LINK_LIBRARIES (gaussianFilter ${requiredLibs})
 
 # If windows is used, copy the dlls into the project directory
+SET (CV_VERSION_STRING ${OpenCV_VERSION_MAJOR}${OpenCV_VERSION_MINOR}${OpenCV_VERSION_PATCH})
 IF (WIN32)
 	
-    IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg340_64.dll")
-        FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg340_64.dll"
+    IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg${CV_VERSION_STRING}_64.dll")
+        FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg${CV_VERSION_STRING}_64.dll"
               DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
     ELSE ()
-	    MESSAGE (WARNING "opencv_ffmpeg340_64.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+	    MESSAGE (WARNING "opencv_ffmpeg${CV_VERSION_STRING}_64.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
     ENDIF ()
 
-    IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_world340d.dll")
-        FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_world340d.dll"
+    IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}.dll")
+        FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}.dll"
               DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
     ELSE ()
-	    MESSAGE (WARNING "opencv_world340d.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+	    MESSAGE (WARNING "opencv_world${CV_VERSION_STRING}.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+    ENDIF ()
+
+    IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}d.dll")
+        FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}d.dll"
+              DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+    ELSE ()
+	    MESSAGE (WARNING "opencv_world${CV_VERSION_STRING}d.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
     ENDIF ()
 	
 ENDIF (WIN32)
