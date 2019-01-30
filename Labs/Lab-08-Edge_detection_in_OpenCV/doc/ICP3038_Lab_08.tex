@@ -67,7 +67,7 @@
 \headheight 10mm
 
 
-\rhead{07/02/2017}
+\rhead{05/02/2019}
 \chead{}
 \lhead{ICP3038 --- Computer Vision}
 \rfoot{}
@@ -85,14 +85,14 @@
 \sloppy 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Laboratory 7: Displaying several images/Playing a video file}
+\section*{Laboratory 8: Edge detection / Basic GUI / Displaying several images in the same window}
 
-
+\null\vfill
 The aims of today's lab are:
 \begin{itemize}
 	\item Add sliders to our windows;
-	\item Displaying several images next to each other;
-	\item Investigate how to use a video stream (camera or file) (self-study).
+	\item Displaying several images next to each other.
+%  	\item Investigate how to use a video stream (camera or file) (self-study).
 \end{itemize}
 In short, you are going to write parts of the demo programs seen during the lecture.
 
@@ -100,26 +100,27 @@ To achieve these goals, we will create several programs:
 \begin{enumerate}
 	\item \verb+edgeDetection1.cxx+: A simple program using OpenCV to detect edges;
 	\item \verb+edgeDetection2.cxx+: We will improve the functionalities of the previous program to make it interactive;
-	\item \verb+edgeVideo.cxx+: Same as the previous program, but using a video stream.
+% 	\item \verb+edgeVideo.cxx+: Same as the previous program, but using a video stream.
 \end{enumerate}
-You are provided with the skeletons. 
-You can add the three programs to the \verb+CMakeLists.txt+ file from last week (or use the new one provided).
+You are provided with the skeletons and a \verb+CMakeLists.txt+  file in the \verb+src+ directory. 
+% You can add the two programs to the \verb+CMakeLists.txt+ file from last week (or use the new one provided).
 
 Everything we did last week is relevant to today's session. 
-You are expected to have completed Lab 6~already. 
+You are expected to have completed Lab 7~already. 
 You are also expected to look for information on OpenCV's website if needed. 
 The lab script provides a good starting point. 
 Additional information can be found at \url{http://docs.opencv.org/master/d4/d86/group__imgproc__filter.html}.
-
+\vfill\null
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Edge Detection using Scharr and Thresholding}
 
 We will write the code in \verb+edgeDetection1.cxx+.
 The program takes two arguments from the command line:
 \begin{itemize}
- \item The input file;
- \item The output file.
+ \item The input file (\verb+argv[1]+); 
+ \item The output file (\verb+argv[2]+).
 \end{itemize}
 
 \subsection{Main Steps}
@@ -140,9 +141,15 @@ There are several main steps:
 	\item Convert the RGB data to greyscale:
 
 	\begin{enumerate}
-		\item Convert the RGB data to greyscale (see \verb+cv::cvtColor+);
-		\item Convert the image from unsigned char to float (see \verb+cv::Mat::convertTo+);
+		\item Convert the RGB data to greyscale (see \verb+cv::cvtColor+).
+		We did it last week and remember that OpenCV4 is not fully backward compatible with OpenCV3. 
+		In OpenCV3, the colour space conversion code is \verb+CV_RGB2GRAY+; in OpenCV4, it is \verb+cv::COLOR_RGB2GRAY+. 
+		\item Convert the image from unsigned char to float (see \verb+cv::Mat::convertTo+). 
+		Again, we did it last week and remember that OpenCV4 is not fully backward compatible with OpenCV3. 
 		\item Normalise the image (see \verb+cv::normalize+) so that the pixel values are in the range between 0 and 1.
+		Last week we used \verb+ cv::normalize(log_image, normalised_image, 0, 255,+ \verb+    cv::NORM_MINMAX, CV_8UC1)+ \\
+		\verb+CV_8UC1+ means that pixel values in the produced output (\verb+normalised_image+) are stored using unsigned integers with 8 bits (\verb+8U+ in \verb+CV_8UC1+) (i.e.~\verb+unsigned char+ in C/C++), they correspond to luminance values (\verb+C1+ in \verb+CV_8UC1+), and the dynamic range of \verb+normalised_image+ is [0, 255]. 
+		This week we will use \verb+ cv::normalize(grey_image, normalised_image, 0.0, 1.0,+ \verb+    cv::NORM_MINMAX, CV_32FC1)+\\ \verb+32F+ in \verb+CV_32FC1+ means \verb+float+ in C/C++.
 	\end{enumerate}
 
 	\item Apply a $3 \times 3$ Gaussian filter with $\sigma$ equal to 0.5 to reduce noise (see \verb+cv::GaussianBlur+).
@@ -183,7 +190,7 @@ with:
  \item[dy:] order of the derivative y (= 0 or 1).
 \end{description}
 
-\subsection{Pixel-wise Absolue Value Filter}
+\subsection{Pixel-wise Absolute Value Filter}
 To calculate the absolute image of the derivative, you need to call:
  \begin{lstlisting}[language=c++]
  cv::Mat cv::abs(const cv::Mat& src)
