@@ -9,25 +9,25 @@ int main(void)
 
 	for (unsigned int i = 0; i < 5; ++i)
 	{
-		printf("a[%i] = %i\n", i, a[i]);
+		printf("a[%u] = %i\n", i, a[i]);
 	}
 	printf("\n");
 
 	for (unsigned int i = 0; i < 10; ++i)
 	{
-		printf("b[%i] = %i\n", i, b[i]);
+		printf("b[%u] = %i\n", i, b[i]);
 	}
 	printf("\n");
-	
+
 	for (unsigned int i = 0; i < 10; ++i)
 	{
-		printf("c[%i] = %i\n", i, c[i]);
+		printf("c[%u] = %i\n", i, c[i]);
 	}
 	printf("\n");
-	
+
 	for (unsigned int i = 0; i < 10; ++i)
 	{
-		printf("d[%i] = %i\n", i, d[i]);
+		printf("d[%u] = %i\n", i, d[i]);
 	}
 
 	return 0;
