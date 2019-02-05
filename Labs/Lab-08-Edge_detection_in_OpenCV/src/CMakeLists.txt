@@ -2,7 +2,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 PROJECT(ICP3038--Lab8--EdgeIn2OpenCV)
 
 # Use C++ 11 (Requirement for OpenCV 4)
-set (CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 11) # C++11
+set(CMAKE_CXX_STANDARD_REQUIRED ON) # C++11 is required (I.e. not optional)
+set(CMAKE_CXX_EXTENSIONS OFF) # without compiler extensions like gnu++11
 
 # Add where OpenCV might be installed (look in D: first, then in C:)
 IF (WIN32)
