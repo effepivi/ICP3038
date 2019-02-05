@@ -24,11 +24,13 @@ SET (requiredLibs ${requiredLibs} ${OpenCV_LIBS})
 # The executable programs
 ADD_EXECUTABLE (edgeDetection1   edgeDetection1.cxx)
 ADD_EXECUTABLE (edgeDetection2   edgeDetection2.cxx)
+ADD_EXECUTABLE (edgeDetection3   edgeDetection3.cxx)
 
 
 # Add OpenCV libraries to each executable programs
 TARGET_LINK_LIBRARIES (edgeDetection1  ${requiredLibs})
 TARGET_LINK_LIBRARIES (edgeDetection2  ${requiredLibs})
+TARGET_LINK_LIBRARIES (edgeDetection3  ${requiredLibs})
 
 
 # If windows is used, copy the dlls into the project directory
