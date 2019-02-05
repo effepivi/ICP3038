@@ -3,7 +3,7 @@
 *
 *    @file      videoFromFile.cxx
 *
-*    @brief     A simple program using OpenCV to display a video and 
+*    @brief     A simple program using OpenCV to display a video and
 *               perform some image processing tasks.
 *
 *    @version   1.0
@@ -110,7 +110,7 @@ int main(int argc, char** argv)
 		// Get the file names
 		input_file_name  = argv[1];
         double scaling_factor = atof(argv[2]);
-    
+
         // An output file name has been specified
         if (argc == 4)
         {
@@ -122,10 +122,10 @@ int main(int argc, char** argv)
 		/**********************************************************************/
 		/* Open the video                                                     */
 		/**********************************************************************/
-		
+
         // Open the video file
         cv::VideoCapture video_capture; // !@£ YOUR CODE HERE £@!
-    
+
         // The image has not been loaded
         if (!video_capture.isOpened())
         {
@@ -137,7 +137,7 @@ int main(int argc, char** argv)
         }
 
         // Read the frame rate of the video (does not always work)
-        double fps; // !@£ YOUR CODE HERE £@!
+        double fps = 0.0; // !@£ YOUR CODE HERE £@!
         cout << "Frame per seconds : " << fps << endl;
 
 		// Convert in seconds per frame (default 30 ms / frame)
@@ -157,13 +157,13 @@ int main(int argc, char** argv)
 
         // Create the output image
         // !@£ YOUR CODE HERE £@!
-    
+
 
 		/**********************************************************************/
 		/* File writer                                                        */
 		/**********************************************************************/
 		cv::VideoWriter video_writer;
-        
+
         // Open the output
         if (output_file_name.size())
         {
@@ -175,7 +175,7 @@ int main(int argc, char** argv)
 		/**********************************************************************/
 		/* Create the windows                                                 */
 		/**********************************************************************/
-		
+
         // Create the window
         // !@£ YOUR CODE HERE £@!
         cv::namedWindow(g_window_title, cv::WINDOW_AUTOSIZE);
@@ -189,10 +189,10 @@ int main(int argc, char** argv)
 		/**********************************************************************/
 		/* Event loop                                                         */
 		/**********************************************************************/
-		
+
         // Last key pressed
-        int key;	
-		
+        int key;
+
 		// Event loop
         do
         {
@@ -203,7 +203,7 @@ int main(int argc, char** argv)
                 // Throw an error
                 throw "Could not read frames from the video.";
             }
-        
+
             // Resize the input if needed
             if (input_video_size != scaled_video_size)
             {
@@ -263,10 +263,10 @@ void CannyThreshold(int, void*)
 
     // Canny detector
     // !@£ YOUR CODE HERE £@!
-    
+
     // Convert to RGB
     // !@£ YOUR CODE HERE £@!
-    
+
     // Copy the result
     targetROI = g_displayed_image(cv::Rect(g_edge * 2 + g_current_frame.cols, g_edge, g_edge_frame.cols, g_edge_frame.rows));
     g_edge_frame.copyTo(targetROI);
