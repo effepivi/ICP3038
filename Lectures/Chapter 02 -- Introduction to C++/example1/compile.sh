@@ -1,3 +1,5 @@
+#!/bin/sh
+
 rm -f main.o
 rm -f Window.o
 rm -f example1
