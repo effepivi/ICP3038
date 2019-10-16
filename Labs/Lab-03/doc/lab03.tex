@@ -81,7 +81,7 @@ The documentation is in \url{http://www.cplusplus.com/reference/vector/vector/}
     vector<int> vec;
 \end{lstlisting}
 
- b) Double check the size of the vector, i.e.~ how many numbers are currently stored in the vector:
+ b) Double-check the size of the vector, i.e.~ how many numbers are currently stored in the vector:
 \begin{lstlisting}
     // Display the original size of vec
     cout << "vector size = " << vec.size() << endl;
@@ -99,7 +99,7 @@ The code below shows how to add 5 values into the vector:
     }
 \end{lstlisting}
 
-d) Double check the size of the vector. Yes again, just to be sure it is 50.
+d) Double-check the size of the vector. Yes again, just to be sure it is 50.
 
 \item a) Display every element of the vector. 
 Vectors work a bit like C arrays. 
@@ -188,6 +188,7 @@ b) To get the number of elements in the vector, use its \verb+size()+ method. Yo
 
 Note that the STL vector class implements other functionalities, such as copy constructor, \verb+operator=+, etc. It can be used as an array (like in C) or as a FILO. See \url{http://www.cplusplus.com/reference/vector/vector/} for more information.
 
+\textbf{The functions} \verb+std::accumulate()+\textbf{,} \verb+std::min_element+\textbf{, and} \verb+std::max_element+ \textbf{can also be used on C arrays. Instead of iterators, use pointers. Remember these functions as you may find them useful later on, e.g.~for the assignment.}
 
 \section{Advanced C++ Programming: Create your own Template Functions}
 
@@ -205,10 +206,10 @@ In \verb+src/TestUtils.cpp+, test every template function with different data ty
 
 For each function to convert from inline to template, there are~3 steps to follow:
 \begin{enumerate}
- \item Remove \verb'inline' (in utils.inl).
+ \item Remove \verb'inline' (in \verb+utils.inl+).
       In C, we used macros as an optimized technique for compilers to reduce the execution time. In C++, we used inline functions (see \url{http://www.cplusplus.com/articles/2LywvCM9/} for an online article on this topic). The keyword \verb'inline' needs to be remove for template functions.
 
- \item Add \verb'template <typename T>' at the front of every function declaration (in utils.h and in utils.inl). \verb'template <typename T>' means that the corresponding function is template, and that the template type is \verb'T'. It is a sort of virtual type that the compiler replaces during the compilation with the corresponding type (\verb'int', \verb'double', \verb'char', etc.). 
+ \item Add \verb'template <typename T>' at the front of every function declaration (in \verb+utils.h+ and in \verb+utils.inl+). \verb'template <typename T>' means that the corresponding function is template, and that the template type is \verb'T'. It is a sort of virtual type that the compiler replaces during the compilation with the corresponding type (\verb'int', \verb'double', \verb'char', etc.). 
  
  \item Replaces occurrences of \verb'int' by \verb'T' (in \verb'utils.inl').
 \end{enumerate}
