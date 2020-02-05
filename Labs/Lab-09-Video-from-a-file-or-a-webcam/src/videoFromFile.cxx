@@ -39,12 +39,6 @@ using namespace std;
 //******************************************************************************
 const double EPSILON(1.0e-5);
 
-// Parameters of the Canny filter
-int g_low_threshold(0);
-const int g_max_low_threshold = 100;
-const int g_ratio = 3;
-const int g_kernel_size = 3;
-
 const int g_edge = 5; // Edge around the images in the window
 
 cv::Mat g_current_frame; // Store the current frame
@@ -58,7 +52,7 @@ std::string g_window_title("Video");
 //******************************************************************************
 //    Function declaration
 //******************************************************************************
-void cannyThreshold(int, void*);
+void cartoonise(int, void*);
 
 
 //******************************************************************************
@@ -173,17 +167,11 @@ int main(int argc, char** argv)
 
 
 		/**********************************************************************/
-		/* Create the windows                                                 */
+		/* Create the window                                                 */
 		/**********************************************************************/
 
         // Create the window
-        // !@£ YOUR CODE HERE £@!
         cv::namedWindow(g_window_title, cv::WINDOW_AUTOSIZE);
-
-        // Create the slider
-        // !@£ YOUR CODE HERE £@!
-        cv::createTrackbar("Min threshold:", g_window_title, &g_low_threshold, g_max_low_threshold, cannyThreshold);
-
 
 
 		/**********************************************************************/
@@ -211,7 +199,7 @@ int main(int argc, char** argv)
             }
 
             // Process the image
-            cannyThreshold(0, 0);
+            cartoonise(0, 0);
 
             // The file writer is working
             if (video_writer.isOpened())
@@ -249,28 +237,70 @@ int main(int argc, char** argv)
 }
 
 
-//-----------------------------
-void cannyThreshold(int, void*)
-//-----------------------------
+//-------------------------
+void cartoonise(int, void*)
+//-------------------------
 {
-    // Reduce noise with a kernel 3x3
-    cv::Mat blurred_frame;
+    // Copy the current frame into the large image (g_displayed_image).
+    // Add an edge of g_edge pixels around g_current_frame.
     // !@£ YOUR CODE HERE £@!
 
+    
+    // Convert the image (g_current_frame) to greyscale.
+    // Save the resulting image in greyscale_frame.
+    cv::Mat greyscale_frame;
+    // !@£ YOUR CODE HERE £@!
+    
+    
+    // Apply a median filter on greyscale_frame with a size of 7 pixels.
+    // Save the resulting image in median_frame.
+    cv::Mat median_frame;
+    // !@£ YOUR CODE HERE £@!
+    
+    
+    // Perform a Laplacian filter on median_frame
+    // You must use unsigned char for the output, i.e. the depth is CV_8U
+    // The kernel size is 5x5
+    // Save the resulting image in edge_frame.
+    cv::Mat edge_frame;
+    // !@£ YOUR CODE HERE £@!
+    
+    
+    // Perform an edge detection using edge_frame and the threshold function.
+    // The threshold is 100, the maximum value is 255, and the thresholding type is THRES_BINARY_INV (or 1).
+    // Save the resulting image in mask_frame.
+    cv::Mat mask_frame;
+    // !@£ YOUR CODE HERE £@!
+    
+    
+    // Reduce the input image (g_current_frame) size by a factor 10 and resample using pixel area relation.
+    // Save the resulting image in small_frame.
+    float ds_factor = 4;
+    cv::Mat small_frame;
+    // !@£ YOUR CODE HERE £@!
+    
+    
+    // Apply a bilateral filter 10 times. The kernel size is 5, sigma colour is 5, and sigma space is 7.
+    // Save the resulting image in small_frame.
+    // !@£ YOUR CODE HERE £@!
+
+    
+    // Restore the of the image (small_frame) so that it is the same as the input image (g_current_frame) and resample using bi-linear interpolation.
+    // Save the resulting image in output_frame.
+    cv::Mat output_frame;
+    // !@£ YOUR CODE HERE £@!
+
+    
+    // Add a thick boundary using a boolean operator (AND).
+    // Save the resulting image in cartoon_frame.
+    cv::Mat cartoon_frame;
+    // !@£ YOUR CODE HERE £@!
+
+    
     // Copy the result
-    cv::Mat targetROI = g_displayed_image(cv::Rect(g_edge, g_edge, g_current_frame.cols, g_current_frame.rows));
-    g_current_frame.copyTo(targetROI);
-
-    // Canny detector
     // !@£ YOUR CODE HERE £@!
 
-    // Convert to RGB
-    // !@£ YOUR CODE HERE £@!
-
-    // Copy the result
-    targetROI = g_displayed_image(cv::Rect(g_edge * 2 + g_current_frame.cols, g_edge, g_edge_frame.cols, g_edge_frame.rows));
-    g_edge_frame.copyTo(targetROI);
-
+    
     // Display the images
-    cv::imshow(g_window_title,  g_displayed_image);
+    // !@£ YOUR CODE HERE £@!
 }
