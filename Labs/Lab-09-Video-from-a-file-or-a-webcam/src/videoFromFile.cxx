@@ -8,7 +8,7 @@
 *
 *    @version   1.0
 *
-*    @date      15/02/2016
+*    @date      05/02/2020
 *
 *    @author    Franck Vidal
 *
@@ -58,7 +58,7 @@ std::string g_window_title("Video");
 //******************************************************************************
 //    Function declaration
 //******************************************************************************
-void CannyThreshold(int, void*);
+void cannyThreshold(int, void*);
 
 
 //******************************************************************************
@@ -182,7 +182,7 @@ int main(int argc, char** argv)
 
         // Create the slider
         // !@£ YOUR CODE HERE £@!
-        cv::createTrackbar("Min threshold:", g_window_title, &g_low_threshold, g_max_low_threshold, CannyThreshold);
+        cv::createTrackbar("Min threshold:", g_window_title, &g_low_threshold, g_max_low_threshold, cannyThreshold);
 
 
 
@@ -211,7 +211,7 @@ int main(int argc, char** argv)
             }
 
             // Process the image
-            CannyThreshold(0, 0);
+            cannyThreshold(0, 0);
 
             // The file writer is working
             if (video_writer.isOpened())
@@ -250,7 +250,7 @@ int main(int argc, char** argv)
 
 
 //-----------------------------
-void CannyThreshold(int, void*)
+void cannyThreshold(int, void*)
 //-----------------------------
 {
     // Reduce noise with a kernel 3x3
