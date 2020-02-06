@@ -98,11 +98,11 @@ double deg2rad(double anAngleInDegrees);
 void thresholdCallback(int, void*);
 
 Mat houghTransform(const Mat& anInputImage,
-                   int aCannyThreshold,
-                   int aHoughThreshold)
+                   int aCannyThreshold);
 
 Mat drawLines(const Mat& anImage,
               const Mat& anAccumulator,
+              int aHoughThreshold,
               int aLineWidth = 1,
               const Scalar& aLineColour = Scalar(0, 0, 255));
 
@@ -165,9 +165,9 @@ int main(int argc, char** argv)
         namedWindow("edge image", CV_WINDOW_AUTOSIZE);
 
         // Create a slider in this window
-        createTrackbar("Min Threshold:",
+        createTrackbar("Min Canny Threshold:",
                        "edge image",
-                       &g_low_threshold,
+                       &g_canny_low_threshold,
                        g_max_low_threshold,
                        thresholdCallback);
 
@@ -214,21 +214,20 @@ inline double deg2rad(double anAngleInDegrees)
 void thresholdCallback(int, void*)
 //--------------------------------
 {
-    g_accumulator_image = houghTransform(g_input_luminance_image, g_low_threshold);
+    g_accumulator_image = houghTransform(g_input_luminance_image, g_canny_low_threshold);
 
     Mat normalised_accumulator;
     normalize(g_accumulator_image, normalised_accumulator, 0, 255, NORM_MINMAX);
     imshow("accumulator image", normalised_accumulator);
 
-    Mat image_with_lines = drawLines(g_input_RGB_image, g_accumulator_image, 4);
+    Mat image_with_lines = drawLines(g_input_RGB_image, g_accumulator_image, g_hough_low_threshold, 4);
     imshow("image with lines", image_with_lines);
 }
 
 
 //-----------------------------------------
 Mat houghTransform(const Mat& anInputImage,
-                   int aCannyThreshold,
-                   int aHoughThreshold)
+                   int aCannyThreshold)
 //-----------------------------------------
 {
     Mat blurred_image;
@@ -237,8 +236,8 @@ Mat houghTransform(const Mat& anInputImage,
     Mat edge_image;
     Canny(blurred_image,
           edge_image,
-          aThreshold,
-          aThreshold * g_ratio,
+          aCannyThreshold,
+          aCannyThreshold * g_ratio,
           g_kernel_size);
 
     imshow("edge image", edge_image);
@@ -278,6 +277,7 @@ Mat houghTransform(const Mat& anInputImage,
 //--------------------------------------
 Mat drawLines(const Mat& anImage,
               const Mat& anAccumulator,
+              int aHoughThreshold,
               int aLineWidth,
               const Scalar& aLineColour)
 //--------------------------------------
