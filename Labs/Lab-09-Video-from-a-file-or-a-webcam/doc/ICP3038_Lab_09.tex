@@ -91,11 +91,11 @@ The aims of today's lab are:
 \begin{itemize}
 	\item Playing a video from a file;
 	\item Playing a video from a webcam;
-	\item Process the input frames;
+	\item Process the input frames to cartoonise it;
 	\item Display two images side by side in the same window;
 	\item Saving a video stream in a file (CAREFUL, they can become big).
 \end{itemize}
-The point is to use a video stream (from a file or a camera) and do some image processing on the incoming frames. You will then adapt this lab to create your own motion detection algorithm. 
+The point is to use a video stream (from a file or a camera) and do some image processing on the incoming frames (and cartoonising images is fun). You will then adapt this lab to create your own motion detection algorithm. 
 
 To achieve these goals, we will create several programs:
 \begin{enumerate}
@@ -155,16 +155,8 @@ We will display a window with two images, the input and the output, side by side
 
 First of all, we need some global variables:
 
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon}
+\includegraphics[width=\linewidth]{carbon}
 % \begin{lstlisting}[language=c++]
-% const double EPSILON(1.0e-5);
-% 
-% // Parameters of the Canny filter
-% int g_low_threshold(0);
-% const int g_max_low_threshold = 100;
-% const int g_ratio = 3;
-% const int g_kernel_size = 3;
-% 
 % const int g_edge = 5; // Edge around the images in the window
 % 
 % cv::Mat g_current_frame; // Store the current frame
@@ -187,7 +179,7 @@ To opening a stream, use the constructor:
 % // Open the video file
 % cv::VideoCapture video_capture(input_file_name);
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(1)}
+\includegraphics[width=\linewidth]{carbon(1)}
 
 Always check if an error occurred, and if it did, throw an error:
 
@@ -205,7 +197,7 @@ Always check if an error occurred, and if it did, throw an error:
 %     throw error_message;
 % }
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(2)}
+\includegraphics[width=\linewidth]{carbon(2)}
 
 Now we need to read the framerate and the image size:
 
@@ -224,8 +216,14 @@ Now we need to read the framerate and the image size:
 % cv::Size input_video_size(video_capture.get(CV_CAP_PROP_FRAME_WIDTH),
 % 		video_capture.get(CV_CAP_PROP_FRAME_HEIGHT));
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(3)}
+\includegraphics[width=\linewidth]{carbon(3)}
 
+For OpenCV 4,
+\begin{itemize}
+\item replace \verb+CV_CAP_PROP_FPS+ with \verb+cv::CAP_PROP_FPS+
+\item replace \verb+CV_CAP_PROP_FRAME_WIDTH+ with \verb+cv::CAP_PROP_FRAME_WIDTH+
+\item replace \verb+CV_CAP_PROP_FRAME_HEIGHT+ with \verb+cv::CAP_PROP_FRAME_HEIGHT+
+\end{itemize}
 
 
 We can now compute the image size when the scaling factor is applied and the size of the image that will be displayed in the window:
@@ -239,7 +237,7 @@ We can now compute the image size when the scaling factor is applied and the siz
 % cv::Size target_video_size(g_edge * 3 + 2 * scaled_video_size.width,
 %         g_edge * 2 + scaled_video_size.height);
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(4)}
+\includegraphics[width=\linewidth]{carbon(4)}
 
 We are now ready to create our new RGB image with the default colour [128, 128, 128]:
 
@@ -250,7 +248,7 @@ We are now ready to create our new RGB image with the default colour [128, 128, 
 %         CV_8UC3,
 %         cv::Scalar(128, 128, 128));
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(5)}
+\includegraphics[width=\linewidth]{carbon(5)}
 
 
 \newpage
@@ -262,14 +260,14 @@ To get the codec of the input video stream, use:
 % \begin{lstlisting}[language=c++]
 % int input_codec = video_capture.get(CV_CAP_PROP_FOURCC);
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(6)}
+\includegraphics[width=\linewidth]{carbon(6)}
 
 To open the file, you need:
 
 % \begin{lstlisting}[language=c++]
 % // video_writer.open(output_file_name, input_codec, fps, target_video_size, true);
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(7)}
+\includegraphics[width=\linewidth]{carbon(7)}
 
 You can notice the \verb+fps+ and \verb+target_video_size+ are used here to specify the properties of the video stream. 
 
@@ -296,19 +294,18 @@ Below is the code you can use to open the output file:
 % 	}
 % }
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(8)}
+\includegraphics[width=\linewidth]{carbon(8)}
+
+For OpenCV 4,
+\begin{itemize}
+\item replace \verb+CV_CAP_PROP_FOURCC+ with \verb+cv::CAP_PROP_FOURCC+
+\item replace \verb+CV_FOURCC+ with \verb+cv::VideoWriter::fourcc+
+\end{itemize}
 
 First we try to open the file with the same codec as the input file. 
 If it does not work, we try a codec that is provided by OpenCV directly. 
 Its drawback is that it produces large files as each frame is saved in JPEG. 
 
-
-\subsection{Create the window and track bar}
-
-We saw last week how to do create a window with a track bar. 
-The variable that we want to control is \verb+g_low_threshold+. 
-Its upper limit is \verb+g_max_low_threshold+. 
-The callback function is \verb+cannyThreshold+.
 
 
 \newpage
@@ -340,7 +337,7 @@ We read frames in a loop of the form:
 %         }
 %     
 %         // Process the image
-%         CannyThreshold(0, 0);
+%         cartoonise(0, 0);
 %     
 %         // The file writer is working
 %         if (video_writer.isOpened())
@@ -357,12 +354,12 @@ We read frames in a loop of the form:
 % // Stop the loop if 'q' or 'Escape' have been pressed or there is no image left in the video stream
 % while (key != 'q' && key != 27 && input_stream_status);
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(9)}
+\includegraphics[width=\linewidth]{carbon(9)}
 
 We use a \verb+do-while+ loop to make sure that at least one image is processed. 
 We start by getting a new frame from the stream and check if an error occurred (e.g.~no more frame to read). 
 If the input size has been changed, we rescale the frame.
-Then the image processing step is performed in the \verb+CannyThreshold+ callback then the new image is added to the output stream if needed. 
+Then the image processing step is performed in the \verb+cartoonise+ callback then the new image is added to the output stream if needed. 
 We now wait for the key press event or for $X$ milliseconds with $X=$\verb+milliseconds_per_frame+ (computed in Section~\ref{sec:param}).
 
 
@@ -371,7 +368,7 @@ To get a frame, we use:
 % \begin{lstlisting}[language=c++]
 % input_stream_status = video_capture.read(g_current_frame);
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(10)}
+\includegraphics[width=\linewidth]{carbon(10)}
 
 It returns a boolean value, which is \verb+true+ if the function call was successful. 
 If it returned \verb+false+, then there is no processing to do and the loop can end. 
@@ -385,7 +382,7 @@ To resize the frame, use:
 %     cv::resize(g_current_frame, g_current_frame, scaled_video_size);
 % }
 % \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(11)}
+\includegraphics[width=\linewidth]{carbon(11)}
 
 To add a frame to the output video stream, use:
 
@@ -398,7 +395,7 @@ To add a frame to the output video stream, use:
 % \end{lstlisting}
 
 \begin{center}
-\includegraphics[width=0.6\linewidth]{/home/fpvidal/Downloads/carbon(12)}
+\includegraphics[width=0.6\linewidth]{carbon(12)}
 \end{center}
 
 %            // Grab the next frame if possible
@@ -424,49 +421,75 @@ To add a frame to the output video stream, use:
 The code is written in the callback function. 
 This is why we needed global variables. 
 
-First, reduce the amount of noise with a $3 \times 3$ Gaussian filter (or box filter).
-
-Then copy the input image into a region of interest (ROI) within the image that will be displayed (we called it \verb+g_displayed_image+). 
-With the code as follows, we leave an edge of $N$ pixels around the image (with $N=$ \verb+g_edge+):
-
-% \begin{lstlisting}[language=c++]
-% cv::Mat targetROI = g_displayed_image(cv::Rect(g_edge, g_edge, g_current_frame.cols, g_current_frame.rows));
-% g_current_frame.copyTo(targetROI);
-% \end{lstlisting}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(13)}
-
-
-To perform the edge detection, we use the Canny filter:
-
-% \begin{lstlisting}[language=c++]
-% cv::Canny(blurred_frame, g_edge_frame, g_low_threshold, g_low_threshold * g_ratio, g_kernel_size);
-% \end{lstlisting}
-\begin{center}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(14)}
-\end{center}
-
-where the arguments are:
+The data flow is as follows:
 \begin{enumerate}
-    \item \verb+blurred_frame+: Source image
-    \item \verb+g_edge_frame+: Output of the detector
-    \item \verb+g_low_threshold+: The value entered by the user moving the Trackbar
-    \item \verb+g_low_threshold * g_ratio+: Set in the program as three times the lower threshold (following Canny's recommendation)
-    \item \verb+g_kernel_size+: We defined it to be 3 (the size of the Sobel kernel to be used internally)
+\item Copy the current frame (\verb+g_current_frame+) into the large image (\verb+g_displayed_image+). Add an edge of \verb+g_edge+ pixels around \verb+g_current_frame+.
+    We saw how to do it last week.
+\item Convert the image (\verb+g_current_frame+) to greyscale. Save the resulting image in (\verb+greyscale_frame+).
+\item Apply a median filter on \verb+greyscale_frame+ with a filter size of $7 \times 7$ pixels. Save the resulting image in \verb+median_frame+.
+\item Perform a Laplacian filter on \verb+median_frame+. 
+You must use unsigned char for the output, i.e. the depth is \verb+CV_8U+. 
+The kernel size is $5 \times 5$.
+Save the resulting image in \verb+edge_frame+.    
+\item Perform an edge detection using \verb+edge_frame+ and the threshold function. The threshold value is 100, the maximum value is 255, and the thresholding type is \verb+THRES_BINARY_INV+ (or 1).
+   Save the resulting image in \verb+mask_frame+.
+\item Reduce the input image (\verb+g_current_frame+) size by a factor 10 and resample using pixel area relation. Save the resulting image in \verb+small_frame+. It is done using the code as follows:
+
+\begin{lstlisting}[language=c++]
+    float ds_factor = 4;
+    cv::Mat small_frame;
+#if CV_MAJOR_VERSION <= 3
+    cv::resize(g_current_frame, small_frame, cv::Size(0, 0), 1.0 / ds_factor, 1.0 / ds_factor, CV_INTER_AREA);
+#else
+    cv::resize(g_current_frame, small_frame, cv::Size(0, 0), 1.0 / ds_factor, 1.0 / ds_factor, cv::INTER_AREA);
+#endif
+\end{lstlisting}
+
+    \item Apply a bilateral filter 10 times. 
+    The kernel size is 5, sigma colour is 5, and sigma space is 7.
+It is done using the code as follows:
+
+\begin{lstlisting}[language=c++]
+    // Save the resulting image in small_frame.
+    for (int i = 0; i < 10; ++i)
+    {
+        cv::Mat temp;
+        cv::bilateralFilter(small_frame, temp, 5, 5, 7);
+        small_frame = temp;
+    }
+    \end{lstlisting}
+
+\item Restore the of the image (\verb+small_frame+) so that it is the same as the input image (\verb+g_current_frame+) and resample using bi-linear interpolation. Save the resulting image in \verb+output_frame+. 
+It is done using the code as follows:
+
+\begin{lstlisting}[language=c++]
+    cv::Mat output_frame;
+#if CV_MAJOR_VERSION <= 3
+    cv::resize(small_frame, output_frame, cv::Size(0, 0), ds_factor, ds_factor, CV_INTER_LINEAR);
+#else
+    cv::resize(small_frame, output_frame, cv::Size(0, 0), ds_factor, ds_factor, cv::INTER_LINEAR);
+#endif
+    \end{lstlisting}
+
+\item Add a thick boundary using a boolean operator (AND).  Save the resulting image in \verb+cartoon_frame+. It is done using the code as follows:
+
+\begin{lstlisting}[language=c++]
+    MatType(output_frame);
+    MatType(mask_frame);
+    cv::Mat cartoon_frame;
+    cv::bitwise_and(output_frame, output_frame, cartoon_frame, mask_frame);
+ \end{lstlisting}
+
+\item Copy the result into the large image (\verb+g_current_frame.cols+). It is done using the code as follows:
+
+\begin{lstlisting}[language=c++]
+    // Copy the result
+    targetROI = g_displayed_image(cv::Rect(g_edge * 2 + g_current_frame.cols, g_edge, cartoon_frame.cols, cartoon_frame.rows));
+    cartoon_frame.copyTo(targetROI);
+ \end{lstlisting}
+
+\item Eventually display the result into the window.
 \end{enumerate}
-For details about the Canny detector, you can check the lectures slides, last week's lab and the documentation from OpenCV (available at \url{https://docs.opencv.org/trunk/da/d5c/tutorial_canny_detector.html}).
-
-Then convert the resulting image in RGB (see Lab~7 on \textit{Introduction to OpenCV}) and finally copy the result into the appropriate ROI:
-
-% \begin{lstlisting}[language=c++]
-% targetROI = g_displayed_image(cv::Rect(g_edge * 2 + g_current_frame.cols, g_edge, g_edge_frame.cols, g_edge_frame.rows));
-%     g_edge_frame.copyTo(targetROI);
-% \end{lstlisting}
-\begin{center}
-\includegraphics[width=\linewidth]{/home/fpvidal/Downloads/carbon(15)}
-\end{center}
-
-Finally, display \verb+g_displayed_image+ in the window (using \verb=cv::imshow=, see Labs~6 \&~7).
-
 
 
 
@@ -493,7 +516,7 @@ The program takes two arguments from the command line:
 % 	cv::VideoCapture video_capture(input_file_name);
 % \end{lstlisting}
 \begin{center}
-\includegraphics[width=0.8\linewidth]{/home/fpvidal/Downloads/carbon(16)}
+\includegraphics[width=0.8\linewidth]{carbon(16)}
 \end{center}
 
 Adapt the source code to take into account the changes in the command line arguments.
