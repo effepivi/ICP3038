@@ -102,7 +102,7 @@ Mat houghTransform(const Mat& anInputImage,
 
 Mat drawLines(const Mat& anImage,
               const Mat& anAccumulator,
-              int aHoughThreshold,
+              double aHoughThreshold,
               int aLineWidth = 1,
               const Scalar& aLineColour = Scalar(0, 0, 255));
 
@@ -112,7 +112,7 @@ Mat drawLines(const Mat& anImage,
 //******************************************************************************
 
 int g_canny_low_threshold = 0;
-int g_hough_low_threshold = 100;
+int g_hough_low_threshold = 60;
 const int g_max_low_threshold = 100;
 const int g_ratio = 3;
 const int g_kernel_size = 3;
@@ -143,33 +143,33 @@ int main(int argc, char** argv)
             throw "Could not open or find the image";
         }
 
-        // Create a window called "input RGB image"
+        // Create windows
         namedWindow("input RGB image", CV_WINDOW_AUTOSIZE);
-
-        // Show our image
-        imshow ("input RGB image", g_input_RGB_image);
-
-        // The image is not a greyscale image, convert it
-        cvtColor(g_input_RGB_image, g_input_luminance_image, CV_RGB2GRAY);
-
-        // Create a window called "input luminance image"
         namedWindow("input luminance image", CV_WINDOW_AUTOSIZE);
-
-        // Show our image
-        imshow ("input luminance image", g_input_luminance_image);
-
-
-        /// Canny operator
-
-        // Create a window called "edge image"
         namedWindow("edge image", CV_WINDOW_AUTOSIZE);
+        namedWindow("accumulator image", CV_WINDOW_AUTOSIZE);
+        namedWindow("image with lines", CV_WINDOW_AUTOSIZE);
 
-        // Create a slider in this window
+        // Create a slider in edge image
         createTrackbar("Min Canny Threshold:",
                        "edge image",
                        &g_canny_low_threshold,
                        g_max_low_threshold,
                        thresholdCallback);
+
+        // Create a slider in edge image
+        createTrackbar("Min Hough Threshold:",
+                       "image with lines",
+                       &g_hough_low_threshold,
+                       g_max_low_threshold,
+                       thresholdCallback);
+
+        // The image is not a greyscale image, convert it
+        cvtColor(g_input_RGB_image, g_input_luminance_image, CV_RGB2GRAY);
+
+        // Show our images
+        imshow ("input RGB image", g_input_RGB_image);
+        imshow ("input luminance image", g_input_luminance_image);
 
         // Run the Hough transform at least once
         thresholdCallback(0, 0);
@@ -220,7 +220,13 @@ void thresholdCallback(int, void*)
     normalize(g_accumulator_image, normalised_accumulator, 0, 255, NORM_MINMAX);
     imshow("accumulator image", normalised_accumulator);
 
-    Mat image_with_lines = drawLines(g_input_RGB_image, g_accumulator_image, g_hough_low_threshold, 4);
+    // Linear interpolation
+    // Get tne min and max in the accumulator
+    double min_value, max_value;
+    cv::minMaxLoc(g_accumulator_image, &min_value, &max_value, 0, 0);
+    double hough_threshold = min_value + (max_value - min_value) * (double(g_hough_low_threshold) / g_max_low_threshold);
+
+    Mat image_with_lines = drawLines(g_input_RGB_image, g_accumulator_image, hough_threshold, 4);
     imshow("image with lines", image_with_lines);
 }
 
@@ -277,33 +283,36 @@ Mat houghTransform(const Mat& anInputImage,
 //--------------------------------------
 Mat drawLines(const Mat& anImage,
               const Mat& anAccumulator,
-              int aHoughThreshold,
+              double aHoughThreshold,
               int aLineWidth,
               const Scalar& aLineColour)
 //--------------------------------------
 {
     // Copy the input image into the output image
-    Mat output = anImage;
+    Mat output = anImage.clone();
 
     // Process all the pixels of the accumulator image
     for (int j = 0; j < anAccumulator.rows; ++j)
     {
         for (int i = 0; i < anAccumulator.cols; ++i)
         {
+            // The pixel value in the accumulator is greater than the threshold
+            // Display the corresponding line
             if (anAccumulator.at<unsigned char>(j, i) > aHoughThreshold)
             {
-                // Find global maxima
+                // The pixel location
                 Point location(i, j);
 
+                // The two corners of the image
                 Point pt1(               0, 0);
                 Point pt2(anImage.cols - 1, anImage.rows - 1);
 
+                // Get theta in radian
                 double theta = deg2rad(location.x);
 
+                // Get r
                 double r = location.y;
                 r -= anAccumulator.rows / 2.0;
-
-                cout << location << "  " << int(anAccumulator.at<unsigned char>(j, i)) << "   " << aHoughThreshold << "  " << theta << "  " << r << endl;
 
                 // How to retrieve the line from theta and r:
                 //      x = (r - y * sin(theta)) / cos(theta);
