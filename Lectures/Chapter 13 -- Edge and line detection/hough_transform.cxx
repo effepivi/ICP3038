@@ -112,7 +112,7 @@ Mat drawLines(const Mat& anImage,
 //******************************************************************************
 
 int g_canny_low_threshold = 0;
-int g_hough_low_threshold = 0;
+int g_hough_low_threshold = 100;
 const int g_max_low_threshold = 100;
 const int g_ratio = 3;
 const int g_kernel_size = 3;
@@ -242,19 +242,19 @@ Mat houghTransform(const Mat& anInputImage,
 
     imshow("edge image", edge_image);
 
-    int width  = 181;
+    int width  = 180;
     double diagonal = sqrt(edge_image.cols * edge_image.cols + edge_image.rows * edge_image.rows);
     int height = floor(2.0 * diagonal);
     double half_height = height / 2.0;
     Mat accumulator(height, width, CV_8U, Scalar(0));
 
     // Process all the pixels of the edge image
-    for (int j = 0; j < edge_image.cols; ++j)
+    for (int j = 0; j < edge_image.rows; ++j)
     {
-        for (int i = 0; i < edge_image.rows; ++i)
+        for (int i = 0; i < edge_image.cols; ++i)
         {
             // The pixel is on an edge
-            if (edge_image.at<unsigned char>(j, i) > 0)
+            if (edge_image.at<unsigned char>(i, j) > 0)
             {
                 // Process all the angles
                 for (int theta = 0; theta <= 180; ++theta)
@@ -282,40 +282,51 @@ Mat drawLines(const Mat& anImage,
               const Scalar& aLineColour)
 //--------------------------------------
 {
-    // Find global maxima
-    Point location;
-    double max_val;
-    minMaxLoc(anAccumulator, 0, &max_val, 0, &location);
-
+    // Copy the input image into the output image
     Mat output = anImage;
 
-    Point pt1(               0, 0);
-    Point pt2(anImage.cols - 1, anImage.rows - 1);
-
-    double theta = deg2rad(location.x);
-
-    double r = location.y;
-    r -= anAccumulator.rows / 2.0;
-
-    // How to retrieve the line from theta and r:
-    //      x = (r - y * sin(theta)) / cos(theta);
-    //      y = (r - x * cos(theta)) / sin(theta);
-
-    // sin(theta) != 0
-    if (location.x != 0 && location.x != 180)
+    // Process all the pixels of the accumulator image
+    for (int j = 0; j < anAccumulator.rows; ++j)
     {
-        pt1.y = (r - pt1.x * cos(theta)) / sin(theta);
-        pt2.y = (r - pt2.x * cos(theta)) / sin(theta);
-    }
-    // sin(theta) == 0 && cos(theta) != 0
-    else
-    {
-        pt1.x = (r - pt1.y * sin(theta)) / cos(theta);
-        pt2.x = (r - pt2.y * sin(theta)) / cos(theta);
-    }
+        for (int i = 0; i < anAccumulator.cols; ++i)
+        {
+            if (anAccumulator.at<unsigned char>(j, i) > aHoughThreshold)
+            {
+                // Find global maxima
+                Point location(i, j);
 
-    // Draw the line
-    line(output, pt1, pt2, aLineColour, aLineWidth);
+                Point pt1(               0, 0);
+                Point pt2(anImage.cols - 1, anImage.rows - 1);
+
+                double theta = deg2rad(location.x);
+
+                double r = location.y;
+                r -= anAccumulator.rows / 2.0;
+
+                cout << location << "  " << int(anAccumulator.at<unsigned char>(j, i)) << "   " << aHoughThreshold << "  " << theta << "  " << r << endl;
+
+                // How to retrieve the line from theta and r:
+                //      x = (r - y * sin(theta)) / cos(theta);
+                //      y = (r - x * cos(theta)) / sin(theta);
+
+                // sin(theta) != 0
+                if (location.x != 0 && location.x != 180)
+                {
+                    pt1.x = (r - pt1.y * cos(theta)) / sin(theta);
+                    pt2.x = (r - pt2.y * cos(theta)) / sin(theta);
+                }
+                // sin(theta) == 0 && cos(theta) != 0
+                else
+                {
+                    pt1.y = (r - pt1.x * sin(theta)) / cos(theta);
+                    pt2.y = (r - pt2.x * sin(theta)) / cos(theta);
+                }
+
+                // Draw the line
+                line(output, pt1, pt2, aLineColour, aLineWidth);
+            }
+        }
+    }
 
     return output;
 }
