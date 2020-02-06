@@ -111,7 +111,7 @@ Mat drawLines(const Mat& anImage,
 //  Global variables
 //******************************************************************************
 
-int g_canny_low_threshold = 0;
+int g_canny_low_threshold = 60;
 int g_hough_low_threshold = 60;
 const int g_max_low_threshold = 100;
 const int g_ratio = 3;
