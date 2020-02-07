@@ -24,6 +24,7 @@ When using the program with
 
 ![Screenshot here](hough_screenshot.png)
 
+As you can observe, there are four local maxima (the bright spots) in the accumulator. Each of them corresponds to a line found using the Canny operator.
 
 Copyright (c) 2020, Dr Franck P. Vidal (f.vidal@bangor.ac.uk) [http://www.fpvidal.net/](http://www.fpvidal.net/), [Module ICP-3038:
 Computer Vision (20cr)](https://www.bangor.ac.uk/computer-science-and-electronic-engineering/undergraduate-modules/ICP-3038), All rights reserved.
