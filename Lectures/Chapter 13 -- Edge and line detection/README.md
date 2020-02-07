@@ -5,7 +5,8 @@ Content:
 - `CMakeLists.txt`: Script for CMake
 - `hough_transform.cxx`: Own implementation of the Hough transform
 - `sobel_image.cxx`: Skeleton to implement an edge detection using the Sobel operators and a binary threshold
-- `lines.png`: A test image for the Hough transform ![`lines.png` here](lines.png)
+- `lines.png`: A test image for the Hough transform
+![`lines.png` here](lines.png)
 
 When running `hough_transform` five windows will be created:
 
@@ -19,6 +20,7 @@ When running `hough_transform` five windows will be created:
 
 When using the program with
  `lines.png` as an argument, you will see
+
 ![Screenshot here](hough_screenshot.png)
 
 
