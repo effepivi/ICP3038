@@ -26,10 +26,11 @@ Everything we did last week is relevant for today's session.
 You are also expected to have completed Lab~7 already as we need to convert an image from greyscale (binary in fact) to RGB.
 
 ![Warning](doc/UK_traffic_sign_562.png)
-**Note for Mac users:** I had problem OpenCV from Homebrew using my Macbook Pro. I had to re-install it using the command line as follows:
+**Note for Mac users:** I had problem OpenCV from Homebrew using my Macbook Pro. To enable the camera, I had to re-install it using the command line as follows:
 
 - **OpenCV 3.x:** `brew install opencv3 --with-ffmpeg --with-libdc1394 --with-qt5`
 - **OpenCV 4.x:** `brew install opencv4 --with-ffmpeg --with-libdc1394 --with-qt5`
+It'll take a while as OpenCV needs to be re-compiled.
 
 
 ## Video from a file
@@ -43,10 +44,14 @@ The program takes three arguments from the command line:
 
 Test videos can be found at:
 
-- [http://www.mysticfractal.com/video/avi1.html]{http://www.mysticfractal.com/video/avi1.html}
-- [http://techslides.com/sample-files-for-development/]{http://techslides.com/sample-files-for-development/}
-- [http://www.technical-recipes.com/2011/displaying-avi-video-using-opencv/]{http://www.technical-recipes.com/2011/displaying-avi-video-using-opencv/}
-- [http://www.engr.colostate.edu/me/facil/dynamics/avis.htm]{http://www.engr.colostate.edu/me/facil/dynamics/avis.htm}
+-
+[http://www.mysticfractal.com/video/avi1.html]{http://www.mysticfractal.com/video/avi1.html}
+-
+[http://techslides.com/sample-files-for-development/]{http://techslides.com/sample-files-for-development/}
+-
+[http://www.technical-recipes.com/2011/displaying-avi-video-using-opencv/]{http://www.technical-recipes.com/2011/displaying-avi-video-using-opencv/}
+-
+[http://www.engr.colostate.edu/me/facil/dynamics/avis.htm]{http://www.engr.colostate.edu/me/facil/dynamics/avis.htm}
 
 We will display a window with two images, the input and the output, side by side (see Fig.~\ref{fig:screenshot}).
 
