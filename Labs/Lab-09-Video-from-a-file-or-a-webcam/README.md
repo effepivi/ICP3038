@@ -218,6 +218,13 @@ Its drawback is that it produces large files as each frame is saved in JPEG.
 
 We read frames in a loop of the form:
 
+- Read new frame;
+- Pre-process the new frame;
+- Process the frame (here cartoonise it);
+- Save the result into the output video stream.
+
+In our case it looks like:
+
 ![Listing.](doc/carbon(9).png)
 <!--
 ```cpp
@@ -267,8 +274,9 @@ If the input size has been changed, we rescale the frame.
 Then the image processing step is performed in the `cartoonise` callback then the new image is added to the output stream if needed.
 We now wait for the key press event or for *X* milliseconds with *X=*`milliseconds_per_frame` (computed in Section \ref{sec:param}).
 
+You need to modify the code above to:
 
-To get a frame, we use:
+- Get a frame, we use:
 
 ![Listing.](doc/carbon(10).png)
 <!--
@@ -279,7 +287,7 @@ input_stream_status = video_capture.read(g_current_frame);
 It returns a boolean value, which is `true` if the function call was successful.
 If it returned `false`, then there is no processing to do and the loop can end.
 
-To resize the frame, use:
+- Resize the frame, use:
 
 ![Listing.](doc/carbon(11).png)
 <!--
@@ -290,7 +298,7 @@ if (input_video_size != scaled_video_size)
 }
 ```-->
 
-To add a frame to the output video stream,
+- Add a output frame to the output video stream,
 
 ![Listing.](doc/carbon(12).png)
 <!--
