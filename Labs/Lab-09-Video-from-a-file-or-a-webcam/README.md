@@ -53,7 +53,7 @@ Test videos can be found at:
 
 We will display a window with two images, the input and the output, side by side. See the image below for an example using the video provided at [http://technical-recipes.com/Downloads/SAMPLE.AVI](http://technical-recipes.com/Downloads/SAMPLE.AVI).
 
-![Screenshot.](doc/screenshot1.png)
+![Example of output.](doc/output.mp4)
 
 ### Global Variables
 
