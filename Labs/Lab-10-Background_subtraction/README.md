@@ -71,9 +71,13 @@ In the output window, we will display four images side by side. Make sure to use
 - NF * FM is a RGB image;
 - BM and FM are binary images. They should be stored in greyscale encoding with unsigned char. Pixel values will be between 0 and 1. To visualise them, don't forget i) to use a temporary image where ii)  to convert them into RGB and iii) to multiply all the pixels by 255.
 
+The large output image/window will be formatted as fallows:
+
 | img1 | img2 |   img3  | img4 | img5 |
 |------|------|---------|------|------|
 |  NF  |  BG  | NF * FM |  BM  |  FM  |
+
+You can use `cv::putText` to label each sub-image in the output.
 
 
 Note: Don't forget that you'll have to provide evidence of a working program when submitting your assignment.
