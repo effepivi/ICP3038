@@ -14,6 +14,8 @@ The aims of today's lab are:
 
 The point is to use a video stream (from a file or a camera) and do some image processing on the incoming frames (and cartoonising images is fun). You will then adapt this lab to create your own motion detection algorithm.
 
+![Screenshot](doc/screenshot2.png)
+
 To achieve these goals, we will create several programs:
 
 1. `videoFromFile.cxx`: A simple program using OpenCV to display a video and perform some image processing tasks (this file is provided);
@@ -392,7 +394,7 @@ Also, set the number of frames per second to 15.
 To use the camera instead of a file,
 
 ![](doc/carbon(16).png)
-
+<!--
 use
 ```cpp
     // Open the video stream from the camera
@@ -402,9 +404,7 @@ instead of
 ```cpp
     // Open the video stream from a file
     cv::VideoCapture video_capture(input_file_name);
-```
+```-->
 
 Then you can create and process your own videos...
-For example, Fig.~\ref{fig:screenshot2} shows my fish tank. You can also upload your video files on YouTube, see [https://www.youtube.com/watch?v=RbH2bdrNGbc](https://www.youtube.com/watch?v=RbH2bdrNGbc}.
-
-![Screenshot](doc/screenshot2.png)
+For example, Fig.~\ref{fig:screenshot2} shows my fish tank. You can also upload your video files on YouTube, see [https://www.youtube.com/watch?v=RbH2bdrNGbc](https://www.youtube.com/watch?v=RbH2bdrNGbc).
