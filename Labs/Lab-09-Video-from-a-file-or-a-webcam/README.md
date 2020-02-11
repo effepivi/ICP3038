@@ -217,7 +217,7 @@ Its drawback is that it produces large files as each frame is saved in JPEG.
 We read frames in a loop of the form:
 
 ![Listing.](doc/carbon(9).png)
-
+<!--
 ```cpp
 // Last key pressed
 int key;
@@ -257,7 +257,7 @@ do
 // Stop the loop if 'q' or 'Escape' have been pressed or
 // there is no image left in the video stream
 while (key != 'q' && key != 27 && input_stream_status);
-```
+```-->
 
 We use a `do-while` loop to make sure that at least one image is processed.
 We start by getting a new frame from the stream and check if an error occurred (e.g. no more frame to read).
@@ -269,29 +269,30 @@ We now wait for the key press event or for $X$ milliseconds with $X=$`millisecon
 To get a frame, we use:
 
 ![Listing.](doc/carbon(10).png)
-
+<!--
 ```cpp
 input_stream_status = video_capture.read(g_current_frame);
-```
+```-->
 
 It returns a boolean value, which is `true` if the function call was successful.
 If it returned `false`, then there is no processing to do and the loop can end.
 
-
 To resize the frame, use:
 
 ![Listing.](doc/carbon(11).png)
-
+<!--
 ```cpp
 if (input_video_size != scaled_video_size)
 {
     cv::resize(g_current_frame, g_current_frame, scaled_video_size);
 }
-```
+```-->
 
-To add a frame to the output video stream, use:
+To add a frame to the output video stream,
 
 ![Listing.](doc/carbon(12).png)
+<!--
+use
 
 ```cpp
 video_writer.write(g_displayed_image);
@@ -301,7 +302,7 @@ or
 
 ```cpp
 video_writer << g_displayed_image;
-```
+```-->
 
 ### Image processing step
 
