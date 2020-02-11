@@ -58,7 +58,7 @@ We will display a window with two images, the input and the output, side by side
 First of all, we need some global variables:
 
 ![Listing.](doc/carbon.png)
-
+<!--
 ```cpp
 const int g_edge = 5; // Edge around the images in the window
 
@@ -68,7 +68,7 @@ cv::Mat g_displayed_image; // The image displayed in the window
 
 // The title the window
 string g_window_title("Video");
-```
+```-->
 
 ### Opening the video stream
 
@@ -76,11 +76,11 @@ The class corresponding to video streams, either from files or cameras, is `cv::
 To opening a stream, use the constructor:
 
 ![Listing.](doc/carbon(1).png)
-
+<!--
 ```cpp
 // Open the video file
 cv::VideoCapture video_capture(input_file_name);
-```
+```-->
 
 
 Always check if an error occurred, and if it did, throw an error:
@@ -105,7 +105,7 @@ if (!video_capture.isOpened())
 Now we need to read the framerate and the image size:
 
 ![Listing.](doc/carbon(3).png)
-
+<!--
 ```cpp
 // Read the frame rate of the video (does not always work)
 double fps = video_capture.get(CV_CAP_PROP_FPS);
@@ -120,7 +120,7 @@ int milliseconds_per_frame(round(seconds_per_frame * 1000.0));
 // Get the video size
 cv::Size input_video_size(video_capture.get(CV_CAP_PROP_FRAME_WIDTH),
 video_capture.get(CV_CAP_PROP_FRAME_HEIGHT));
-```
+```-->
 
 For OpenCV 4, replace
 
@@ -131,7 +131,7 @@ For OpenCV 4, replace
 We can now compute the image size when the scaling factor is applied and the size of the image that will be displayed in the window:
 
 ![Listing.](doc/carbon(4).png)
-
+<!--
 ```cpp
 // Apply the scaling factor
 cv::Size scaled_video_size(input_video_size.width * scaling_factor,
@@ -140,19 +140,19 @@ cv::Size scaled_video_size(input_video_size.width * scaling_factor,
 // Set the size of the image displayed in the window
 cv::Size target_video_size(g_edge * 3 + 2 * scaled_video_size.width,
         g_edge * 2 + scaled_video_size.height);
-```
+```-->
 
 We are now ready to create our new RGB image with the default colour [128, 128, 128]:
 
 ![Listing.](doc/carbon(5).png)
-
+<!--
 ```cpp
 // Create the output image
 g_displayed_image = cv::Mat(target_video_size.height,
         target_video_size.width,
         CV_8UC3,
         cv::Scalar(128, 128, 128));
-```
+```-->
 
 ### Setting the file writer
 
@@ -161,25 +161,25 @@ You will need to specify a file name and a codec when you open the file.
 To get the codec of the input video stream, use:
 
 ![Listing.](doc/carbon(6).png)
-
+<!--
 ```cpp
 int input_codec = video_capture.get(CV_CAP_PROP_FOURCC);
-```
+```-->
 
 To open the file, you need:
 
 ![Listing.](doc/carbon(7).png)
-
+<!--
 ```cpp
-// video_writer.open(output_file_name, input_codec, fps, target_video_size, true);
-```
+video_writer.open(output_file_name, input_codec, fps, target_video_size, true);
+```-->
 
 You can notice the `fps` and `target_video_size` are used here to specify the properties of the video stream.
 
 Below is the code you can use to open the output file:
 
 ![Listing.](doc/carbon(8).png)
-
+<!--
 ```cpp
 // Get the codec of the input video
 int input_codec = video_capture.get(CV_CAP_PROP_FOURCC);
@@ -200,7 +200,7 @@ if (!video_writer.isOpened())
         cerr << "WARNING: Cannot create the output video." << endl;
     }
 }
-```
+```-->
 
 For OpenCV 4, replace
 
