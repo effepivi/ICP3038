@@ -407,5 +407,5 @@ instead of
     cv::VideoCapture video_capture(input_file_name);
 ```-->
 
-Then you can create and process your own videos...
-For example, Fig.~\ref{fig:screenshot2} shows my fish tank. You can also upload your video files on YouTube, see [https://www.youtube.com/watch?v=RbH2bdrNGbc](https://www.youtube.com/watch?v=RbH2bdrNGbc).
+Then you can create and process your own videos... Don't forget that you'll have to provide evidence of a working program when submitting your assignment.
+<!--For example, Fig.~\ref{fig:screenshot2} shows my fish tank. -->For example you can upload your video files on YouTube<!--, see [https://www.youtube.com/watch?v=RbH2bdrNGbc](https://www.youtube.com/watch?v=RbH2bdrNGbc)-->.
