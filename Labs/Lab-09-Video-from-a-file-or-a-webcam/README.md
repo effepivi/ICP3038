@@ -51,7 +51,7 @@ Test videos can be found at:
 - [http://www.technical-recipes.com/2011/displaying-avi-video-using-opencv/](http://www.technical-recipes.com/2011/displaying-avi-video-using-opencv/)
 - [http://www.engr.colostate.edu/me/facil/dynamics/avis.htm](http://www.engr.colostate.edu/me/facil/dynamics/avis.htm)
 
-We will display a window with two images, the input and the output, side by side (see Fig.~\ref{fig:screenshot}).
+We will display a window with two images, the input and the output, side by side. See the image below for an example using the video provided at [http://technical-recipes.com/Downloads/SAMPLE.AVI](http://technical-recipes.com/Downloads/SAMPLE.AVI).
 
 ![Screenshot.](doc/screenshot1.png)
 
@@ -265,7 +265,7 @@ We use a `do-while` loop to make sure that at least one image is processed.
 We start by getting a new frame from the stream and check if an error occurred (e.g. no more frame to read).
 If the input size has been changed, we rescale the frame.
 Then the image processing step is performed in the `cartoonise` callback then the new image is added to the output stream if needed.
-We now wait for the key press event or for $X$ milliseconds with $X=$`milliseconds_per_frame` (computed in Section \ref{sec:param}).
+We now wait for the key press event or for *X* milliseconds with *X=*`milliseconds_per_frame` (computed in Section \ref{sec:param}).
 
 
 To get a frame, we use:
@@ -316,10 +316,10 @@ The data flow is as follows:
 1. Copy the current frame (`g_current_frame`) into the large image (`g_displayed_image`). Add an edge of `g_edge` pixels around `g_current_frame`.
     We saw how to do it last week.
 2. Convert the image (`g_current_frame`) to greyscale. Save the resulting image in (`greyscale_frame`).
-3. Apply a median filter on `greyscale_frame` with a filter size of $7 \times 7$ pixels. Save the resulting image in `median_frame`.
+3. Apply a median filter on `greyscale_frame` with a filter size of 7x7 pixels. Save the resulting image in `median_frame`.
 4. Perform a Laplacian filter on `median_frame`.
 You must use unsigned char for the output, i.e. the depth is `CV_8U`.
-The kernel size is $5 \times 5$.
+The kernel size is 5x5.
 Save the resulting image in `edge_frame`.
 5. Perform an edge detection using `edge_frame` and the threshold function. The threshold value is 100, the maximum value is 255, and the thresholding type is `THRES_BINARY_INV` (or 1).
    Save the resulting image in `mask_frame`.
@@ -335,8 +335,9 @@ Save the resulting image in `edge_frame`.
 #endif
 ```
 
-7. Apply a bilateral filter 10 times. \footnote{A bilateral filter is a non-linear, edge-preserving, and noise-reducing smoothing filter for images.}
-    The kernel size is 5, sigma colour is 5, and sigma space is 7.
+7. Apply a bilateral filter 10 times.
+Note: A bilateral filter is a non-linear, edge-preserving, and noise-reducing smoothing filter for images.
+The kernel size is 5, sigma colour is 5, and sigma space is 7.
 It is done using the code as follows:
 
 ```cpp
