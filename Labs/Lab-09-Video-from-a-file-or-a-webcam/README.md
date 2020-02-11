@@ -44,24 +44,20 @@ The program takes three arguments from the command line:
 
 Test videos can be found at:
 
--
-[http://www.mysticfractal.com/video/avi1.html]{http://www.mysticfractal.com/video/avi1.html}
--
-[http://techslides.com/sample-files-for-development/]{http://techslides.com/sample-files-for-development/}
--
-[http://www.technical-recipes.com/2011/displaying-avi-video-using-opencv/]{http://www.technical-recipes.com/2011/displaying-avi-video-using-opencv/}
--
-[http://www.engr.colostate.edu/me/facil/dynamics/avis.htm]{http://www.engr.colostate.edu/me/facil/dynamics/avis.htm}
+- [http://www.mysticfractal.com/video/avi1.html](http://www.mysticfractal.com/video/avi1.html)
+- [http://techslides.com/sample-files-for-development/](http://techslides.com/sample-files-for-development/)
+- [http://www.technical-recipes.com/2011/displaying-avi-video-using-opencv/](http://www.technical-recipes.com/2011/displaying-avi-video-using-opencv/)
+- [http://www.engr.colostate.edu/me/facil/dynamics/avis.htm](http://www.engr.colostate.edu/me/facil/dynamics/avis.htm)
 
 We will display a window with two images, the input and the output, side by side (see Fig.~\ref{fig:screenshot}).
 
-![Screenshot.]{doc/screenshot1.png}
+![Screenshot.](doc/screenshot1.png)
 
 ### Global Variables
 
 First of all, we need some global variables:
 
-![Listing.]{doc/carbon.png}
+![Listing.](doc/carbon.png)
 
 ```cpp
 const int g_edge = 5; // Edge around the images in the window
@@ -79,7 +75,7 @@ string g_window_title("Video");
 The class corresponding to video streams, either from files or cameras, is `cv::VideoCapture`.
 To opening a stream, use the constructor:
 
-![Listing.]{doc/carbon(1).png}
+![Listing.](doc/carbon(1).png)
 
 ```cpp
 // Open the video file
@@ -89,7 +85,7 @@ cv::VideoCapture video_capture(input_file_name);
 
 Always check if an error occurred, and if it did, throw an error:
 
-![Listing.]{doc/carbon(2).png}
+![Listing.](doc/carbon(2).png)
 
 ```cpp
 // The image has not been loaded
@@ -108,7 +104,7 @@ if (!video_capture.isOpened())
 
 Now we need to read the framerate and the image size:
 
-![Listing.]{doc/carbon(3).png}
+![Listing.](doc/carbon(3).png)
 
 ```cpp
 // Read the frame rate of the video (does not always work)
@@ -134,7 +130,7 @@ For OpenCV 4, replace
 
 We can now compute the image size when the scaling factor is applied and the size of the image that will be displayed in the window:
 
-![Listing.]{doc/carbon(4).png}
+![Listing.](doc/carbon(4).png)
 
 ```cpp
 // Apply the scaling factor
@@ -148,7 +144,7 @@ cv::Size target_video_size(g_edge * 3 + 2 * scaled_video_size.width,
 
 We are now ready to create our new RGB image with the default colour [128, 128, 128]:
 
-![Listing.]{doc/carbon(5).png}
+![Listing.](doc/carbon(5).png)
 
 ```cpp
 // Create the output image
@@ -164,7 +160,7 @@ The class needed to write a file is `cv::VideoWriter`.
 You will need to specify a file name and a codec when you open the file.
 To get the codec of the input video stream, use:
 
-![Listing.]{doc/carbon(6).png}
+![Listing.](doc/carbon(6).png)
 
 ```cpp
 int input_codec = video_capture.get(CV_CAP_PROP_FOURCC);
@@ -172,7 +168,7 @@ int input_codec = video_capture.get(CV_CAP_PROP_FOURCC);
 
 To open the file, you need:
 
-![Listing.]{doc/carbon(7).png}
+![Listing.](doc/carbon(7).png)
 
 ```cpp
 // video_writer.open(output_file_name, input_codec, fps, target_video_size, true);
@@ -182,7 +178,7 @@ You can notice the `fps` and `target_video_size` are used here to specify the pr
 
 Below is the code you can use to open the output file:
 
-![Listing.]{doc/carbon(8).png}
+![Listing.](doc/carbon(8).png)
 
 ```cpp
 // Get the codec of the input video
@@ -220,7 +216,7 @@ Its drawback is that it produces large files as each frame is saved in JPEG.
 
 We read frames in a loop of the form:
 
-![Listing.]{doc/carbon(9).png}
+![Listing.](doc/carbon(9).png)
 
 ```cpp
 // Last key pressed
@@ -272,7 +268,7 @@ We now wait for the key press event or for $X$ milliseconds with $X=$`millisecon
 
 To get a frame, we use:
 
-![Listing.]{doc/carbon(10).png}
+![Listing.](doc/carbon(10).png)
 
 ```cpp
 input_stream_status = video_capture.read(g_current_frame);
@@ -284,7 +280,7 @@ If it returned `false`, then there is no processing to do and the loop can end.
 
 To resize the frame, use:
 
-![Listing.]{doc/carbon(11).png}
+![Listing.](doc/carbon(11).png)
 
 ```cpp
 if (input_video_size != scaled_video_size)
@@ -295,7 +291,7 @@ if (input_video_size != scaled_video_size)
 
 To add a frame to the output video stream, use:
 
-![Listing.]{doc/carbon(12).png}
+![Listing.](doc/carbon(12).png)
 
 ```cpp
 video_writer.write(g_displayed_image);
@@ -394,7 +390,7 @@ Also, set the number of frames per second to 15.
 
 To use the camera instead of a file,
 
-![]{doc/carbon(16).png}
+![](doc/carbon(16).png)
 
 use
 ```cpp
@@ -408,6 +404,6 @@ instead of
 ```
 
 Then you can create and process your own videos...
-For example, Fig.~\ref{fig:screenshot2} shows my fish tank. You can also upload your video files on YouTube, see [https://www.youtube.com/watch?v=RbH2bdrNGbc]{https://www.youtube.com/watch?v=RbH2bdrNGbc}.
+For example, Fig.~\ref{fig:screenshot2} shows my fish tank. You can also upload your video files on YouTube, see [https://www.youtube.com/watch?v=RbH2bdrNGbc](https://www.youtube.com/watch?v=RbH2bdrNGbc}.
 
-![Screenshot]{doc/screenshot2.png}
+![Screenshot](doc/screenshot2.png)
