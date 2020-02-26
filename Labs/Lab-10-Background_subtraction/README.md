@@ -51,12 +51,19 @@ In the loop,
 1. Read the new frame (NF);
 2. Perform the background subtraction to compute:
 
-    1. The background mask (BM);
-    2. The foreground mask (FM);
+    1. The background mask (BM):
+      
+      - Make sure BM is in greyscale, luminance, and that pixel values are in the range [0-1];
+      
+    2. The foreground mask (FM):
+    
+      - Use the negative of BM;
+        
     3. Combine FM and NF so that a pixel value is equal:
 
-        - to 0 if its pixel location corresponds to the background;
-        - to NF's pixel colour if its location corresponds to the foreground.
+      - to 0 if its pixel location corresponds to the background;
+      - to NF's pixel colour if its location corresponds to the foreground;
+      - this is achieved using a pixel-wise product between FM and NF, which is why we need to use the range [0-1] in BM and FM.
 
 ## Background update
 
@@ -64,7 +71,7 @@ At the end of the loop, add your own function to update BG.
 
 ## Output
 
-In the output window, we will display four images side by side. Make sure to use RGB in the visualisation. You need to create one large RGB image big enoguh to display four images.
+In the output window, we will display five images side by side. Make sure to use RGB in the visualisation. You need to create one large RGB image big enoguh to display five images.
 
 - NF is a RGB image;
 - BG is a RGB image;
