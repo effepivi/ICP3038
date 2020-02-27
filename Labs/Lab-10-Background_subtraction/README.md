@@ -42,7 +42,13 @@ Reuse the code from last week, so that your program can:
 
 ## Background initialisation
 
-At the start of the video processing, add your own function to initialise the background (BG).
+At the start of the video processing, add your own function to initialise the background (BG). We discussed 3 ways to initialise the background:
+
+- Use the first frame (assuming there is no moving object in the image). Just clone the incoming frame into BG. It's not robust but quick to implement.
+- Use a temporal mean filter: Average the pixel values of the last *N* frames. It's a bit harder to implement, but it's more robust.
+- Use a temporal median filter of the last *N* frames. It's definitely harder to implement, but it's more robust.
+
+(be strategic: i) impelement the easiest one, ii) then the rest of the functionalities, and iii) if you have more time improve the background initialisation).
 
 ## Background subtraction
 
@@ -53,7 +59,10 @@ In the loop,
 
     1. The background mask (BM):
       
-      - Make sure BM is in greyscale, luminance, and that pixel values are in the range [0-1];
+      - For each pixel (i,j) if |NF(i,j) - BG(i,j)| >= T, then BM(i,j) = 1, else BM(i,j) = 0;
+      - Make sure BM is in greyscale, luminance, and that pixel values are in the range [0-1].
+      
+      (note: T is a threshold. You saw how to control a threshold value interactively using a trackbar).
       
     2. The foreground mask (FM):
     
@@ -63,7 +72,9 @@ In the loop,
 
       - to 0 if its pixel location corresponds to the background;
       - to NF's pixel colour if its location corresponds to the foreground;
-      - this is achieved using a pixel-wise product between FM and NF, which is why we need to use the range [0-1] in BM and FM.
+      - this is achieved using a pixel-wise product between FM and NF, which is why we need to use the range [0-1] in BM and FM. 
+      
+      (note: Before you can use the *mul* method, e.g. *FM.mul(NF)*, you have to convert FM into RGB.
 
 ## Background update
 
