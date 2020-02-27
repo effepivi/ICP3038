@@ -48,7 +48,7 @@ At the start of the video processing, add your own function to initialise the ba
 - Use a temporal mean filter: Average the pixel values of the last *N* frames. It's a bit harder to implement, but it's more robust.
 - Use a temporal median filter of the last *N* frames. It's definitely harder to implement, but it's more robust.
 
-(be strategic: i) impelement the easiest one, ii) then the rest of the functionalities, and iii) if you have more time improve the background initialisation).
+(be strategic: i) impelement the easiest one, ii) then the rest of the functionalities of the program, and iii) if you have more time revisit the background initialisation function to implement a more robust algorithm).
 
 ## Background subtraction
 
