@@ -6,8 +6,8 @@
 
 The aims of today's lab are:
 
-- Processing a video stream, either from a file or the computer's webcam (note that the camera as to be static);
-- Implement a background subtraction (BS) algorithm:
+  - Processing a video stream, either from a file or the computer's webcam (note that the camera as to be static);
+  - Implement a background subtraction (BS) algorithm:
     - Initialising the background;
     - Updating the background;
     - Generating the foreground mask;
@@ -28,25 +28,25 @@ Background subtraction is very commonly used for generating such masks.
 
 ## Create a new project
 
-1. Create a new directory with a meaningful name, e.g. `Lab10-background_subtraction/`.
-2. Copy `CMakeLists.txt` from last week and create a new source file, e.g. `background_subtractor.cxx`.
-3. Modify the new `CMakeLists.txt` file accordingly.
+ 1. Create a new directory with a meaningful name, e.g. `Lab10-background_subtraction/`.
+ 2. Copy `CMakeLists.txt` from last week and create a new source file, e.g. `background_subtractor.cxx`.
+ 3. Modify the new `CMakeLists.txt` file accordingly.
 
 ## Create a template program
 
 Reuse the code from last week, so that your program can:
 
-- Read a video stream (either from a file or the webcam);
-- Display the input frames from the video stream;
-- Display 4 other images next to it.
+  - Read a video stream (either from a file or the webcam);
+  - Display the input frames from the video stream;
+  - Display 4 other images next to it.
 
 ## Background initialisation
 
 At the start of the video processing, add your own function to initialise the background (BG). We discussed 3 ways to initialise the background:
 
-- Use the first frame (assuming there is no moving object in the image). Just clone the incoming frame into BG. It's not robust but quick to implement.
-- Use a temporal mean filter: Average the pixel values of the last *N* frames. It's a bit harder to implement, but it's more robust.
-- Use a temporal median filter of the last *N* frames. It's definitely harder to implement, but it's more robust.
+  - Use the first frame (assuming there is no moving object in the image). Just clone the incoming frame into BG. It's not robust but quick to implement.
+  - Use a temporal mean filter: Average the pixel values of the last *N* frames. It's a bit harder to implement, but it's more robust.
+  - Use a temporal median filter of the last *N* frames. It's definitely harder to implement, but it's more robust.
 
 (be strategic: i) impelement the easiest one, ii) then the rest of the functionalities of the program, and iii) if you have more time revisit the background initialisation function to implement a more robust algorithm).
 
@@ -54,8 +54,8 @@ At the start of the video processing, add your own function to initialise the ba
 
 In the loop,
 
-1. Read the new frame (NF);
-2. Perform the background subtraction to compute:
+ 1. Read the new frame (NF);
+ 2. Perform the background subtraction to compute:
 
     1. The background mask (BM):
       
@@ -84,10 +84,10 @@ At the end of the loop, add your own function to update BG.
 
 In the output window, we will display five images side by side. Make sure to use RGB in the visualisation. You need to create one large RGB image big enoguh to display five images.
 
-- NF is a RGB image;
-- BG is a RGB image;
-- NF * FM is a RGB image;
-- BM and FM are binary images. They should be stored in greyscale encoding with unsigned char. Pixel values will be between 0 and 1. To visualise them, don't forget i) to use a temporary image where ii)  to convert them into RGB and iii) to multiply all the pixels by 255.
+  - NF is a RGB image;
+  - BG is a RGB image;
+  - NF * FM is a RGB image;
+  - BM and FM are binary images. They should be stored in greyscale encoding with unsigned char. Pixel values will be between 0 and 1. To visualise them, don't forget i) to use a temporary image where ii)  to convert them into RGB and iii) to multiply all the pixels by 255.
 
 The large output image/window will be formatted as fallows:
 
