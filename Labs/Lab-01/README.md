@@ -345,11 +345,11 @@ ADD_EXECUTABLE (lab1-3 lab1-3.cxx)
 2. Edit `lab1-3.cxx` so that it:
     - It prompts the user to input a temperature in Celsius. (use `cout`).
     - Retrieve the temperature in Celsius into a floating point number (use `cin`).
-    - To convert temperatures in degrees Celsius to Fahrenheit, multiply by 1.8 (or 9/5) and add 32. Store the resulting value into another floating point number.
+    - To convert temperatures in degrees Celsius to Fahrenheit, multiply by 1.8 (or 9.0/5.0) and add 32. Store the resulting value into another floating point number.    
     - Print the result in the prompt using the format as follows (use `cout`):
 
     "XXX degrees Celsius is the same as YYY degrees Fahrenheit.", replacing XXX and YYY with the corresponding variables.
-
+3. Test your code to make sure it provides the right output. Next week will use CMake to do the testing for us.
 
 
 <!--
