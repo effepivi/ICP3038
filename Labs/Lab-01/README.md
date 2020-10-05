@@ -61,7 +61,8 @@ function of C.
 `cin` means "character input". It is used along with the extraction
 operator (`cout`>>+) to receive a stream of characters. The general
 syntax is:
-`cpp
+
+```cpp
 cin >> varName;
 ```
 
