@@ -126,15 +126,15 @@ Task 1: Using CMake {#task-1-using-cmake .unnumbered}
 
 ```
     ICP3038
-        -Lab-01
-            |- README.md
+        \-Lab-01
+            |-README.md
             |-bin (where you compile the code)
             |-lab1-1.c: experiment with printf
             |-lab1-1.cxx: experiment with cout <<
             |-lab1-2.c: experiment with scanf
             |-lab1-2.cxx: experiment with cin >>
             |-lab1-3.cxx: write a program that converts temperatures in Celsius |             into Fahrenheit
-            - CMakeLists.txt
+            \-CMakeLists.txt
 ```
 
 # Task 1: Edit CMakeLists.text
