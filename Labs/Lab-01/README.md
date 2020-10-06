@@ -1,8 +1,8 @@
 ---
-title: Lab 1 -- Introduction to C++ programming
+title: Lab 2 -- Introduction to C++ programming
 author: Dr Franck P. Vidal
 subtitle: ICE-3038-0 Computer Vision 202021
-date: Oct 5th, 2020
+date: Oct 7th, 2020
 keywords: ICP3038, Computer Vision, C/C++, image processing, OpenCV, Bangor University, School of Computer Science and Electronic Engineering
 institute: School of Computer Science and Electronic Engineering, Bangor University
 ---
@@ -31,6 +31,7 @@ The C++ objects and methods that you need to use are:
     - `istream operator>> (&val)`
     - `std::cin`
     - `std::cout`
+    - `std::string`
 
 `cout`, `cin`, `<<`, `>>`, are defined in `<iostream>` header
 file. The 'c' in `cout` refers to "character" and 'out' means "output":
@@ -126,14 +127,14 @@ Task 1: Using CMake {#task-1-using-cmake .unnumbered}
 
 ```
     ICP3038
-        \-Lab-01
+        \-Lab-02
             |-README.md
             |-bin (where you compile the code)
-            |-lab1-1.c: experiment with printf
-            |-lab1-1.cxx: experiment with cout <<
-            |-lab1-2.c: experiment with scanf
-            |-lab1-2.cxx: experiment with cin >>
-            |-lab1-3.cxx: write a program that converts temperatures in Celsius |             into Fahrenheit
+            |-lab2-1.c: experiment with printf
+            |-lab2-1.cxx: experiment with cout <<
+            |-lab2-2.c: experiment with scanf
+            |-lab2-2.cxx: experiment with cin >>
+            |-lab2-3.cxx: write a program that converts temperatures in Celsius |             into Fahrenheit
             \-CMakeLists.txt
 ```
 
@@ -149,10 +150,10 @@ Using your favourite text editor, open the CMakeLists.txt file that is provided 
 CMAKE_MINIMUM_REQUIRED (VERSION 3.10)
 
 # set the project name
-PROJECT (ICP3038-Lab1)
+PROJECT (ICP3038-lab2)
 
 # add the executable
-ADD_EXECUTABLE (lab1-1-C lab1-1.c)
+ADD_EXECUTABLE (lab2-1-C lab2-1.c)
 ```
 
 Note that this example uses lower case commands in the CMakeLists.txt file. Upper, lower, and mixed case commands are supported by CMake. The source code for tutorial.cxx is provided in the Step1 directory and can be used to compute the square root of a number.
@@ -214,7 +215,7 @@ int main(void)
 }
 ```
 
-Type this code in `lab1-1.c`. Once done, compile it and run it. The output I get on my GNU/Linux computer is as follows:
+Type this code in `lab2-1.c`. Once done, compile it and run it. The output I get on my GNU/Linux computer is as follows:
 
 ```
 To print an int in C, I need: -1
@@ -228,17 +229,28 @@ To print a double in C, I need: -1.400000
 To print a string in C, I need: Hey you!
 ```
 
+## Riddle 1 about data types and their limitations
+
 Can you explain what is going on?
+
+## Riddle 2 about data types and their limitations
+
+Yesterday I read this article: [https://www.theguardian.com/politics/2020/oct/05/how-excel-may-have-caused-loss-of-16000-covid-tests-in-england](https://www.theguardian.com/politics/2020/oct/05/how-excel-may-have-caused-loss-of-16000-covid-tests-in-england).
+Can you explain what went wrong from a computer science point of view?
+From this article, I guessed how a row ID is encoded in Excel.
+Can you guess? ;-)
+As a developer, it is important to understand the data types and  their limitations.
+
 
 # Task 4: Convert this code into C++
 
 1. Add a new line in the CMakeLists.txt file:
 
 ```cmake
-ADD_EXECUTABLE (lab1-1-CXX lab1-1.cxx)
+ADD_EXECUTABLE (lab2-1-CXX lab2-1.cxx)
 ```
 
-2. Copy paste from `lab1-1.c` into `lab1-1.cxx`.
+2. Copy paste from `lab2-1.c` into `lab2-1.cxx`.
 3. Change the header file from `stdio.h` to `iostream` (yes, omit `.h`).
 4. `printf` is replaced with `std::cout <<` as follows:
 
@@ -289,7 +301,7 @@ using namespace std;
 1. Add a new line in the CMakeLists.txt file:
 
 ```cmake
-ADD_EXECUTABLE (lab1-2-C lab1-2.c)
+ADD_EXECUTABLE (lab2-2-C lab2-2.c)
 ```
 
 2. Consider the program below:
@@ -301,21 +313,21 @@ int main(void)
 {
     // Start the block with the declaration and initialisation of the local variables
     int i = -1;
-    char* string = "Hey you!";
+    char my_string[16];
 
     printf("Please enter an integer\n");
-    scanf("%i", i);
+    scanf("%i", &i);
     printf("You typed \"%i\"\n", i);
 
     printf("Please enter a string (in other words anything)\n");
-    scanf("%s", string);
-    printf("You typed \"%s\"\n", string);
+    scanf("%15s", &my_string);
+    printf("You typed \"%s\"\n", my_string);
 
     return 0;
 }
 ```
 
-Type this code in `lab1-2.c`. Once done, compile it and run it.
+Type this code in `lab2-2.c`. Once done, compile it and run it.
 In C, `scanf`, just like `printf` needs to know the data type of the variables it is using. There is no polymorphism in C, the compiler can't guess.
 
 
@@ -326,23 +338,40 @@ In C++, this is another story.
 1. Add a new line in the CMakeLists.txt file:
 
 ```cmake
-ADD_EXECUTABLE (lab1-2-CXX lab1-2.cxx)
+ADD_EXECUTABLE (lab2-2-CXX lab2-2.cxx)
 ```
 
-2. Copy paste from `lab1-2.c` into `lab1-2.cxx`.
+2. Copy paste from `lab2-2.c` into `lab2-2.cxx`.
 3. Change the header file from `stdio.h` to `iostream` (yes, omit `.h`).
 4. `printf` is replaced with `std::cout <<`.
 5. To input a value in a variable from the prompt, replace `scanf("%i", i);` with `std::cin >> i;` (you may omit `std::` if you added `using namespace std;`).
 6. Compile and run your code. If there is a compilation error, DON'T CARRY ON UNTIL YOU FIX IT.
 
-# Task 7: Write a program that convert a temperature in Celsius into Fahrenheit
+
+
+# Task 7: Improve this program further
+
+1. Did you notice the two numbers, 16 and 15 (i.e. $15=16-1$)?
+```cpp
+char my_string[16];
+```
+means that `my_string` is an array of 16 signed integer numbers stored using 8 bits.
+The longest string it can store is $16 -1$ as the array must contain the end of string character `\0`.
+What if there are more than 15 characters? You must edit the program and manually change the values, and recompile the code. Not ideal to say the least, source of bugs and crashes. Ideally we should avoid hard coding such limits ([see Riddle 2 above](#riddle-2 about-data-types-and-their-limitations)).
+2. Add a new header file, `<string>`. This is where the C++ string class is declared.
+3. Change the C string (`char my_string[16];`) into a C++ string (`std::string my_string;`). You may omit `std::` if you used `using namespace std`.
+4. Compile and run your code. If there is a compilation error, DON'T CARRY ON UNTIL YOU FIX IT.
+5. Now, you don't need to worry about the size of the string, the code is more robust.
+
+
+# Task 8: Write a program that convert a temperature in Celsius into Fahrenheit
 
 1. Add a new line in the CMakeLists.txt file:
 
 ```cmake
-ADD_EXECUTABLE (lab1-3 lab1-3.cxx)
+ADD_EXECUTABLE (lab2-3 lab2-3.cxx)
 ```
-2. Edit `lab1-3.cxx` so that it:
+2. Edit `lab2-3.cxx` so that it:
     - It prompts the user to input a temperature in Celsius. (use `cout`).
     - Retrieve the temperature in Celsius into a floating point number (use `cin`).
     - To convert temperatures in degrees Celsius to Fahrenheit, multiply by 1.8 (or 9.0/5.0) and add 32. Store the resulting value into another floating point number.    
