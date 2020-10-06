@@ -16,10 +16,12 @@ I personally use the three operating systems (OS), but I have also my personal p
 In this matter, I will respect your choice.
 I also developed a large open source library.
 There are:
+
 - 71 .h files,
 - 39 .inl files,
 - 74 .cxx files, and
 - 27 .py files.
+
 I need to make sure people can compile it 1) regardless of their choice of OS, 2) regardless of their choice of compiler, and 3) regardless of the age of the compiler.
 In other words, my code and how I package it have to be portable and cross-platform.
 This is good practice too.
@@ -33,12 +35,13 @@ The C++ objects and methods that you need to use are:
     - `std::cout`
     - `std::string`
 
-`cout`, `cin`, `<<`, `>>`, are defined in `<iostream>` header
+`cout`, `cin`, `<<`, `>>`, are defined in the `<iostream>` header
 file. The 'c' in `cout` refers to "character" and 'out' means "output":
 `cout` means "character output". It is used along with the insertion
 operator (`cout <<`) to display a stream of characters. The general
 syntax is:
 
+## cout <<
 ```cpp
 cout << varName;
 ```
@@ -59,6 +62,8 @@ cout << var1 << "Some String" << var2 << endl;
 Note that `endl` means "end of line". It replaces `\n` in the `printf`
 function of C.
 
+## cin >>
+
 `cin` means "character input". It is used along with the extraction
 operator (`cout`>>+) to receive a stream of characters. The general
 syntax is:
@@ -73,6 +78,33 @@ inputs as:
 ```cpp
 cin >> var1 >> var2 >> ... >> varN;
 ```
+
+## C++ strings
+
+ `string` is defined in the `<string>` header file. It is a class that handles strings of characters.
+
+
+
+# C++ resources
+
+There are plenty of tutorials and resources for Java programmers who wish
+to learn C and C++. You are strongly recommended to research this
+topic on your own to gain better understanding of the differences
+between C++ and Java. This module is not meant to teach C++ but
+expects that you gain basic C++ skills as you solve the tasks at the
+laboratory classes.
+
+
+Some on-line resources for Java programmers moving to C++:
+
+- Moving from Java to C++ -- [http://www.horstmann.com/ccj2/ccjapp3.html](http://www.horstmann.com/ccj2/ccjapp3.html)
+- C and C++ for Java programmers -- [http://goo.gl/SxHYS](http://goo.gl/SxHYS)
+- C++ tutorials and documentation -- [http://www.cplusplus.com/](http://www.cplusplus.com/):
+    - [C: `printf`](http://www.cplusplus.com/reference/cstdio/printf/)
+    - [C++: `cout <<`](http://www.cplusplus.com/reference/iostream/cout/)
+    - [C: `scanf`](http://www.cplusplus.com/reference/cstdio/scanf/)
+    - [C++: `cin >>`](http://www.cplusplus.com/reference/iostream/cin/)
+    - [C++: `string`](http://www.cplusplus.com/reference/string/)
 
 # A bit about CMake
 
@@ -175,7 +207,7 @@ preferred IDE.
 
 # Task 3: experiment with printf
 
-Consider the program below:
+1. Consider the program below:
 
 ```c
 #include <stdio.h>
@@ -215,7 +247,12 @@ int main(void)
 }
 ```
 
-Type this code in `lab2-1.c`. Once done, compile it and run it. The output I get on my GNU/Linux computer is as follows:
+2. Type this code in `lab2-1.c`.
+3. Once done, compile it and
+4. run it.
+
+
+The output I get on my GNU/Linux computer is as follows:
 
 ```
 To print an int in C, I need: -1
@@ -327,7 +364,9 @@ int main(void)
 }
 ```
 
-Type this code in `lab2-2.c`. Once done, compile it and run it.
+3. Type this code in `lab2-2.c`.
+4. Once done, compile it and run it.
+
 In C, `scanf`, just like `printf` needs to know the data type of the variables it is using. There is no polymorphism in C, the compiler can't guess.
 
 
@@ -352,11 +391,8 @@ ADD_EXECUTABLE (lab2-2-CXX lab2-2.cxx)
 # Task 7: Improve this program further
 
 1. Did you notice the two numbers, 16 and 15 (i.e. $15=16-1$)?
-```cpp
-char my_string[16];
-```
-means that `my_string` is an array of 16 signed integer numbers stored using 8 bits.
-The longest string it can store is $16 -1$ as the array must contain the end of string character `\0`.
+    - 16 in `char my_string[16];` means that `my_string` is an array of 16 signed integer numbers stored using 8 bits.
+    - 15 in `scanf("%15s", &my_string);` means that the longest string it can store is $16 -1$ as the array must contain the end of string character `\0`.
 What if there are more than 15 characters? You must edit the program and manually change the values, and recompile the code. Not ideal to say the least, source of bugs and crashes. Ideally we should avoid hard coding such limits ([see Riddle 2 above](#riddle-2 about-data-types-and-their-limitations)).
 2. Add a new header file, `<string>`. This is where the C++ string class is declared.
 3. Change the C string (`char my_string[16];`) into a C++ string (`std::string my_string;`). You may omit `std::` if you used `using namespace std`.
