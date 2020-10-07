@@ -170,7 +170,7 @@ Task 1: Using CMake {#task-1-using-cmake .unnumbered}
             \-CMakeLists.txt
 ```
 
-# Task 1: Edit CMakeLists.text
+# Task 1: Edit CMakeLists.txt
 
 The most basic project is an executable built from source code files.
 This is what we are going to do during the first few weeks.
