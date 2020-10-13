@@ -1,10 +1,15 @@
-cmake_minimum_required(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.10)
 
-project(ICP3038--Lab03)
+# set the project name
+PROJECT (ICP3038-lab3)
 
-# Wehre the header files are (in relation to ${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(include)
-message(STATUS "The header files are located in ${CMAKE_CURRENT_SOURCE_DIR}/include")
+# add the executable
+ADD_EXECUTABLE (lab2-1-C lab2-1.c)
+ADD_EXECUTABLE (lab2-1-CXX lab2-1.cxx)
+ADD_EXECUTABLE (lab2-2-C lab2-2.c)
+ADD_EXECUTABLE (lab2-2-CXX lab2-2.cxx)
+ADD_EXECUTABLE (lab2-3 lab2-3.cxx)
 
-add_executable(Task1 src/TestVector.cpp)
-add_executable(Task2 src/TestUtils.cpp include/utils.h)
+ADD_EXECUTABLE (lab3-1 lab3-1.cxx)
+ADD_EXECUTABLE (lab3-2 lab3-2.cxx)
+#ADD_EXECUTABLE (lab3-3 lab3-3.cxx)
