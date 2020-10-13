@@ -316,6 +316,7 @@ if (argc != 2)
 }
 ```
 11. If argc is equal to 2, run the code.
+12. Run your code with an argument.
 
 # Unit testing support in CMake
 
