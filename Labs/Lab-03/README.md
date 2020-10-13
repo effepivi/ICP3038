@@ -305,6 +305,7 @@ terminate called after throwing an instance of 'std::logic_error'
 Aborted (core dumped)
 ```
 It's because `argv[1]` is a random memory location.
+
 10. Display an error message if `argc` is not equal to 2.
 ```cpp
 if (argc != 2)
