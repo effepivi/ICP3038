@@ -25,7 +25,7 @@ Or maybe 0.5, well it depends.
 
 I tried in Python 2
 ```python
-print 1/2
+print(1/2)
 ```
 and it outputted `0`.
 I tried in Python 3
@@ -33,6 +33,7 @@ I tried in Python 3
 print(1/2)
 ```
 and it outputted `0.5`.
+Same code. Same language-ish. Two different outcomes. Oooops.
 
 ## Task 1: Careful when you divide
 
@@ -54,12 +55,12 @@ int main()
 }
 ```
 
-What is the output of each line?
+What is the output of each line of code?
 Can you identify what is going on?
 1/2 corresponds to an integer division (fast).
 The other three lines make use of a floating-point division (slow).
 
-    Don't try to guess what the compiler (or interpreter for Python) might guess or not. Don't trust the compiler. Be in charge, you're the one in control!
+**Don't try to guess what the compiler (or interpreter for Python) might guess or not. Don't trust the compiler. Be in charge, you're the one in control!**
 
 ## Task 2: Remainder
 
@@ -86,15 +87,15 @@ int main()
 Replace `[...]` above with your own code so that
 
 - a number `a` is equal to 5.
-- The divisor is equal to 3.
-- The division is a floating-point number equal to `a / divisor`.
+- The `divisor` is equal to 3.
+- The `division` is a floating-point number equal to `a / divisor`.
 
 The remainder can be obtained using the operator `%` with two integer numbers as operands:
 ```cpp
 float remainder = a % divisor;
 ```
 
-In this case, a is equal to `b` where
+In this case, `a` is equal to `b` where
 ```cpp
 b = division * divisor + remainder;
 ```
@@ -121,7 +122,7 @@ and the index of the last element is `total number of elements in the array minu
 my_array[4]
 ```
 
-In C or C++, there is no memory bounds checks. It's your job to do it and to be careful!
+**In C or C++, there is no memory bounds checks. It's your job to do it and to be careful!**
 
 There are several ways to initialise an array.
 
@@ -165,6 +166,8 @@ float a[5] = {1.0, 2.0, 4.4, 8.0, 16.0};
 ```
 Note that the number of values between the curly brackets `{` and `}` cannot be larger than the number of elements that we declared between the square brackets `[` and `]`.
 
+**Don't forget, compile often, test often.**
+
 5. The following should generate a compilation error:
 ```cpp
 float b[5] = {1.0, 2.0, 4.4, 8.0, 16.0, 32.0};
@@ -178,15 +181,21 @@ I get:
 ```
 Well as `float b[5] = {1.0, 2.0, 4.4, 8.0, 16.0, 32.0};` does not work, comment this line using `//`.
 
+**Don't forget, compile often, test often.**
+
 6. You can omit the number between the square brackets `[` and `]`. In this case the compiler will determine the right value:
 ```cpp
 float c[] = {1.0, 2.0, 4.4, 8.0, 16.00};
 ```
 
+**Don't forget, compile often, test often.**
+
 7. You may not initialise the array at all:
 ```cpp
 float d[5];
 ```
+
+You got the idea, compile often, test often. ;-)
 
 8. or like this:
 
@@ -194,14 +203,12 @@ float d[5];
 float e[5] = {};
 ```
 
-9. Still in the `main`, you can now print the content of every array with the `printArray` function that you wrote, e.g.
+9. We are still working in the `main`. You can now print the content of every array with the `printArray` function that you wrote, e.g.
 
 ```cpp
 printArray("a", a, 5);
 cout << endl;
 ```
-
-**Don't forget, compile often, test often.**
 
 
 # argc/argv
@@ -252,7 +259,7 @@ The program is: lab3-4
 argument 1 is: hello
 argument 2 is: world
 ```
-when the command line is `lab3-4 hello world`.
+when the command line is `lab3-5 hello world`.
 
 I should output:
 ```bash
@@ -262,26 +269,28 @@ argument 2 is: am
 argument 3 is: studying
 argument 4 is: ICP3038
 ```
-when the command line is `lab3-4 I am studying ICP3038`.
+when the command line is `lab3-5 I am studying ICP3038`.
 
+**NOTE: A common mistake I've seen in the past. Don't add `lab3-5` as an argument of the command line in VisualStudio.** It's not required as it is automatic.
 
 # stof/stoi
 
-1. Create a new program, e.g. `lab3-6.cxx`. You must add it to `CMakeLists.txt`.
-2. Copy paste the content of `lab2-3.cxx`. We are going to make the program more flexible by replacing `cin` with `argc` and `argv`.
+1. Create a new program, e.g. `celsius2fahrenheit.cxx`. You must add it to `CMakeLists.txt`.
+2. Copy paste the content of `lab2-3.cxx` into `celsius2fahrenheit.cxx`. We are going to make the program more flexible by replacing `cin` with `argc` and `argv`.
 3. Get rid of `cout << "Please enter a temperature in Celsius: ";` as we won't need it.
 4. Same with `cin >> celsius;`.
 6. Add `int argc, char** argv` as the parameters of the `main`.
-7. `celsius` should be equal to the 2nd command-line argument `argv[1]`.
+7. `celsius` should be equal to the 2nd command-line argument, i.e. `argv[1]`.
 But `float celsius = argv[1]` does not work :-(
 ```bash
-/home/franck/PROGRAMMING/GitHub/ICP3038/Labs/Lab-03/lab3-6.cxx: In function ‘int main(int, char**)’:
-/home/franck/PROGRAMMING/GitHub/ICP3038/Labs/Lab-03/lab3-6.cxx:7:27: error: cannot convert ‘char*’ to ‘float’ in initialization
+/home/franck/PROGRAMMING/GitHub/ICP3038/Labs/Lab-03/celsius2fahrenheit.cxx: In function ‘int main(int, char**)’:
+/home/franck/PROGRAMMING/GitHub/ICP3038/Labs/Lab-03/celsius2fahrenheit.cxx:7:27: error: cannot convert ‘char*’ to ‘float’ in initialization
      float celsius = argv[1];
                            ^
 ```
 `argv[1]` is a C string whereas celsius is a single-precision floating-point number.
 We need to convert it.
+
 8. Include the `<string>` header.
 9. Convert the C string into a floating-point number using:
 ```cpp
@@ -310,7 +319,7 @@ if (argc != 2)
 
 1. In `CMakeLists.txt`, add a version number. Replace `project(ICP3038-lab3 VERSION 1.0)` with `project(ICP3038-lab3 VERSION 1.0)`
 2. Enable unit testing. In the same file, add `enable_testing()`.
-3. To test if the application runs, add `add_test(NAME Runs COMMAND lab3-6 25.0)` at the bottom of the file.
+3. To test if the application runs, add `add_test(NAME Runs COMMAND celsius2fahrenheit 25.0)` at the bottom of the file.
 4. Check if it all ok (run cmake, reload the project in MSVC++, run the unit tests).
 Below is the output I get:
 ```bash
@@ -325,7 +334,7 @@ Total Test time (real) =   0.00 sec
 ```
 5. To test if the usage message works, add at the bottom of the file:
 ```cmake
-add_test(NAME Usage COMMAND lab3-6)
+add_test(NAME Usage COMMAND celsius2fahrenheit)
 set_tests_properties(Usage
   PROPERTIES PASS_REGULAR_EXPRESSION "Usage:.*temp_in_celcius"
 )
@@ -356,7 +365,7 @@ endfunction(do_test)
 8. Using Google, figure out what 20C, 25C and 30.8C are in Fahrenheit.
 9. Add the tests, e.g.
 ```cmake
-do_test(lab3-6   20   "20 degrees Celsius is the same as 68 degrees Fahrenheit.")
+do_test(celsius2fahrenheit   20   "20 degrees Celsius is the same as 68 degrees Fahrenheit.")
 ```
 Do the same for 25C  and 30.8C.
 10. Check if it all ok (run cmake, reload the project in MSVC++, run the unit tests).
