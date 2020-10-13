@@ -314,6 +314,7 @@ if (argc != 2)
     cerr << "Usage: " << argv[0] << " temp_in_celcius" << endl;
     return 1;
 }
+```
 11. If argc is equal to 2, run the code.
 
 # Unit testing support in CMake
