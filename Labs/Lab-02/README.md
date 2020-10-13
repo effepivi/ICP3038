@@ -390,9 +390,9 @@ ADD_EXECUTABLE (lab2-2-CXX lab2-2.cxx)
 
 # Task 7: Improve this program further
 
-1. Did you notice the two numbers, 16 and 15 (i.e. $15=16-1$)?
+1. Did you notice the two numbers, 16 and 15 (i.e. 15=16-1)?
     - 16 in `char my_string[16];` means that `my_string` is an array of 16 signed integer numbers stored using 8 bits.
-    - 15 in `scanf("%15s", &my_string);` means that the longest string it can store is $16 -1$ as the array must contain the end of string character `\0`.
+    - 15 in `scanf("%15s", &my_string);` means that the longest string it can store is 16 -1 as the array must contain the end of string character `\0`.
 What if there are more than 15 characters? You must edit the program and manually change the values, and recompile the code. Not ideal to say the least, source of bugs and crashes. Ideally we should avoid hard coding such limits ([see Riddle 2 above](#riddle-2 about-data-types-and-their-limitations)).
 2. Add a new header file, `<string>`. This is where the C++ string class is declared.
 3. Change the C string (`char my_string[16];`) into a C++ string (`std::string my_string;`). You may omit `std::` if you used `using namespace std`.
