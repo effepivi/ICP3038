@@ -273,7 +273,7 @@ when the command line is `lab3-5 I am studying ICP3038`.
 
 **NOTE: A common mistake I've seen in the past. Don't add `lab3-5` as an argument of the command line in VisualStudio.** It's not required as it is automatic.
 
-# stof/stoi
+# Task 5: stof/stoi
 
 1. Create a new program, e.g. `celsius2fahrenheit.cxx`. You must add it to `CMakeLists.txt`.
 2. Copy paste the content of `lab2-3.cxx` into `celsius2fahrenheit.cxx`. We are going to make the program more flexible by replacing `cin` with `argc` and `argv`.
@@ -318,7 +318,7 @@ if (argc != 2)
 11. If argc is equal to 2, run the code.
 12. Run your code with an argument.
 
-# Unit testing support in CMake
+# Task 6: Unit testing support in CMake
 
 1. In `CMakeLists.txt`, add a version number. Replace `project(ICP3038-lab3)` with `project(ICP3038-lab3 VERSION 1.0)`
 2. Enable unit testing. In the same file, add `enable_testing()`.
