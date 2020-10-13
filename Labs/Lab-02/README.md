@@ -29,11 +29,11 @@ This is good practice too.
 In this lab, you start coding in C++ using CMake as a toolchain.
 The C++ objects and methods that you need to use are:
 
-    - `ostream& operator<< (val)`
-    - `istream operator>> (&val)`
-    - `std::cin`
-    - `std::cout`
-    - `std::string`
+- `ostream& operator<< (val)`
+- `istream operator>> (&val)`
+- `std::cin`
+- `std::cout`
+- `std::string`
 
 `cout`, `cin`, `<<`, `>>`, are defined in the `<iostream>` header
 file. The 'c' in `cout` refers to "character" and 'out' means "output":
@@ -170,7 +170,7 @@ Task 1: Using CMake {#task-1-using-cmake .unnumbered}
             \-CMakeLists.txt
 ```
 
-# Task 1: Edit CMakeLists.text
+# Task 1: Edit CMakeLists.txt
 
 The most basic project is an executable built from source code files.
 This is what we are going to do during the first few weeks.
