@@ -290,6 +290,7 @@ But `float celsius = argv[1]` does not work :-(
 ```
 `argv[1]` is a C string whereas celsius is a single-precision floating-point number.
 We need to convert it.
+
 7. Include the `<string>` header.
 8. Convert the C string into a floating-point number using:
 ```cpp
@@ -304,7 +305,7 @@ terminate called after throwing an instance of 'std::logic_error'
 Aborted (core dumped)
 ```
 It's because `argv[1]` is a random memory location.
-11. Display an error message if `argc` is not equal to 2.
+10. Display an error message if `argc` is not equal to 2.
 ```cpp
 if (argc != 2)
 {
@@ -312,7 +313,7 @@ if (argc != 2)
     cerr << "Usage: " << argv[0] << " temp_in_celcius" << endl;
     return 1;
 }
-12. If argc is equal to 2, run the code.
+11. If argc is equal to 2, run the code.
 
 # Unit testing support in CMake
 
