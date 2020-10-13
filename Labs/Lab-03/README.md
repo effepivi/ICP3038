@@ -279,8 +279,8 @@ when the command line is `lab3-5 I am studying ICP3038`.
 2. Copy paste the content of `lab2-3.cxx` into `celsius2fahrenheit.cxx`. We are going to make the program more flexible by replacing `cin` with `argc` and `argv`.
 3. Get rid of `cout << "Please enter a temperature in Celsius: ";` as we won't need it.
 4. Same with `cin >> celsius;`.
-6. Add `int argc, char** argv` as the parameters of the `main`.
-7. `celsius` should be equal to the 2nd command-line argument, i.e. `argv[1]`.
+5. Add `int argc, char** argv` as the parameters of the `main`.
+6. `celsius` should be equal to the 2nd command-line argument, i.e. `argv[1]`.
 But `float celsius = argv[1]` does not work :-(
 ```bash
 /home/franck/PROGRAMMING/GitHub/ICP3038/Labs/Lab-03/celsius2fahrenheit.cxx: In function ‘int main(int, char**)’:
@@ -290,13 +290,12 @@ But `float celsius = argv[1]` does not work :-(
 ```
 `argv[1]` is a C string whereas celsius is a single-precision floating-point number.
 We need to convert it.
-
-8. Include the `<string>` header.
-9. Convert the C string into a floating-point number using:
+7. Include the `<string>` header.
+8. Convert the C string into a floating-point number using:
 ```cpp
 float celsius = stof(argv[1]);
 ```
-10. Compile and run your code (fix compilation errors if any).
+9. Compile and run your code (fix compilation errors if any).
 I got a problem when I run the code. Do you?
 Mine is
 ```bash
