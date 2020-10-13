@@ -320,7 +320,7 @@ if (argc != 2)
 
 # Unit testing support in CMake
 
-1. In `CMakeLists.txt`, add a version number. Replace `project(ICP3038-lab3 VERSION 1.0)` with `project(ICP3038-lab3 VERSION 1.0)`
+1. In `CMakeLists.txt`, add a version number. Replace `project(ICP3038-lab3)` with `project(ICP3038-lab3 VERSION 1.0)`
 2. Enable unit testing. In the same file, add `enable_testing()`.
 3. To test if the application runs, add `add_test(NAME Runs COMMAND celsius2fahrenheit 25.0)` at the bottom of the file.
 4. Check if it all ok (run cmake, reload the project in MSVC++, run the unit tests).
@@ -335,7 +335,7 @@ Test project /home/franck/PROGRAMMING/GitHub/ICP3038/Labs/Lab-03/bin
 
 Total Test time (real) =   0.00 sec
 ```
-5. To test if the usage message works, add at the bottom of the file:
+5. To test if the usage message works, at the bottom of the file add:
 ```cmake
 add_test(NAME Usage COMMAND celsius2fahrenheit)
 set_tests_properties(Usage
@@ -392,4 +392,4 @@ Test project /home/franck/PROGRAMMING/GitHub/ICP3038/Labs/Lab-03/bin
 Total Test time (real) =   0.01 sec
 ```
 
-    The point is, if you made a mistake in your code and the Fahrenheit value was invalid, the unit tests would fail!
+**The point is, if you made a mistake in your code and the Fahrenheit value was invalid, the unit tests would fail!**
