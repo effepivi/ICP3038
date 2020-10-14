@@ -337,7 +337,7 @@ if (argc != 2)
 1. In `CMakeLists.txt`, add a version number. Replace `project(ICP3038-lab3)` with `project(ICP3038-lab3 VERSION 1.0)`
 2. Enable unit testing. In the same file, add `enable_testing()`.
 3. To test if the application runs, add `add_test(NAME Runs COMMAND celsius2fahrenheit 25.0)` at the bottom of the file.
-4. Check if it all ok (run cmake, reload the project in MSVC++, run the unit tests).
+4. Check if it all ok (run cmake, reload the project in MSVC++, press <CTRL-B>, **set RUN_TESTS as start up project**, run the unit tests).
 Below is the output I get:
 ```bash
 Running tests...
