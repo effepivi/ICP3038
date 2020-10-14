@@ -255,7 +255,7 @@ Compile and test that your code works.
 Create a new program, e.g. `lab3-5.cxx`. You must add it to `CMakeLists.txt`.
 I want you to write a program that will output:
 ```bash
-The program is: lab3-4
+The program is: lab3-5
 argument 1 is: hello
 argument 2 is: world
 ```
@@ -263,7 +263,7 @@ when the command line is `lab3-5 hello world`.
 
 I should output:
 ```bash
-The program is: lab3-4
+The program is: lab3-5
 argument 1 is: I
 argument 2 is: am
 argument 3 is: studying
