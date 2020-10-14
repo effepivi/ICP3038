@@ -273,6 +273,20 @@ when the command line is `lab3-5 I am studying ICP3038`.
 
 **NOTE: A common mistake I've seen in the past. Don't add `lab3-5` as an argument of the command line in VisualStudio.** It's not required as it is automatic.
 
+## How to use the command line arguments in C/C++ with Eclipse/CDT
+
+[![YouTube video on How to use the command line arguments in C/C++ with Eclipse/CDT](http://img.youtube.com/vi/n6zTclfWEjk/0.jpg)](http://www.youtube.com/watch?v=n6zTclfWEjk "How to use the command line arguments in C/C++ with Eclipse/CDT")
+
+## How to use the command line arguments in C/C++ with MS Visual C++
+
+[![YouTube video on How to use the command line arguments in C/C++ with Eclipse/CDT](http://img.youtube.com/vi/eQtqq20zLNs/0.jpg)](https://youtu.be/eQtqq20zLNs "How to use the command line arguments in C/C++ with MS Visual C++")
+
+## How to use the command line arguments in C/C++ with Apple Xcode
+
+TBA
+<!--[![YouTube video on How to use the command line arguments in C/C++ with Apple Xcode](http://img.youtube.com/vi/n6zTclfWEjk/0.jpg)](http://www.youtube.com/watch?v=n6zTclfWEjk "How to use the command line arguments in C/C++ with Apple Xcode")-->
+
+
 # Task 5: stof/stoi
 
 1. Create a new program, e.g. `celsius2fahrenheit.cxx`. You must add it to `CMakeLists.txt`.
