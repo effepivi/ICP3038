@@ -38,9 +38,9 @@ For this task, you are given three C++ files:
 1.  `include/Integer.h`, the header file defining a class to handle
     integer numbers;
 
-2.  `src/Integer.cpp`, the source file that implements the code;
+2.  `src/Integer.cxx`, the source file that implements the code;
 
-3.  `src/TestInteger.cpp`, a test program to try the class.
+3.  `src/TestInteger.cxx`, a test program to try the class.
 
 We want to adopt good C++ practice. There are plenty of tutorials,
 forums, etc. on the Web that deal with how to write simple C++ classes.
@@ -411,56 +411,88 @@ My final file is as follows:
 ![Content of Integer.cxx](Integer_cxx.png)
 
 
-Task 3: Create your own class {#task-3-create-your-own-class .unnumbered}
-=============================
+# Task 2: Create your own class
 
 You are going to write a new class called "StringInverter". You need 3
 extra files:
 
 1.  `include/StringInverter.h`, the header file defining a class to
     handle integer numbers;
-
-2.  `src/StringInverter.cpp`, the source file that implements the code;
-
-3.  `src/TestStringInverter.cpp`, a test program to try the class.
+2.  `src/StringInverter.cxx`, the source file that implements the code;
+3.  `src/TestStringInverter.cxx`, a test program to try the class.
 
 First, modify CMakeLists.txt to add a new project. Just add:
 
-    add_executable(Task2
-        include/StringInverter.h
-        src/TestStringInverter.cpp
-        src/StringInverter.cpp)
+## Add the new program in `CMakelists.txt`
 
-Now you can start implementing the class. It should include the public
+```cmake
+ADD_EXECUTABLE (TestStringInverter
+    src/TestStringInverter.cxx
+    include/StringInverter.h
+    src/StringInverter.cxx)
+
+TARGET_INCLUDE_DIRECTORIES (TestStringInverter PRIVATE include)
+```
+
+## protected attribute
+
+Now you can start implementing the class. It should contain:
+
+```cpp
+std::string m_data;
+```
+
+## Public methods
+
+It should include the public
 methods as follows:
 
+```cpp
         StringInverter();
         StringInverter(const StringInverter& aString);
         StringInverter(const char* aString);
         StringInverter(const std::string& aString);
-        ~StringInverter();
-        void setString(const char* aString);
-        void setString(const std::string& aString);
-        const std::string& getString() const;
-        const std::string& getInvertedString() const;
+
         StringInverter& operator=(const StringInverter& aString);
         StringInverter& operator=(const char* aString);
         StringInverter& operator=(const std::string& aString);
+
+        const std::string& getInvertedString() const;
+
         bool operator==(const StringInverter& aString) const;
         bool operator==(const char* aString) const;
         bool operator==(const std::string& aString) const;
+
         bool operator!=(const StringInverter& aString) const;
         bool operator!=(const char* aString) const;
         bool operator!=(const std::string& aString) const;
+```
 
-It should also include the following private method:
+Can you guess what they are doing? There is one method that stands out, `getInvertedString`. Look at `TestStringInverter.cxx`. We have:
 
-    void invertString();
+```cpp
+cout << my_string << ", once inverted, becomes " << my_string.getInvertedString() << "." << endl;
+```
 
-Also add friend functions `operator<<` and `operator>>`:
+Running the program as follows:
 
+```bash
+$ ./TestStringInverter abcd
+```
+
+must output
+
+```bash
+abcd, once inverted, becomes dcba.
+```
+
+Don't implement all of the methods above in one go. Do **one** method at a time, compile your code, test your code, etc.
+
+## Friend functions
+
+You can also add friend functions `operator<<` and `operator>>`:
+
+```cpp
     std::ostream& operator<<(std::ostream& aStream, const StringInverter& aString);
     std::istream& operator>>(std::istream& aStream, StringInverter& aString);
-
-In `TestStringInverter.cpp`, you have to test each method and each
-function.
+```
