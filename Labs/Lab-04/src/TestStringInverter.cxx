@@ -1,13 +1,13 @@
 /**
 ********************************************************************************
 *
-*	@file		task1.cpp
+*	@file		TestStringInverter.cxx
 *
 *	@brief		Here explain here what is the file about.
 *
-*	@version	1.0
+*	@version	1.1
 *
-*	@date		06/10/2015
+*	@date		20/10/2020
 *
 *	@author		Your name
 *
@@ -20,8 +20,9 @@
 //	Include
 //******************************************************************************
 #include<iostream>
+#include<string>
 
-#include "Integer.h"
+#include "StringInverter.h"
 
 
 //******************************************************************************
@@ -31,36 +32,20 @@ using namespace std;
 
 
 //******************************************************************************
-//	Global variables
-//******************************************************************************
-
-
-//******************************************************************************
-//	Function declaration
-//******************************************************************************
-
-
-//******************************************************************************
 //	Implementation
 //******************************************************************************
-int main()
+int main(int argc, char** argv)
 {
-    Integer integer1;
-    integer1 = 2;
-    cout << integer1 << endl << endl << endl;
-    
-    Integer integer2 = 2;
-    cout << integer1 << endl << endl << endl;
+  if (argc != 2)
+  {
+      cerr << "Wrong number of command line arguments." << endl;
+      cerr << "Usage:\t" << argv[0] << "  string_to_invert" << endl;
+      return 1;
+  }
 
-    Integer integer3(2);
-    cout << integer1 << endl;
-    
-#ifdef WIN32
-#ifdef _DEBUG
-    system("pause");
-#endif
-#endif
+  StringInverter my_string = argv[1];
 
-    // Exit code
-    return (0);
+  cout << my_string << ", once inverted, becomes " << my_string.getInvertedString() << "." << endl;
+
+  return 0;
 }
