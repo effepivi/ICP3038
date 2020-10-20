@@ -31,8 +31,7 @@ Next week, we will use the STL library and write our own template class.
 Make sure you completed the lab from last week as we are going to use unit testing to check our code again. It's good practice.
 
 
-# Task 1: Initialisation lists
-===========================================================
+# Task 1: A simple class to hold an integer
 
 For this task, you are given three C++ files:
 
@@ -80,7 +79,7 @@ and it is better OOP practice.
 
 We are going to declare a new class called *Integer* in `include/Integer.h`.
 
-## Use of #include guards
+## Use of include guards
 
 In `include/Integer.h`, add the include guards:
 
@@ -132,9 +131,9 @@ private:
 #endif // __Integer_h
 ```
 
-I always start a class with the attributes, then the constructors. There are 3 constructors we could provide:
+I always start a class with the attributes, then the constructors, then the destructor. There are 3 constructors we could provide:
 
-- a Default constructor that can instantiate a new object without the new of any parameter: `Integer()`;
+- a default constructor that can instantiate a new object without the new of any parameter: `Integer()`;
 - a copy constructor that can instantiate a new object from another object of the same type: `Integer(const Integer& aValue)`; and
 - a constructor that can instantiate a new object from an `int`: `Integer(int aValue)`
 
@@ -221,10 +220,34 @@ TARGET_INCLUDE_DIRECTORIES (TestInteger PRIVATE include)
 
 The last line tells CMake where to find the header files.
 
+Now compile and test your code. Don't worry if it displays some rubbish.
+
 ## Initialisation lists
 
 We will now modify `src/Integer.cxx` to actually implement the constructors.
-An initialisation list starts with `:`. It is followed by the attributes and their respective values between `()` , e.g.:
+We could write:
+
+```cpp
+#include "Integer.h"
+
+Integer::Integer()
+{
+  m_data = 0;
+}
+
+Integer::Integer(const Integer& aValue)
+{
+  m_data = aValue.m_data;
+}
+
+
+Integer::Integer(int aValue)
+{
+  m_data = aValue;
+}
+```
+
+It would work and many people do so on the Web. **BUT IT'S RUBBISH!!!** The good practice is to use an initialisation list. It's more effective. An initialisation list starts with `:`. It is followed by the attributes and their respective values between `()` , e.g.:
 
 ```cpp
 #include "Integer.h"
