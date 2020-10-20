@@ -413,7 +413,7 @@ My final file is as follows:
 
 # Task 2: Create your own class
 
-You are going to write a new class called "StringInverter". You need 3
+You are going to write a new class called `StringInverter`. You need 3
 extra files:
 
 1.  `include/StringInverter.h`, the header file defining a class to
@@ -421,9 +421,10 @@ extra files:
 2.  `src/StringInverter.cxx`, the source file that implements the code;
 3.  `src/TestStringInverter.cxx`, a test program to try the class.
 
-First, modify CMakeLists.txt to add a new project. Just add:
 
 ## Add the new program in `CMakelists.txt`
+
+First, modify CMakeLists.txt to add a new project. Just add:
 
 ```cmake
 ADD_EXECUTABLE (TestStringInverter
@@ -434,7 +435,7 @@ ADD_EXECUTABLE (TestStringInverter
 TARGET_INCLUDE_DIRECTORIES (TestStringInverter PRIVATE include)
 ```
 
-## protected attribute
+## Protected attribute
 
 Now you can start implementing the class. It should contain:
 
@@ -486,7 +487,7 @@ must output
 abcd, once inverted, becomes dcba.
 ```
 
-Don't implement all of the methods above in one go. Do **one** method at a time, compile your code, test your code, etc.
+Don't implement all of the methods above in one go. Do **one** method at a time, **often** compile your code, **often** test your code, etc.
 
 ## Friend functions
 
