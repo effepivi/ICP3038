@@ -308,6 +308,10 @@ friend std::ostream& operator<<(std::ostream& aStream, const Integer& aValue);
 friend std::istream& operator>>(std::istream& aStream, Integer& aValue);
 ```
 
+My final header file is as follows:
+
+![Header file](Integer_h.png)
+
 5. Add the definition in `Integer.cxx`:
 
 ```cpp
