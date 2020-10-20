@@ -3,9 +3,7 @@ CMAKE_MINIMUM_REQUIRED (VERSION 3.10)
 # set the project name
 PROJECT (ICP3038-lab4 VERSION 1.0)
 
-# Enable unit testing
-enable_testing()
-
+# Lab 2 ########################################################################
 # add the executable
 ADD_EXECUTABLE (lab2-1-C lab2-1.c)
 ADD_EXECUTABLE (lab2-1-CXX lab2-1.cxx)
@@ -19,6 +17,11 @@ ADD_EXECUTABLE (lab3-3 lab3-3.cxx)
 ADD_EXECUTABLE (lab3-4 lab3-4.cxx)
 ADD_EXECUTABLE (lab3-5 lab3-5.cxx)
 ADD_EXECUTABLE (celsius2fahrenheit celsius2fahrenheit.cxx)
+
+# Lab 3 ########################################################################
+
+# Enable unit testing
+enable_testing()
 
 add_test(NAME Runs COMMAND celsius2fahrenheit 25.0)
 
@@ -37,3 +40,5 @@ endfunction(do_test)
 do_test(celsius2fahrenheit   20   "20 degrees Celsius is the same as 68 degrees Fahrenheit.")
 do_test(celsius2fahrenheit   20.5   "20.5 degrees Celsius is the same as 68.9 degrees Fahrenheit.")
 do_test(celsius2fahrenheit   50.5   "50.5 degrees Celsius is the same as 122.9 degrees Fahrenheit.")
+
+# Lab 4 ########################################################################
