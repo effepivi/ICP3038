@@ -82,7 +82,18 @@ We are going to declare a new class called *Integer* in `include/Integer.h`.
 
 ## Use of #include guards
 
-In `include/Integer.h`, add the #include guards:
+In `include/Integer.h`, add the include guards:
+
+```cpp
+#ifndef __Integer_h
+#define __Integer_h
+
+
+
+#endif // __Integer_h
+```
+
+then an empty class
 
 ```cpp
 #ifndef __Integer_h
@@ -90,10 +101,12 @@ In `include/Integer.h`, add the #include guards:
 
 class Integer
 {
+
 };
 
 #endif // __Integer_h
 ```
+
 
 ## Encapsulation: Keep your private parts private
 
@@ -146,11 +159,9 @@ private:
 #endif // __Integer_h
 ```
 
-## Initialisation lists
+## Add the header inclusion.
 
 We will now modify `src/Integer.cxx` to implement the constructors.
-
-### Add the header inclusion.
 
 ```cpp
 #include "Integer.h"
@@ -192,48 +203,173 @@ int main()
     Integer k = 20; // Initialise from an int
     Integer l = i;  // Initialise from an int
     Integer m = k;  // Initialise from another object Integer
+
+    return 0;
 }
 ```
 
+### Add the new program in `CMakelists.txt`
 
-Have a look at the code I and execute it. 3 instances of Integer have been
-created and data has been printed in the standard output. Look at the
-different values of `m_data` that have been printed and try to
-understand what happened.
+```cmake
+ADD_EXECUTABLE (TestInteger
+    src/TestInteger.cxx
+    include/Integer.h
+    src/Integer.cxx)
 
-For Task 1, you only have to modify `Integer.cpp`. The methods that you
-need to modify are:
+TARGET_INCLUDE_DIRECTORIES (TestInteger PRIVATE include)
+```
 
-    Integer::Integer()
-    Integer::Integer(int anInteger)
+The last line tells CMake where to find the header files.
 
-But first, look below at the code of the copy constructor. It has an
-initialisation list. See the '`:`' character at the end of Line 2 and
-look at Line 4 to see how to set the initial value of `m_data`.
+## Initialisation lists
 
-``` {.numberLines numbers="left"}
-//-----------------------------------------
-Integer::Integer(const Integer& anInteger):
-//-----------------------------------------
-        m_data(anInteger.m_data)
-//-----------------------------------------
+We will now modify `src/Integer.cxx` to actually implement the constructors.
+An initialisation list starts with `:`. It is followed by the attributes and their respective values between `()` , e.g.:
+
+```cpp
+#include "Integer.h"
+
+Integer::Integer():
+    m_data(0)
+{}
+
+
+Integer::Integer(const Integer& aValue):
+    m_data(aValue.m_data)
+{}
+
+
+Integer::Integer(int aValue):
+    m_data(aValue)
+{}
+```
+
+## Destructor
+
+The destructor is called when the instance is destroyed. It is declared as follows in `Integer.h`:
+
+```cpp
+~Integer();
+```
+
+Declare it right after the constructors.
+
+In our case it does nothing.
+Its definition in `Integer.cxx` is
+
+```cpp
+Integer::~Integer()
+{}
+```
+
+As it does nothing we could have omitted it.
+
+## `cout`/`cin`
+
+Thanks to polymorphism, we can overwrite operators `>>` and `<<`
+
+1. In the header file, include `iostream`.
+2. Declare the operators in the header file before the class:
+
+```cpp
+class Integer;
+std::ostream& operator<<(std::ostream& aStream, const Integer& aValue);
+std::istream& operator>>(std::istream& aStream, Integer& aValue);
+```
+
+3. Change `private` into `protected`.
+4. Just above `protected`, declare them as friends of the class:
+
+```cpp
+friend std::ostream& operator<<(std::ostream& aStream, const Integer& aValue);
+friend std::istream& operator>>(std::istream& aStream, Integer& aValue);
+```
+
+5. Add the definition in `Integer.cxx`:
+
+```cpp
+std::ostream& operator<<(std::ostream& aStream, const Integer& aValue)
 {
-    std::cout << "IN: Integer::Integer(const Integer& anInteger)" << std::endl;
+    aStream << aValue.m_data;
+    return (aStream);
+}
 
-    std::cout << "\t" << m_data << std::endl;
 
-    std::cout << "OUT: Integer::Integer(const Integer& anInteger)" << std::endl;
+std::istream& operator>>(std::istream& aStream, Integer& aValue)
+{
+    aStream >> aValue.m_data;
+    return (aStream);
 }
 ```
 
-**Add an initialisation list to the other constructors** (see
-`src/Integer.cpp` for further instructions).
+6. Test them in `TestInteger.cxx`:
 
-The code of the initialisation list is execute first, at the
-instanciation of the objet. Then the body of the constructor is
-executed. It is not unusual for C++ constructors to have an empty body.
-Using the list is faster than using the copy `operator=` in the body of
-the constructor.
+```cpp
+#include <iostream>
+#include "Integer.h"
+
+using namespace std;
+
+int main()
+{
+    int i = 10;
+
+    Integer j;      // Default constructor
+    Integer k = 20; // Initialise from an int
+    Integer l = i;  // Initialise from an int
+    Integer m = k;  // Initialise from another object Integer
+
+    cout << i << endl;
+    cout << j << endl;
+    cout << k << endl;
+    cout << l << endl;
+    cout << m << endl;
+
+    cout << "Enter an int: " << endl;
+    cin >> m;
+    cout << "The value was: " << m << endl;
+
+    return 0;
+}
+```
+
+## Assignment operator
+
+In `TestInteger.cxx`, would it be nice to do:
+
+```cpp
+m = 30;
+cout << m << endl;
+```
+
+add these instructions before the `return`.
+
+Compile your code. Oooops `Integer::operator=(int)` does not exist. Not a problem, let's add it to `Integer.h`:
+
+```cpp
+Integer& operator=(const Integer& aValue);
+Integer& operator=(int aValue);
+```
+
+And in `Integer.cxx`:
+
+```cpp
+Integer& Integer::operator=(const Integer& aValue)
+{
+    m_data = aValue.m_data;
+
+    return (*this);
+}
+```
+
+Have a go at `Integer& operator=(int aValue)`. It's pretty similar.
+Once done compile and test your code.
+
+See `this`. It's a pointer on the instance. The `operator=` of an instance is returning itself.
+This way, we could type something like:
+```cpp
+j = k = l = m = 0;
+```
 
 Task 3: Create your own class {#task-3-create-your-own-class .unnumbered}
 =============================
