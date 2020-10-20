@@ -308,9 +308,6 @@ friend std::ostream& operator<<(std::ostream& aStream, const Integer& aValue);
 friend std::istream& operator>>(std::istream& aStream, Integer& aValue);
 ```
 
-My final header file is as follows:
-
-![Header file](Integer_h.png)
 
 5. Add the definition in `Integer.cxx`:
 
@@ -328,6 +325,8 @@ std::istream& operator>>(std::istream& aStream, Integer& aValue)
     return (aStream);
 }
 ```
+
+
 
 6. Test them in `TestInteger.cxx`:
 
@@ -371,12 +370,21 @@ cout << m << endl;
 
 add these instructions before the `return`.
 
+My final file is as follows:
+
+![Content of TestInteger.cxx](TestInteger_cxx.png)
+
 Compile your code. Oooops `Integer::operator=(int)` does not exist. Not a problem, let's add it to `Integer.h`:
 
 ```cpp
 Integer& operator=(const Integer& aValue);
 Integer& operator=(int aValue);
 ```
+
+My final header file is as follows:
+
+![Content of Integer.h](Integer_h.png)
+
 
 And in `Integer.cxx`:
 
@@ -397,6 +405,11 @@ This way, we could type something like:
 ```cpp
 j = k = l = m = 0;
 ```
+
+My final file is as follows:
+
+![Content of Integer.cxx](Integer_cxx.png)
+
 
 Task 3: Create your own class {#task-3-create-your-own-class .unnumbered}
 =============================
