@@ -125,7 +125,7 @@ For safety reason, we make sure it is private. If anyone wants to access it, we'
 class Integer
 {
 private:
-    m_data
+    int m_data;
 };
 
 #endif // __Integer_h
@@ -152,7 +152,7 @@ public:
     Integer(int aValue);
 
 private:
-    m_data
+    int m_data;
 };
 
 #endif // __Integer_h
