@@ -885,4 +885,4 @@ If all went well, you now have a functional class to create images. Next week
 - We'll also integrate a 3rd party library ([GTest](https://github.com/google/googletest)) for unit testing.
 - We'll generate the automatic documentation from the header file.
 
-Don't worry if both the libJPEG and [GTest](https://github.com/google/googletest) are not installed on your computer. CMake will take care of it.
+Don't worry if both the [libjpeg-turbo](https://libjpeg-turbo.org/) and [GTest](https://github.com/google/googletest) are not installed on your computer. CMake will take care of it.
