@@ -797,6 +797,9 @@ Scanning dependencies of target test-constructors
 0 0 0 0 0 0
 ```
 
+which is EXACTLY the same as what I expected.
+We are not going to write proper unit tests yet as CMake is too basic for that. We'll try something else next week. [GTest](https://github.com/google/googletest), which is very popular.
+
 ## Assignment operators
 
 Add the declaration of the assignment operators (just after the constructors):
@@ -876,10 +879,10 @@ m_stats_up_to_date = anInputImage.m_stats_up_to_date;
 ## Next Week
 
 If all went well, you now have a functional class to create images. Next week
-- we'll add a 3rd party library (libJPEG) to load JPEG files and
+- we'll add a 3rd party library ([libjpeg-turbo](https://libjpeg-turbo.org/)) to load JPEG files and
 - start implementing the statistics methods as well as the arithmetic operators.
 - That means we'll be able to run some very basic image processing based on point operators.
-- We'll also integrate a 3rd party library (Gtest) for unit testing.
+- We'll also integrate a 3rd party library ([GTest](https://github.com/google/googletest)) for unit testing.
 - We'll generate the automatic documentation from the header file.
 
-Don't worry if both the libJPEG and GTest are not installed on your computer. CMake will take care of it.
+Don't worry if both the libJPEG and [GTest](https://github.com/google/googletest) are not installed on your computer. CMake will take care of it.
