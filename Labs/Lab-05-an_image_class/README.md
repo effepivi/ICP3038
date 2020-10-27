@@ -796,3 +796,90 @@ Scanning dependencies of target test-constructors
 0 0 0 0 0 0
 0 0 0 0 0 0
 ```
+
+## Assignment operators
+
+Add the declaration of the assignment operators (just after the constructors):
+
+```cpp
+//--------------------------------------------------------------------------
+/// Assignment operator
+/**
+* @param anInputImage: The image to copy
+* @return the new image
+*/
+//--------------------------------------------------------------------------
+Image& operator=(const Image& anInputImage);
+
+
+//--------------------------------------------------------------------------
+/// Assignment operator
+/**
+* @param aFilename: The name of the file to load
+* @return the new image
+*/
+//--------------------------------------------------------------------------
+Image& operator=(const char* aFileName);
+
+
+//--------------------------------------------------------------------------
+/// Assignment operator
+/**
+* @param aFilename: The name of the file to load
+* @return the new image
+*/
+//--------------------------------------------------------------------------
+Image& operator=(const std::string& aFileName);
+```
+
+and the definitions:
+
+```cpp
+//------------------------------------------------
+Image& Image::operator=(const Image& anInputImage)
+//------------------------------------------------
+{
+    return *this;
+}
+
+
+//--------------------------------------------
+Image& Image::operator=(const char* aFileName)
+//--------------------------------------------
+{
+    return *this;
+}
+
+
+//---------------------------------------------------
+Image& Image::operator=(const std::string& aFileName)
+//---------------------------------------------------
+{
+    return *this;
+}
+```
+
+**The assignment operators ALWAYS return a reference of the instance (`*this`).** In both the operators loading the data from files, just call `load(aFileName);`.
+For the assignment operator that copies an existing image, copy all the attributes:
+
+```cpp
+m_pixel_data = anInputImage.m_pixel_data;
+m_width = anInputImage.m_width;
+m_height = anInputImage.m_height;
+m_min_pixel_value = anInputImage.m_min_pixel_value;
+m_max_pixel_value = anInputImage.m_max_pixel_value;
+m_average_pixel_value = anInputImage.m_average_pixel_value;
+m_stddev_pixel_value = anInputImage.m_stddev_pixel_value;
+m_stats_up_to_date = anInputImage.m_stats_up_to_date;
+```
+
+## Next Week
+
+If all went well, you now have a functional class to create images. Next week
+- we'll add a 3rd party library (libJPEG) to load JPEG files and
+- start implementing the statistics methods as well as the arithmetic operators.
+- That means we'll be able to run some very basic image processing based on point operators.
+- We'll also integrate a 3rd party library (Gtest) for unit testing.
+- We'll generate the automatic documentation from the header file.
+
+Don't worry if both the libJPEG and GTest are not installed on your computer. CMake will take care of it.
