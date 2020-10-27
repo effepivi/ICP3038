@@ -632,4 +632,167 @@ float* Image::getPixelPointer()
 }
 ```
 
-See that whenever a method can allow a modification of the pixel data, I turn off the     `m_stats_up_to_date` flag.
+See that whenever a method can allow a modification of the pixel data, I turn off the     `m_stats_up_to_date` flag. It's the methods that do not end with the `const` keyword.
+
+Compile and run your code. The output I get is:
+
+```bash
+Scanning dependencies of target test-constructors
+[ 33%] Building CXX object CMakeFiles/test-constructors.dir/src/Image.cxx.o
+[ 66%] Building CXX object CMakeFiles/test-constructors.dir/src/test-constructors.cxx.o
+[100%] Linking CXX executable test-constructors
+[100%] Built target test-constructors
+0 0 0
+
+
+
+
+
+1 2 3 4
+5 6 7 8
+
+1 2
+3 4
+5 6
+7 8
+
+Segmentation fault (core dumped)
+```
+
+My program has crashed :-( What could possibly be wrong? The default constructor has worked. The ones with the C array or the STL vector have worked. It must be the one with the constant value. Let's have a look at it:
+
+```cpp
+//-----------------------------------------------------------
+Image::Image(float aConstant, size_t aWidth, size_t aHeight):
+//-----------------------------------------------------------
+    m_pixel_data(aConstant, aWidth * aHeight),
+    m_width(aWidth),
+    m_height(aHeight),
+    m_min_pixel_value(aConstant),
+    m_max_pixel_value(aConstant),
+    m_average_pixel_value(aConstant),
+    m_stddev_pixel_value(0),
+    m_stats_up_to_date(true)
+//-----------------------------------------------------------
+{}
+```
+
+
+How did I create the image:
+```cpp
+// Test the constructor from a constant
+Image test_constant_constructor(0.0, 6, 3);
+```
+
+Anything too obvious. I am going to replace
+
+```cpp
+cout << test_constant_constructor << endl;
+```
+
+with
+
+```cpp
+cout << test_constant_constructor.getWidth() << " " << test_constant_constructor.getHeight() << " " << test_constant_constructor.getPixelPointer() << endl << endl;
+```
+
+Compile and run your code. The output I get is:
+
+```bash
+Scanning dependencies of target test-constructors
+[ 33%] Building CXX object CMakeFiles/test-constructors.dir/src/test-constructors.cxx.o
+[ 66%] Linking CXX executable test-constructors
+[100%] Built target test-constructors
+0 0 0
+
+
+
+
+
+1 2 3 4
+5 6 7 8
+
+1 2
+3 4
+5 6
+7 8
+
+6 3 0
+
+Segmentation fault (core dumped)
+```
+
+Ah. The pointer is NULL. Meaning `m_pixel_data(aConstant, aWidth * aHeight),` is wrong. oops. Look at [https://en.cppreference.com/w/cpp/container/vector/vector](https://en.cppreference.com/w/cpp/container/vector/vector). I see:
+
+```cpp
+explicit vector( size_type count,
+
+                 const T& value = T(),
+                 const Allocator& alloc = Allocator());
+```
+
+The first parameter of the vector constructor is the number of elements, the second one the default value. My mistake. Let's swap the two values:
+
+```cpp
+m_pixel_data(aWidth * aHeight, aConstant),
+```
+
+Compile and run your code. The output I get is:
+
+```bash
+Scanning dependencies of target test-constructors
+[ 33%] Building CXX object CMakeFiles/test-constructors.dir/src/Image.cxx.o
+[ 66%] Linking CXX executable test-constructors
+[100%] Built target test-constructors
+0 0 0
+
+
+
+
+
+1 2 3 4
+5 6 7 8
+
+1 2
+3 4
+5 6
+7 8
+
+6 3 0x1538f00
+
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+```
+
+Let's reverse our change in `test-constructors.cxx`.
+
+Compile and run your code. The output I get is:
+
+```bash
+Scanning dependencies of target test-constructors
+[ 33%] Building CXX object CMakeFiles/test-constructors.dir/src/Image.cxx.o
+[ 66%] Linking CXX executable test-constructors
+[100%] Built target test-constructors
+0 0 0
+
+
+
+
+
+1 2 3 4
+5 6 7 8
+
+1 2
+3 4
+5 6
+7 8
+
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+
+0 0 0 0 0 0
+0 0 0 0 0 0
+0 0 0 0 0 0
+```
