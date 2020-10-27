@@ -9,7 +9,7 @@ institute: School of Computer Science and Electronic Engineering, Bangor Univers
 
 # Introduction
 
-Last week we start to write our own classes. This week, we'll write a class to hold image data, and that can perform some image processing.
+Last week we start to write our own classes. This week, we'll tart writing a class to hold image data. Later it'll be used to perform some image processing. We'll focus today on constructors, some accessors and operators.
 
 Prepare `Image.h` with:
 
