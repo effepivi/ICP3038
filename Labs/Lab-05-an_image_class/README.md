@@ -305,6 +305,11 @@ cmake_minimum_required(VERSION 3.10)
 
 PROJECT (ICP3038-img-class VERSION 0.1)
 
+# Turn on C++ 11 (required for CLang on Apple computers)
+SET(CMAKE_CXX_STANDARD 11)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_EXTENSIONS OFF)
+
 ADD_EXECUTABLE(test-constructors
     include/Image.h
     src/Image.cxx
