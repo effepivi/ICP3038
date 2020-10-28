@@ -375,7 +375,7 @@ In the `main` of `test-constructors.cxx`, add something like:
 ```cpp
 cout << test_default_constructor.getWidth() << " " << test_default_constructor.getHeight() << " " << test_default_constructor.getPixelPointer() << endl << endl;
 cout << test_fileName_C << endl << endl;
-cout << test_fileName_C << endl << endl;
+cout << test_fileName_CXX << endl << endl;
 cout << test_c_array_constructor << endl << endl;
 cout << test_cxx_array_constructor << endl << endl;
 cout << test_constant_constructor << endl;
