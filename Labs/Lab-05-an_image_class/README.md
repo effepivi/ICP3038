@@ -623,7 +623,12 @@ size_t Image::getHeight() const
 const float* Image::getPixelPointer() const
 //-----------------------------------------
 {
-    return &m_pixel_data[0];
+    // There are pixels
+    if (m_pixel_data.size())
+        return &m_pixel_data[0];
+    // There is no pixel
+    else
+        return 0;
 }
 
 //-----------------------------
@@ -633,7 +638,12 @@ float* Image::getPixelPointer()
     // To be on the safe side, turn the flag off
     m_stats_up_to_date = false;
 
-    return &m_pixel_data[0];
+    // There are pixels
+    if (m_pixel_data.size())
+        return &m_pixel_data[0];
+    // There is no pixel
+    else
+        return 0;
 }
 ```
 
