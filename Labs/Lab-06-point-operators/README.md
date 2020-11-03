@@ -256,7 +256,15 @@ ELSE(JPEG_FOUND)
 ENDIF(JPEG_FOUND)
 ```
 
-2. In `Image.cxx` add the code to load a JPEG file:
+2. Install the LibJPEG.
+
+You can find it at
+[https://sourceforge.net/projects/libjpeg-turbo/files/2.0.5/libjpeg-turbo-2.0.5-vc64.exe/download](https://sourceforge.net/projects/libjpeg-turbo/files/2.0.5/libjpeg-turbo-2.0.5-vc64.exe/download).
+
+3. Re-run cmake (using the GUI) and configure. Something new should appear.
+Adjust the path of the directory where the header file is and the path of the library.
+
+4. In `Image.cxx` add the code to load a JPEG file:
 
 Add the header file if LibJPEG is found
 
@@ -267,7 +275,7 @@ Add the header file if LibJPEG is found
 #endif
 ```
 
-3. Edit the corresponding methods:
+5. Edit the corresponding methods:
 
 ```cpp
 //-------------------------------------
@@ -402,7 +410,7 @@ void Image::load(const std::string& aFilename)
 }
 ```
 
-4. In `CMakeLists.txt` add the header file path:
+6. In `CMakeLists.txt` add the header file path:
 
 ```cmake
 IF(JPEG_FOUND)
@@ -410,7 +418,7 @@ IF(JPEG_FOUND)
 ENDIF(JPEG_FOUND)
 ```
 
-5. and modify the linkage:
+7. and modify the linkage:
 
 ```cmake
 target_link_libraries(test-constructors ${GTEST_LIBRARIES} ${JPEG_LIBRARY})
