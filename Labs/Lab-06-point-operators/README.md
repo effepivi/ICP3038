@@ -165,6 +165,7 @@ Compile and run your test.
 
 6. Do the same for the constructor that makes use of a C++ vector:
 
+```cpp
 TEST(TestContructors, CXXArrayConstructor)
 {
     vector<float> p_cxx_array = {1, 2, 3, 4, 5, 6, 7, 8};
@@ -182,6 +183,7 @@ TEST(TestContructors, CXXArrayConstructor)
         }
     }
 }
+```
 
 Compile and run your test.
 
