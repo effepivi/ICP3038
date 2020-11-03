@@ -768,9 +768,9 @@ Now we can do some image processing, as we've seen yesterday:
 The following method reuse the point operators we've just done to normalise the image between 0 and 1.
 
 ```cpp
-//----------------------------
-Image Image::normalise() const
-//----------------------------
+//----------------------
+Image Image::normalise()
+//----------------------
 {
     return (*this - getMinValue()) / (getMaxValue() - getMinValue());
 }
