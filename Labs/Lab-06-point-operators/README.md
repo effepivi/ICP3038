@@ -649,3 +649,108 @@ TEST(Operators, FloatImageOperators)
 I created a simple image and manually the product and sum.
 
 Compile, and run the new unit tests. Fix the code if needed.
+
+5. Add the other point operators in the header file:
+
+```cpp
+//--------------------------------------------------------------------------
+/// Add a constant value to all the pixels of an image
+/**
+* @param aValue: the value to add
+* @return the new image
+*/
+//--------------------------------------------------------------------------
+Image operator+(float aValue) const;
+
+
+//--------------------------------------------------------------------------
+/// Subtract a constant value to all the pixels of an image
+/**
+* @param aValue: the value to subtract
+* @return the new image
+*/
+//--------------------------------------------------------------------------
+Image operator-(float aValue) const;
+
+
+//--------------------------------------------------------------------------
+/// Multiply all the pixels of an image with a constant value
+/**
+* @param aValue: the value to multiply
+* @return the new image
+*/
+//--------------------------------------------------------------------------
+Image operator*(float aValue) const;
+
+
+//--------------------------------------------------------------------------
+/// Divide all the pixels of an image by a constant value
+/**
+* @param aValue: the divisor
+* @return the new image
+*/
+//--------------------------------------------------------------------------
+Image operator/(float aValue) const;
+```
+
+6. Add the definitions in the cxx file.
+
+
+```cpp
+//----------------------------------------
+Image Image::operator+(float aValue) const
+//----------------------------------------
+{
+    Image temp = *this;
+
+    for (size_t i = 0; i < m_width * m_height; ++i)
+    {
+        temp.m_pixel_data[i] += aValue;
+    }
+
+    return temp;
+}
+```
+
+Do the remaining 3 operators and add some unit tests.
+
+7. Do the assignment arithmetic operators too.
+
+We can reuse what we've just done.
+
+```cpp
+//------------------------------------
+Image& Image::operator+=(float aValue)
+//------------------------------------
+{
+    *this = *this + aValue;
+    return *this;
+}
+
+
+//------------------------------------
+Image& Image::operator-=(float aValue)
+//------------------------------------
+{
+    *this = *this - aValue;
+    return *this;
+}
+
+
+//------------------------------------
+Image& Image::operator*=(float aValue)
+//------------------------------------
+{
+    *this = *this * aValue;
+    return *this;
+}
+
+
+//------------------------------------
+Image& Image::operator/=(float aValue)
+//------------------------------------
+{
+    *this = *this / aValue;
+    return *this;
+}
+```
