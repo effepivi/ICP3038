@@ -239,7 +239,7 @@ CMake Warning at CMakeLists.txt:58 (message):
 ```
 
 If Doxygen is installed, a new target "doc_doxygen" will be created in your project.
-When you run it, it will create a new directory "doc_doxygen" in your binary tree. You can find the doc in ["doc_doxygen/html/index.html"](doc_doxygen/html/index.html).
+When you run it, it will create a new directory "doc_doxygen" in your binary tree. You can find the doc in ["doc_doxygen/html/index.html"](html/index.html).
 Have a look at your new doc. See why commenting the code (header file) is important?
 
 # Loading JPEG files
