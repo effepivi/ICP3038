@@ -754,3 +754,81 @@ Image& Image::operator/=(float aValue)
     return *this;
 }
 ```
+
+8. Contrast enhancement
+
+Now we can do some image processing, as we've seen yesterday:
+The following method reuse the point operators we've just done to normalise the image between 0 and 1.
+
+```cpp
+//----------------------------
+Image Image::normalise() const
+//----------------------------
+{
+    return (*this - getMinValue()) / (getMaxValue() - getMinValue());
+}
+```
+
+We can use this code as follows in a program to improve the contrast of an input image:
+
+```cpp
+Image input(argv[1]);
+Image output = 255 * input.normalise();
+output.saveJPEG(argv[2]);
+```
+
+However, before it works, we need to implement `getMinValue`, `getMaxValue` and `updateStats`:
+
+```cpp
+//------------------------
+float Image::getMinValue();
+//------------------------
+{
+    if (!m_stats_up_to_date) updateStats();
+
+    return m_min_pixel_value;
+}
+
+
+//------------------------
+float Image::getMaxValue()
+//------------------------
+{
+    if (!m_stats_up_to_date) updateStats();
+
+    return m_max_pixel_value;
+}
+
+
+//-----------------------
+void Image::updateStats()
+//-----------------------
+{
+    // Need to udate the stats
+    if (!m_stats_up_to_date && m_width * m_height)
+    {
+        m_min_pixel_value = m_pixel_data[0];
+        m_max_pixel_value = m_pixel_data[0];
+        m_average_pixel_value = m_pixel_data[0];
+
+        for (size_t i = 1; i < m_width * m_height; ++i)
+        {
+            if (m_min_pixel_value > m_pixel_data[i]) m_min_pixel_value = m_pixel_data[i];
+            if (m_max_pixel_value < m_pixel_data[i]) m_max_pixel_value = m_pixel_data[i];
+
+            m_average_pixel_value += m_pixel_data[i];
+        }
+        m_average_pixel_value /= m_width * m_height;
+
+        m_stddev_pixel_value = 0;
+        for (size_t i = 0; i < m_width * m_height; ++i)
+        {
+            m_stddev_pixel_value += (m_pixel_data[i] - m_average_pixel_value) * (m_pixel_data[i] - m_average_pixel_value);
+        }
+        m_stddev_pixel_value /= m_width * m_height;
+        m_stddev_pixel_value = sqrt(m_stddev_pixel_value);
+
+        m_stats_up_to_date = true;
+    }
+}
+```
