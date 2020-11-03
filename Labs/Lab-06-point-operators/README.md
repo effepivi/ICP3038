@@ -620,6 +620,7 @@ add_test (Operators test-operators)
 
 In `test-operators.cxx`, I used something like:
 
+```cpp
 // Test the default constructor
 TEST(Operators, FloatImageOperators)
 {
