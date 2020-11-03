@@ -714,9 +714,8 @@ Image Image::operator+(float aValue) const
 
 Do the remaining 3 operators and add some unit tests.
 
-7. Do the assignment arithmetic operators too.
-
-We can reuse what we've just done.
+7. Do the assignment arithmetic operators (`+=`, `-=`, `*=` and `/=`) too.
+Add the declarations in the header file and reuse what we've just done in the definitions in the cxx file:
 
 ```cpp
 //------------------------------------
@@ -777,7 +776,7 @@ Image output = 255 * input.normalise();
 output.saveJPEG(argv[2]);
 ```
 
-However, before it works, we need to implement `getMinValue`, `getMaxValue` and `updateStats`:
+However, before it works, we need to implement `getMinValue`, `getMaxValue` and `updateStats`. Try to idetify the lazy evaluation that I mentioned in the class.
 
 ```cpp
 //------------------------
@@ -832,3 +831,7 @@ void Image::updateStats()
     }
 }
 ```
+
+# Next  week
+
+We will add another 9 operators and we will perform some image processing tasks on actual images. Why not even create an animation!
