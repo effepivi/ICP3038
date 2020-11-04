@@ -258,8 +258,9 @@ ENDIF(JPEG_FOUND)
 
 2. Install the LibJPEG.
 
-You can find it at
-[https://sourceforge.net/projects/libjpeg-turbo/files/2.0.5/libjpeg-turbo-2.0.5-vc64.exe/download](https://sourceforge.net/projects/libjpeg-turbo/files/2.0.5/libjpeg-turbo-2.0.5-vc64.exe/download).
+WE WILL FIX THIS NEXT WEEK, but at least we will have the code in our file.
+<!--You can find it at
+[https://sourceforge.net/projects/libjpeg-turbo/files/2.0.5/libjpeg-turbo-2.0.5-vc64.exe/download](https://sourceforge.net/projects/libjpeg-turbo/files/2.0.5/libjpeg-turbo-2.0.5-vc64.exe/download).-->
 
 3. Re-run cmake (using the GUI) and configure. Something new should appear.
 Adjust the path of the directory where the header file is and the path of the library.
