@@ -795,15 +795,7 @@ Image Image::normalise()
 }
 ```
 
-We can use this code as follows in a program to improve the contrast of an input image:
-
-```cpp
-Image input(argv[1]);
-Image output = 255 * input.normalise();
-output.saveJPEG(argv[2]);
-```
-
-However, before it works, we need to implement `getMinValue`, `getMaxValue` and `updateStats`. Try to idetify the lazy evaluation that I mentioned in the class.
+We need to implement `getMinValue`, `getMaxValue` and `updateStats`. Try to idetify the lazy evaluation that I mentioned in the class.
 
 ```cpp
 //------------------------
@@ -858,6 +850,50 @@ void Image::updateStats()
     }
 }
 ```
+
+
+Now, you can create a new program, e.g. `contrastEnhancement.cxx` with:
+
+```cpp
+#include <iostream>
+#include <exception>
+
+#include "Image.h"
+
+using namespace std;
+
+int main(int argc, char** argv)
+{
+  try
+  {
+    Image input(argv[1]);
+    Image output = 255 * input.normalise();
+    output.saveJPEG(argv[2]);
+  }
+  catch (const exception& e)
+  {
+    cerr << "An error occured, see the message below." << endl;
+    cerr << e.what() << endl;
+    return 1;
+  }
+  catch (const string& e)
+  {
+    cerr << "An error occured, see the message below." << endl;
+    cerr << e << endl;
+    return 2;
+  }
+  catch (const char* e)
+  {
+    cerr << "An error occured, see the message below." << endl;
+    cerr << e << endl;
+    return 3;
+  }
+
+  return 0;
+}
+```
+
+To compile it, modify the `CMakeLists.txt` file accordingly. Hint: GoogleTest is not needed here!
 
 # Next  week
 
