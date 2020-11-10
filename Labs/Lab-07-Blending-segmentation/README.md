@@ -409,6 +409,9 @@ Look at the content of `output.txt`. It should be:
 
 # Contrast enhancement
 
+See Slides 44-48/54 of [ICP3038-Chapter_03-Introduction_image_processing.html](https://blackboard.bangor.ac.uk/bbcswebdav/pid-3305945-dt-content-rid-9603869_1/courses/1542.202021/3-Introduction_image_processing/ICP3038-Chapter_03-Introduction_image_processing.html#(44)) for a recap.
+
+
 If you haven't done it yet, you can create a new program, e.g. `contrastEnhancement.cxx` with:
 
 ```cpp
@@ -641,6 +644,14 @@ I get:
 
 ![`negative.png`](docs/negative.png)
 
-# Next  week
+# Blending
 
-We will add another 9 operators and we will perform some image processing tasks on actual images. Why not even create an animation!
+We are now going to write a program to blend tow images together, and create an animation.
+The blending formula is:
+
+$(1 - \alpha) \times Img1 + a \times Img2$
+
+with $\alpha$ between 0 and 1.
+
+
+# Next  week
