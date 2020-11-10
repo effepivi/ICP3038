@@ -1,7 +1,10 @@
 # This week
 
 - We'll replace [libjpeg-turbo](https://libjpeg-turbo.org/) with [OpenCV 4.5.0](https://sourceforge.net/projects/opencvlibrary/files/4.5.0/opencv-4.5.0-vc14_vc15.exe/download) to load image files. Somehow the binaries for Windows don't work :-(
-
+- Load/Save ASCII files.
+- Unit test the load and save methods with JPEG, PNG and ASCII files.
+- Write a command line tool to improve the brightness and contrast of an image using point operators.
+- Write a command line tool to compute the negative of an image using point operators.
 
 # Replace LibJPEG-turbo with OpenCV
 
@@ -492,11 +495,151 @@ To test your new program, use `docs/tulips-poor-contrast.png`. As you can see be
 
 ![`tulips-poor-contrast.png`](docs/tulips-poor-contrast.png)
 
+When I run
+
+```bash
+$ ./contrastEnhancement tulips-poor-contrast.png tulips-poor-contrast.png
+```
+
+I get:
+
+![`tulips-poor-contrast.png`](docs/tulips-poor-contrast.png)
+
+
 # Negative image
 
+1. In CMakeLists.txt, you need:
 
+```cmake
+# Compilation
+ADD_EXECUTABLE(negative
+    include/Image.h
+    src/Image.cxx
+    src/negative.cxx)
 
+# Add include directories
+TARGET_INCLUDE_DIRECTORIES(negative PUBLIC include)
 
+IF(OpenCV_FOUND)
+    target_include_directories(negative PUBLIC ${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+# Add linkage
+target_link_libraries(negative ${OpenCV_LIBS})
+```
+
+2. In `Image.h` add the declaration of the negation operator:
+
+```cpp
+//--------------------------------------------------------------------------
+/// Compute the negative image
+/**
+* @return the negative image
+*/
+//--------------------------------------------------------------------------
+Image operator!();
+```
+
+3. In `Image.cxx`, add its definition:
+
+```cxx
+Image Image::operator!()
+{
+    ...
+}
+```
+
+Replace `...` with the appropriate formula using point operators. See Slide 53/54 of [ICP3038-Chapter_03-Introduction_image_processing.html](https://blackboard.bangor.ac.uk/bbcswebdav/pid-3305945-dt-content-rid-9603869_1/courses/1542.202021/3-Introduction_image_processing/ICP3038-Chapter_03-Introduction_image_processing.html#(53)):
+
+```cxx
+    return getMinValue() + getMaxValue() − *this;
+```
+
+4. Copy paste the content of `contrastEnhancement.cxx` into `negative.cxx`.
+The only thing that the code really does is:
+
+```cpp
+            Image image(argv[1]);
+            (!image).save(argv[2]);
+```
+
+**Don't forget the brackets around `!image`.**
+
+5. When you compile it does not work. On my Linux box, I get:
+
+```bash
+/home/franck/PROGRAMMING/GitHub/ICP3038/Labs/Lab-07-Blending-segmentation/src/Image.cxx: In member function ‘Image Image::operator!()’:
+/home/franck/PROGRAMMING/GitHub/ICP3038/Labs/Lab-07-Blending-segmentation/src/Image.cxx:557:42: error: no match for ‘operator-’ (operand types are ‘float’ and ‘Image’)
+     return getMinValue() + getMaxValue() - *this;
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+make[2]: *** [CMakeFiles/contrastEnhancement.dir/build.make:80: CMakeFiles/contrastEnhancement.dir/src/Image.cxx.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:130: CMakeFiles/contrastEnhancement.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+```
+
+`Image operator-(float aValue, const Image& anImage);` is not declared. Let's address this problem. Add the declaration at the top of the `Image.h` file.
+And the definition in `Image.cxx`:
+
+Create a black image of the right size:
+
+```cpp
+    Image temp(0.0, anImage.getWidth(), anImage.getHeight());
+```
+
+Create two pointers on the raw pixel data of the input and output respectively:
+
+```cpp
+    float* p_output_data = temp.getPixelPointer();
+    size_t number_of_pixels = temp.getWidth() * temp.getHeight();
+```
+
+Now you need to process all the pixels in a for loop:
+
+```cpp
+    size_t number_of_pixels = temp.getWidth() * temp.getHeight();
+    for (size_t i = 0; i < number_of_pixels; ++i)
+    {
+        *p_output_data++ = aValue - *p_input_data++;
+    }
+```
+
+You can now return the `temp` image.
+
+The function should be:
+
+```cpp
+//-------------------------------------------------
+Image operator-(float aValue, const Image& anImage)
+//-------------------------------------------------
+{
+    // Create a black image of the right size:
+    Image temp(0.0, anImage.getWidth(), anImage.getHeight());
+
+    // Create two pointers on the raw pixel data of the input and output respectively:
+    const float* p_input_data = anImage.getPixelPointer();
+    float* p_output_data = temp.getPixelPointer();
+
+    // Process all the pixels in a for loop:
+    size_t number_of_pixels = temp.getWidth() * temp.getHeight();
+    for (size_t i = 0; i < number_of_pixels; ++i)
+    {
+        *p_output_data++ += aValue - *p_input_data++;
+    }
+
+    // Return the new image
+    return temp;
+}
+```
+
+When I run
+
+```bash
+$ ./negative tulips.png negative.png
+```
+
+I get:
+
+![`negative.png`](docs/negative.png)
 
 # Next  week
 
