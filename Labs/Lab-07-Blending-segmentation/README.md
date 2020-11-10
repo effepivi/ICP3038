@@ -5,6 +5,7 @@
 - Unit test the load and save methods with JPEG, PNG and ASCII files.
 - Write a command line tool to improve the brightness and contrast of an image using point operators.
 - Write a command line tool to compute the negative of an image using point operators.
+- Write a command line tool to generate an animation using image blending.
 
 # Replace LibJPEG-turbo with OpenCV
 
@@ -646,12 +647,74 @@ I get:
 
 # Blending
 
-We are now going to write a program to blend tow images together, and create an animation.
+1. We are now going to write a program to blend tow images together, and create an animation.
 The blending formula is:
 
-$(1 - \alpha) \times Img1 + a \times Img2$
+(1.0 - alpha) * img1 + alpha * img2
 
-with $\alpha$ between 0 and 1.
+with alpha between 0 and 1.
+
+So, we need a new function:
+
+```cxx
+Image blending(float alpha, const Image& img1, const Image& img2)
+```
+
+that just returns:
+
+```cxx
+(1.0 - alpha) * img1 + alpha * img2
+```
+Go on, add the declaration at the top of `Image.h` and the definition in `Image.cxx`.
+
+2. Now, the trouble is that `Image Image::operator+(const Image& img) const` does not exist as yet.
+It corresponds to a pixel-wise addition of two images.
+Add the declaration somewhere in the `Image` class in `Image.h`.
+
+For the definition in `Image.cxx`, be careful. Let's start with a naive implementation:
+
+```cxx
+//--------------------------------------------
+Image Image::operator+(const Image& img) const
+//--------------------------------------------
+{
+    Image temp(0.0, m_width, m_height);
+
+    for (size_t j = 0; j < temp.m_height; ++j)
+    {
+        for (size_t i = 0; i < temp.m_width; ++i)
+        {
+            temp(i,j) = (*this)(i, j) + img(i, j);
+        }
+    }
+    return temp;
+}
+```
+
+3. **What's the matter?**
+
+Don't trust the user of your class. What if the two images do not have the same size?
+Let's the program CRASH?? Nah. We've got to check if any error could occur. It's actually fairly easy. We limit the output image to the larger common area between the two input images:
+Just change the declaration of `temp` into:
+
+```cpp
+Image temp(0.0, std::min(m_width, img.m_width), std::min(m_height, img.m_height));
+```
+
+To use `std::min` you nee to add the header inclusion of `<algorithm>` at the top of `Image.cxx`.
+
+4. For completeness, and as there'll be needed later, add:
+
+    - `Image Image::operator-(const Image& img) const`
+    - `Image Image::operator*(const Image& img) const`
+    - `Image Image::operator/(const Image& img) const`
+    - `Image& Image::operator+=(const Image& img)`
+    - `Image& Image::operator-=(const Image& img)`
+    - `Image& Image::operator*=(const Image& img)`
+    - `Image& Image::operator/=(const Image& img)`
+
+**Don't forget what I said in the past, COMPILE OFTEN**.
+
 
 
 # Next  week
