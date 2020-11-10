@@ -830,8 +830,12 @@ $ ./blending tulips.png negative.png 50 blend
 $ convert blend_*.png blend.gif
 ```
 
-I obtain this nice GIF file
+I obtain this nice GIF file:
 
 ![blend.gif](docs/blend.gif)
 
+You could also use ImageJ/Fiji to view your animation. Just use the `File->Import->Image sequence` menu.
+
 # Next  week
+
+Image filtering.
