@@ -715,6 +715,123 @@ To use `std::min` you nee to add the header inclusion of `<algorithm>` at the to
 
 **Don't forget what I said in the past, COMPILE OFTEN**.
 
+5. Edit CMakeLists.txt to support the new program:
 
+```cmake
+# Compilation
+ADD_EXECUTABLE(blending
+    include/Image.h
+    src/Image.cxx
+    src/blending.cxx)
+
+# Add include directories
+TARGET_INCLUDE_DIRECTORIES(blending PUBLIC include)
+
+IF(OpenCV_FOUND)
+    target_include_directories(blending PUBLIC ${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+# Add linkage
+target_link_libraries(blending ${OpenCV_LIBS})
+```
+
+6. Add a new program, `blending.cxx`. It'll be used as follows:
+
+```bash
+$ ./blending input1 input2 NUM output
+```
+
+The program will create `NUM` images, transitioning smoothly from `input1` to `input2`.
+The output images will be saved in `output_%i.png`.
+
+In the main, we need to open the two input images, and retrieve `NUM`.
+We then have a for loop. In the loop we:
+
+- compute alpha using linear interpolation,
+- perform the blending operation,
+- create a filename with leading 0s, and
+save the image.
+
+```cpp
+#include <iostream>
+#include <exception>
+#include <string>
+#include <sstream>
+#include <iomanip>
+
+#include "Image.h"
+
+using namespace std;
+
+int main(int argc, char** argv)
+{
+    try
+    {
+        if (argc == 5)
+        {
+            Image image1(argv[1]);
+            Image image2(argv[2]);
+
+            string number_of_frames_str = argv[3];
+
+            int number_of_frames = stoi(number_of_frames_str);
+
+            for (int i = 0; i < number_of_frames; ++i)
+            {
+                // Compute alpha
+                float alpha = float(i) / (number_of_frames - 1);
+
+                // Blend the images
+                Image blend = blending(alpha, image1, image2);
+
+                // Create a filename with leading 0s
+                std::ostringstream filename;
+                filename << argv[4] << "_" << std::setw(number_of_frames_str.size() - 1) << std::setfill('0') << i << ".png";
+
+                // Save the image
+                blend.save(filename.str());
+            }
+        }
+        else
+        {
+            string error_message = "Usage: ";
+            error_message += argv[0];
+            error_message += " input1 input2 NUM output";
+            throw error_message;
+        }
+    }
+    catch (const exception& e)
+    {
+        cerr << "An error occured, see the message below." << endl;
+        cerr << e.what() << endl;
+        return 1;
+    }
+    catch (const string& e)
+    {
+        cerr << "An error occured, see the message below." << endl;
+        cerr << e << endl;
+        return 2;
+    }
+    catch (const char* e)
+    {
+        cerr << "An error occured, see the message below." << endl;
+        cerr << e << endl;
+        return 3;
+    }
+
+    return 0;
+}
+```
+
+When I run:
+
+```cpp
+$ ./blending tulips.png negative.png 50 blend
+$ convert blend_*.png blend.gif
+```
+
+I obtain this nice GIF file
+
+![blend.gif](docs/blend.gif)
 
 # Next  week
