@@ -498,12 +498,12 @@ To test your new program, use `docs/tulips-poor-contrast.png`. As you can see be
 When I run
 
 ```bash
-$ ./contrastEnhancement tulips-poor-contrast.png tulips-poor-contrast.png
+$ ./contrastEnhancement tulips-poor-contrast.png improved-poor-contrast.png
 ```
 
 I get:
 
-![`tulips-poor-contrast.png`](docs/tulips-poor-contrast.png)
+![`improved-poor-contrast.png`](docs/improved-poor-contrast.png)
 
 
 # Negative image
