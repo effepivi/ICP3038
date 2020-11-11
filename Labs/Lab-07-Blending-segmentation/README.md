@@ -782,7 +782,7 @@ Image temp(0.0, std::min(m_width, img.m_width), std::min(m_height, img.m_height)
 
 To use `std::min` you nee to add the header inclusion of `<algorithm>` at the top of `Image.cxx`.
 
-4. For completeness, and as there'll be needed later, add:
+4. For completeness, and as they'll be needed later, add to your code the following operators:
 
     - `Image Image::operator-(const Image& img) const`
     - `Image Image::operator*(const Image& img) const`
@@ -791,6 +791,7 @@ To use `std::min` you nee to add the header inclusion of `<algorithm>` at the to
     - `Image& Image::operator-=(const Image& img)`
     - `Image& Image::operator*=(const Image& img)`
     - `Image& Image::operator/=(const Image& img)`
+
 
 **Don't forget what I said in the past, COMPILE OFTEN**.
 
