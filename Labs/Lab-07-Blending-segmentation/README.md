@@ -7,6 +7,18 @@
 - Write a command line tool to compute the negative of an image using point operators.
 - Write a command line tool to generate an animation using image blending.
 
+# Install OpenCV
+
+## MacOS X
+
+See Homebrew at: [https://formulae.brew.sh/formula/opencv](https://formulae.brew.sh/formula/opencv)
+
+## MS Windows
+
+1. Download [OpenCV 4.5.0](https://sourceforge.net/projects/opencvlibrary/files/4.5.0/opencv-4.5.0-vc14_vc15.exe/download) at [https://sourceforge.net/projects/opencvlibrary/files/4.5.0/opencv-4.5.0-vc14_vc15.exe/download](https://sourceforge.net/projects/opencvlibrary/files/4.5.0/opencv-4.5.0-vc14_vc15.exe/download).
+2. Run `opencv-4.5.0-vc14_vc15.exe` once it is downloaded.
+3. **Extract to `C:\`** It is important to use this path as it is where CMake will look for OpenCV. If you installed it somewhere else, you'll have to edit the line below accordingly (`LIST(APPEND CMAKE_PREFIX_PATH  "C:/opencv/build")`).
+
 # Replace LibJPEG-turbo with OpenCV
 
 1. In the `CMakeLists.txt` file, replace the code related to the LibJPEG library with OpenCV's:
@@ -25,13 +37,56 @@ becomes:
 
 ```cmake
 # Find OpenCV
+
+# Add where OpenCV might be installed (look in D: first, then in C:)
+IF (WIN32)
+    SET (CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "D:\\opencv\\build")
+    SET (CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "C:\\opencv\\build")
+ENDIF (WIN32)
+
 FIND_PACKAGE(OpenCV REQUIRED)
 IF(OpenCV_FOUND)
     add_definitions(-DHAS_OPENCV)
+
+    # If windows is used, copy the dlls into the project directory
+    SET (CV_VERSION_STRING ${OpenCV_VERSION_MAJOR}${OpenCV_VERSION_MINOR}${OpenCV_VERSION_PATCH})
+    IF (WIN32)
+        IF ( ${OpenCV_VERSION_MAJOR} EQUAL 4)
+            IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_videoio_ffmpeg${CV_VERSION_STRING}_64.dll")
+                FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_videoio_ffmpeg${CV_VERSION_STRING}_64.dll"
+                      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+            ELSE ()
+    			MESSAGE (WARNING "opencv_videoio_ffmpeg${CV_VERSION_STRING}_64.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+            ENDIF ()
+    	ELSE ()
+            IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg${CV_VERSION_STRING}_64.dll")
+                FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg${CV_VERSION_STRING}_64.dll"
+                      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+            ELSE ()
+    			MESSAGE (WARNING "opencv_ffmpeg${CV_VERSION_STRING}_64.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+            ENDIF ()
+    	ENDIF ()
+
+        IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}.dll")
+            FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}.dll"
+                  DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+        ELSE ()
+    	    MESSAGE (WARNING "opencv_world${CV_VERSION_STRING}.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+        ENDIF ()
+
+        IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}d.dll")
+            FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}d.dll"
+                  DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+        ELSE ()
+    	    MESSAGE (WARNING "opencv_world${CV_VERSION_STRING}d.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+        ENDIF ()
+    ENDIF (WIN32)    
 ELSE(OpenCV_FOUND)
     MESSAGE(WARNING "OpenCV not found.")
 ENDIF(OpenCV_FOUND)
 ```
+
+To make your life easier, I make sure DLLs are copied from OpenCV's directory into your project directory.
 
 `${JPEG_INCLUDE_DIR}` becomes `${OpenCV_INCLUDE_DIRS}`
 
@@ -66,6 +121,7 @@ JPEG_FOUND
 becomes
 
 ```cxx
+#include <algorithm> // For std::min
 #include <cstring> // For toupper
 #include <fstream> // For ofstream and ifstream
 
@@ -384,19 +440,33 @@ We'll create a known test image and apply the same methodology:
 // Test ASCII files
 TEST(LoadSave, LoadSaveASCII)
 {
-    Image input_image({1, 2, 3, 4, 5, 6}, 3, 2); // Create a 3x2 image
+    // Create a 3x2 image
+    Image input_image({1, 2, 3, 4, 5, 6}, 3, 2);
+
+    // Save the image in a text file
     input_image.save("output.txt");
 
+    // Load the text file
     Image output_image("output.txt");
 
+    // Check the image size
     ASSERT_EQ(output_image.getWidth(), 3);
     ASSERT_EQ(output_image.getHeight(), 2);
     ASSERT_EQ(output_image.getWidth() * output_image.getHeight(), 6);
 
+    // Check the image stats
     ASSERT_NEAR(output_image.getMean(), (1 + 2 + 3 + 4 + 5 + 6) / 6.0, 1.0 / 6.0);
-    //ASSERT_NEAR(output_image.getStdDev(), 59.634, 2);
     ASSERT_NEAR(output_image.getMinValue(), 1, 1.0 / 6.0);
     ASSERT_NEAR(output_image.getMaxValue(), 6, 1.0 / 6.0);
+
+    // Check all the pixel values
+    ASSERT_NEAR(output_image(0, 0), 1, 1.0 / 6.0);
+    ASSERT_NEAR(output_image(1, 0), 2, 1.0 / 6.0);
+    ASSERT_NEAR(output_image(2, 0), 3, 1.0 / 6.0);
+    ASSERT_NEAR(output_image(0, 1), 4, 1.0 / 6.0);
+    ASSERT_NEAR(output_image(1, 1), 5, 1.0 / 6.0);
+    ASSERT_NEAR(output_image(2, 1), 6, 1.0 / 6.0);
+
 }
 ```
 
@@ -509,6 +579,15 @@ I get:
 
 ![`improved-poor-contrast.png`](docs/improved-poor-contrast.png)
 
+**Remember, compile often, test often.**
+
+In MSVC++, to pass command line arguments to a project:
+
+1. Do a right-click on the project name in the Solution Explorer.
+2. Click on `Properties` (bottom entry).
+3. Go to `Debugging`.
+4. Type your arguments in `Command Arguments`.
+  - Remember to put paths between "" is you use the \\ character.
 
 # Negative image
 
@@ -663,7 +742,7 @@ Image blending(float alpha, const Image& img1, const Image& img2)
 that just returns:
 
 ```cxx
-(1.0 - alpha) * img1 + alpha * img2
+(1.0f - alpha) * img1 + alpha * img2
 ```
 Go on, add the declaration at the top of `Image.h` and the definition in `Image.cxx`.
 
@@ -835,6 +914,229 @@ I obtain this nice GIF file:
 ![blend.gif](docs/blend.gif)
 
 You could also use ImageJ/Fiji to view your animation. Just use the `File->Import->Image sequence` menu.
+
+# My final `CMakeLists.txt` file
+
+```cmake
+cmake_minimum_required(VERSION 3.10)
+
+PROJECT (ICP3038-img-class VERSION 0.2)
+
+
+# Use C++ 11
+set(CMAKE_CXX_STANDARD 11) # C++11
+set(CMAKE_CXX_STANDARD_REQUIRED ON) # C++11 is required (i.e. not optional)
+set(CMAKE_CXX_EXTENSIONS OFF) # without compiler extensions like gnu++11
+
+# Find OpenCV
+LIST(APPEND CMAKE_PREFIX_PATH  "C:/opencv/build")
+FIND_PACKAGE(OpenCV REQUIRED)
+IF(OpenCV_FOUND)
+    add_definitions(-DHAS_OPENCV)
+
+    # If windows is used, copy the dlls into the project directory
+    SET (CV_VERSION_STRING ${OpenCV_VERSION_MAJOR}${OpenCV_VERSION_MINOR}${OpenCV_VERSION_PATCH})
+    IF (WIN32)
+
+        IF ( ${OpenCV_VERSION_MAJOR} EQUAL 4)
+            IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_videoio_ffmpeg${CV_VERSION_STRING}_64.dll")
+                FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_videoio_ffmpeg${CV_VERSION_STRING}_64.dll"
+                      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+            ELSE ()
+    			MESSAGE (WARNING "opencv_videoio_ffmpeg${CV_VERSION_STRING}_64.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+            ENDIF ()
+    	ELSE ()
+            IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg${CV_VERSION_STRING}_64.dll")
+                FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg${CV_VERSION_STRING}_64.dll"
+                      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+            ELSE ()
+    			MESSAGE (WARNING "opencv_ffmpeg${CV_VERSION_STRING}_64.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+            ENDIF ()
+    	ENDIF ()
+
+        IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}.dll")
+            FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}.dll"
+                  DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+        ELSE ()
+    	    MESSAGE (WARNING "opencv_world${CV_VERSION_STRING}.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+        ENDIF ()
+
+        IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}d.dll")
+            FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}d.dll"
+                  DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+        ELSE ()
+    	    MESSAGE (WARNING "opencv_world${CV_VERSION_STRING}d.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+        ENDIF ()
+
+    ENDIF (WIN32)
+
+ELSE(OpenCV_FOUND)
+    MESSAGE(WARNING "OpenCV not found.")
+ENDIF(OpenCV_FOUND)
+
+
+# Build GoogleTest
+INCLUDE(cmake/External_GTest.cmake)
+
+# Enable unit testing
+enable_testing()
+
+# Compilation
+ADD_EXECUTABLE(test-constructors
+    include/Image.h
+    src/Image.cxx
+    src/test-constructors.cxx)
+
+# Add dependency
+ADD_DEPENDENCIES(test-constructors googletest)
+
+# Add include directories
+TARGET_INCLUDE_DIRECTORIES(test-constructors PUBLIC include)
+target_include_directories(test-constructors PUBLIC ${GTEST_INCLUDE_DIRS})
+
+IF(OpenCV_FOUND)
+    target_include_directories(test-constructors PUBLIC ${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+# Add linkage
+target_link_directories(test-constructors PUBLIC ${GTEST_LIBS_DIR})
+target_link_libraries(test-constructors ${GTEST_LIBRARIES} ${OpenCV_LIBS})
+
+# Add the unit test
+add_test (Constructors test-constructors)
+
+
+# Compilation
+ADD_EXECUTABLE(test-operators
+    include/Image.h
+    src/Image.cxx
+    src/test-operators.cxx)
+
+# Add dependency
+ADD_DEPENDENCIES(test-operators googletest)
+
+# Add include directories
+TARGET_INCLUDE_DIRECTORIES(test-operators PUBLIC include)
+target_include_directories(test-operators PUBLIC ${GTEST_INCLUDE_DIRS})
+
+IF(OpenCV_FOUND)
+    target_include_directories(test-operators PUBLIC ${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+# Add linkage
+target_link_directories(test-operators PUBLIC ${GTEST_LIBS_DIR})
+target_link_libraries(test-operators ${GTEST_LIBRARIES} ${OpenCV_LIBS})
+
+# Add the unit test
+add_test (Operators test-operators)
+
+
+# Compilation
+ADD_EXECUTABLE(test-load-save
+    include/Image.h
+    src/Image.cxx
+    src/test-load-save.cxx)
+
+# Add dependency
+ADD_DEPENDENCIES(test-load-save googletest)
+
+# Add include directories
+TARGET_INCLUDE_DIRECTORIES(test-load-save PUBLIC include)
+target_include_directories(test-load-save PUBLIC ${GTEST_INCLUDE_DIRS})
+
+IF(OpenCV_FOUND)
+    target_include_directories(test-load-save PUBLIC ${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+# Add linkage
+target_link_directories(test-load-save PUBLIC ${GTEST_LIBS_DIR})
+target_link_libraries(test-load-save ${GTEST_LIBRARIES} ${OpenCV_LIBS})
+
+# Add the unit test
+add_test (LoadSave test-load-save)
+
+
+# Compilation
+ADD_EXECUTABLE(contrastEnhancement
+    include/Image.h
+    src/Image.cxx
+    src/contrastEnhancement.cxx)
+
+# Add include directories
+TARGET_INCLUDE_DIRECTORIES(contrastEnhancement PUBLIC include)
+
+IF(OpenCV_FOUND)
+    target_include_directories(contrastEnhancement PUBLIC ${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+# Add linkage
+target_link_libraries(contrastEnhancement ${OpenCV_LIBS})
+
+
+# Compilation
+ADD_EXECUTABLE(negative
+    include/Image.h
+    src/Image.cxx
+    src/negative.cxx)
+
+# Add include directories
+TARGET_INCLUDE_DIRECTORIES(negative PUBLIC include)
+
+IF(OpenCV_FOUND)
+    target_include_directories(negative PUBLIC ${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+# Add linkage
+target_link_libraries(negative ${OpenCV_LIBS})
+
+
+# Compilation
+ADD_EXECUTABLE(blending
+    include/Image.h
+    src/Image.cxx
+    src/blending.cxx)
+
+# Add include directories
+TARGET_INCLUDE_DIRECTORIES(blending PUBLIC include)
+
+IF(OpenCV_FOUND)
+    target_include_directories(blending PUBLIC ${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+# Add linkage
+target_link_libraries(blending ${OpenCV_LIBS})
+
+
+
+# The documentation build is an option. Set it to ON by default
+option(BUILD_DOC "Build documentation" ON)
+
+# Check if Doxygen is installed
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+
+    SET (PROJECT_NAME ICP3038-img-class)
+    SET (PROJECT_DESCRIPTION "An Image class used in ICP3038 at Bangor University")
+
+    # set input and output files
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+    # Configure the file
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+
+    # Add a custom target
+    add_custom_target( doc_doxygen ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM )
+else (DOXYGEN_FOUND)
+    message(WARNING "Doxygen need to be installed to generate the doxygen documentation")
+endif (DOXYGEN_FOUND)
+
+FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/docs/tulips.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+```
 
 # Next  week
 
