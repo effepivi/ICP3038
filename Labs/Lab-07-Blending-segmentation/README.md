@@ -500,7 +500,7 @@ int main(int argc, char** argv)
     {
         if argc == 3)
         {
-            Image image(argv[1]);
+            Image input(argv[1]);
 
             input -= input.getMinValue();
             input /= input.getMaxValue();
