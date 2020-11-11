@@ -40,8 +40,8 @@ becomes:
 
 # Add where OpenCV might be installed (look in D: first, then in C:)
 IF (WIN32)
-    SET (CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "D:\\opencv\\build")
-    SET (CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "C:\\opencv\\build")
+    SET (CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "D:/opencv/build")
+    SET (CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "C:/opencv/build")
 ENDIF (WIN32)
 
 FIND_PACKAGE(OpenCV REQUIRED)
