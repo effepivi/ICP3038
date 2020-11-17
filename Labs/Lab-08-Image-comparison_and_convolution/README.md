@@ -32,6 +32,10 @@ For images, the Root Mean Squared Error (RMSE) and the Mean Absolute Error (MAE)
 
 ![formula](https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1)
 
+```math
+e^{i \pi} = -1
+```
+
 The errors in RMSE are squared. It means that a much larger weight is assigned to larger errors: An error of 10, is 100 times worse than an error of 1.
 
 
