@@ -248,18 +248,33 @@ Have a look at your new doc. See why commenting the code (header file) is import
 
 ```cmake
 # Find the libJPEG
-FIND_PACKAGE(JPEG REQUIRED)
-IF(JPEG_FOUND)
-    add_definitions(-DHAS_LIBJPEG)
-ELSE(JPEG_FOUND)
-    MESSAGE(WARNING "JPEG not found.")
-ENDIF(JPEG_FOUND)
+IF (WIN32)
+    list(APPEND CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
+    FIND_PACKAGE(libjpegturbo)
+    IF (LIBJPEGTURBO_FOUND )
+        add_definitions(-DHAS_LIBJPEG)
+        SET (requiredLibs ${LIBJPEGTURBO_LIBRARIES})
+    ELSE (LIBJPEGTURBO_FOUND)
+        MESSAGE(WARNING "JPEG files won't be supported.")
+    ENDIF (LIBJPEGTURBO_FOUND)
+ELSE (WIN32)
+    FIND_PACKAGE(JPEG)
+    IF (JPEG_FOUND)
+        add_definitions(-DHAS_LIBJPEG)
+        SET (requiredLibs ${LIBJPEGTURBO_LIBRARIES})
+    ELSE (JPEG_FOUND)
+        MESSAGE(WARNING "JPEG files won't be supported.")
+    ENDIF (JPEG_FOUND)
+ENDIF (WIN32)
 ```
+
+It will use LibJPEG-turbo on Windows and the standard LibJPEG on other platforms.
 
 2. Install the LibJPEG.
 
 You can find it at
-[https://sourceforge.net/projects/libjpeg-turbo/files/2.0.5/libjpeg-turbo-2.0.5-vc64.exe/download](https://sourceforge.net/projects/libjpeg-turbo/files/2.0.5/libjpeg-turbo-2.0.5-vc64.exe/download).
+[https://sourceforge.net/projects/libjpeg-turbo/files/2.0.5/libjpeg-turbo-2.0.5-vc64.exe/download](https://sourceforge.net/projects/libjpeg-turbo/files/2.0.5/libjpeg-turbo-2.0.5-vc64.exe/download). Make sure to install it in the default path, i.e. `C:\libjpeg-turbo64`.
 
 3. Re-run cmake (using the GUI) and configure. Something new should appear.
 Adjust the path of the directory where the header file is and the path of the library.
@@ -413,15 +428,17 @@ void Image::load(const std::string& aFilename)
 6. In `CMakeLists.txt` add the header file path:
 
 ```cmake
-IF(JPEG_FOUND)
+IF (WIN32)
+    target_include_directories(test-constructors PUBLIC ${LIBJPEGTURBO_INCLUDE_DIRS})
+ELSE (WIN32)
     target_include_directories(test-constructors PUBLIC ${JPEG_INCLUDE_DIR})
-ENDIF(JPEG_FOUND)
+ENDIF (WIN32)
 ```
 
 7. and modify the linkage:
 
 ```cmake
-target_link_libraries(test-constructors ${GTEST_LIBRARIES} ${JPEG_LIBRARY})
+target_link_libraries(test-constructors ${GTEST_LIBRARIES} ${requiredLibs})
 ```
 
 # Saving JPEG files
@@ -614,13 +631,15 @@ ADD_DEPENDENCIES(test-operators googletest)
 TARGET_INCLUDE_DIRECTORIES(test-operators PUBLIC include)
 target_include_directories(test-operators PUBLIC ${GTEST_INCLUDE_DIRS})
 
-IF(JPEG_FOUND)
+IF (WIN32)
+    target_include_directories(test-operators PUBLIC ${LIBJPEGTURBO_INCLUDE_DIRS})
+ELSE (WIN32)
     target_include_directories(test-operators PUBLIC ${JPEG_INCLUDE_DIR})
-ENDIF(JPEG_FOUND)
+ENDIF (WIN32)
 
 # Add linkage
 target_link_directories(test-operators PUBLIC ${GTEST_LIBS_DIR})
-target_link_libraries(test-operators ${GTEST_LIBRARIES} ${JPEG_LIBRARY})
+target_link_libraries(test-operators ${GTEST_LIBRARIES} ${requiredLibs})
 
 # Add the unit test
 add_test (Operators test-operators)
@@ -776,15 +795,7 @@ Image Image::normalise()
 }
 ```
 
-We can use this code as follows in a program to improve the contrast of an input image:
-
-```cpp
-Image input(argv[1]);
-Image output = 255 * input.normalise();
-output.saveJPEG(argv[2]);
-```
-
-However, before it works, we need to implement `getMinValue`, `getMaxValue` and `updateStats`. Try to idetify the lazy evaluation that I mentioned in the class.
+We need to implement `getMinValue`, `getMaxValue` and `updateStats`. Try to idetify the lazy evaluation that I mentioned in the class.
 
 ```cpp
 //------------------------
@@ -839,6 +850,50 @@ void Image::updateStats()
     }
 }
 ```
+
+
+Now, you can create a new program, e.g. `contrastEnhancement.cxx` with:
+
+```cpp
+#include <iostream>
+#include <exception>
+
+#include "Image.h"
+
+using namespace std;
+
+int main(int argc, char** argv)
+{
+  try
+  {
+    Image input(argv[1]);
+    Image output = 255 * input.normalise();
+    output.saveJPEG(argv[2]);
+  }
+  catch (const exception& e)
+  {
+    cerr << "An error occured, see the message below." << endl;
+    cerr << e.what() << endl;
+    return 1;
+  }
+  catch (const string& e)
+  {
+    cerr << "An error occured, see the message below." << endl;
+    cerr << e << endl;
+    return 2;
+  }
+  catch (const char* e)
+  {
+    cerr << "An error occured, see the message below." << endl;
+    cerr << e << endl;
+    return 3;
+  }
+
+  return 0;
+}
+```
+
+To compile it, modify the `CMakeLists.txt` file accordingly. Hint: GoogleTest is not needed here!
 
 # Next  week
 
