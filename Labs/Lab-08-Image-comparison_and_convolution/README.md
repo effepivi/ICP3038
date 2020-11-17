@@ -11,9 +11,9 @@ institute: School of Computer Science and Electronic Engineering, Bangor Univers
 
 Last week we replaced the use of the LibJPEG with OpenCV. We also wrote a few programs:
 
-1. Contrast enhancement, ![Original image](img/original.jpg) ![Contrast enhancement](img/improved_contrast.jpg)
-2. Negative, ![Original image](img/original.jpg) ![Negative image](img/negative.jpg)
-3. Blending of two images. This is the technique used to create a smooth and seamless transitions between two video sequences in films.![Image 1](img/original.jpg) ![Image 2](img/negative.jpg)  ![Blending of Images 1 and 2](img/blend.gif)  
+1. Contrast enhancement, ![Original image](../Lab-07-Blending-segmentation/docs/tulips-poor-contrast.png) ![Contrast enhancement](../Lab-07-Blending-segmentation/docs/tulips-poor-contrast.png)
+2. Negative, ![Original image](../Lab-07-Blending-segmentation/docs/tulips.png) ![Negative image](../Lab-07-Blending-segmentation/docs/negative.png)
+3. Blending of two images. This is the technique used to create a smooth and seamless transitions between two video sequences in films.![Image 1](../Lab-07-Blending-segmentation/docs/tulips.png) ![Image 2](../Lab-07-Blending-segmentation/docs/negative.png)  ![Blending of Images 1 and 2](../Lab-07-Blending-segmentation/docs/blend.gif)  
 
 This week, we will see how to
 
