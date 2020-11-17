@@ -125,6 +125,8 @@ ASSERT_LT(value2, 1.0);
 
 # Spatial filtering using a convolution
 
+## Definition
+
 For this method, we will use use a "kernel", also known as "sliding window" to filter an image.
 The method performs a convolution between a kernel and an image. It is used for blurring, sharpening, embossing, edge detection, and more. This is probably the most used technique in image processing and image filtering.
 It's discrete formula is:
@@ -132,7 +134,128 @@ It's discrete formula is:
 ![f'(x,y) = (f * h)(x,y) = \sum^{l < H_h}_{l=0}\sum^{k < W_h}_{k=0} f(x - W_h \setminus 2+k, y - H_h \setminus 2+l) \times h(k,l)](img/conv2d.png)
 
 - <img src="https://render.githubusercontent.com/render/math?math=f" /> is the input image, and <img src="https://render.githubusercontent.com/render/math?math=h" /> is the kernel (sliding window).
-- <img src="https://render.githubusercontent.com/render/math?math=f" />  has a width of <img src="https://render.githubusercontent.com/render/math?math=W_f" /> and height of <img src="https://render.githubusercontent.com/render/math?math=H_f" />,
+<!-- - <img src="https://render.githubusercontent.com/render/math?math=f" />  has a width of <img src="https://render.githubusercontent.com/render/math?math=W_f" /> and height of <img src="https://render.githubusercontent.com/render/math?math=H_f" />, -->
 - <img src="https://render.githubusercontent.com/render/math?math=h" />  has a width of <img src="https://render.githubusercontent.com/render/math?math=W_h" /> and height of <img src="https://render.githubusercontent.com/render/math?math=H_h" />.
 - <img src="https://render.githubusercontent.com/render/math?math=f'" /> is the result of the convolution of <img src="https://render.githubusercontent.com/render/math?math=f" /> by <img src="https://render.githubusercontent.com/render/math?math=h" />
-- <img src="https://render.githubusercontent.com/render/math?math=x" /> the pixel index along the X-axis, and <img src="https://render.githubusercontent.com/render/math?math=y" /> the pixel index along the Y-axis.
+- <img src="https://render.githubusercontent.com/render/math?math=x" /> the pixel index along the horizontal axis, and <img src="https://render.githubusercontent.com/render/math?math=y" /> the pixel index along the vertical axis.
+
+## Tasks
+
+1. Add the following declarations in `Image.h`:
+  - `Image conv2d(const Image& aKernel) const;`
+  - `Image gaussianFilter() const;`
+  - `Image meanFilter() const;`
+  - `Image averageFilter() const;`
+  - `Image boxFilter() const;` and
+  - `Image laplacianFilter() const`.
+2. Add the following definitions in `Image.cxx`:
+
+```cpp
+//---------------------------------------------
+Image Image::conv2d(const Image& aKernel) const
+//---------------------------------------------
+{
+  // Initialise the output image so that it's black and it has the right size
+  Image output_image(0.0, m_width, m_height);
+
+  // Return the output
+  return output_image;
+}
+
+
+//---------------------------------
+Image Image::gaussianFilter() const
+//---------------------------------
+{
+  // Create the kernel
+  Image kernel(
+    {
+      1., 2., 1.,
+      2., 4., 2.,
+      1., 2., 1.
+    }, 3, 3);
+
+  // Normalise the kernel so that the sum of its coefficients is 1.
+  kernel /= 16.0;
+
+  // Filter the image
+  return conv2d(kernel);
+}
+
+
+//-----------------------------
+Image Image::meanFilter() const
+//-----------------------------
+{
+  // Create the kernel
+  Image kernel(
+    {
+      1., 1., 1.,
+      1., 1., 1.,
+      1., 1., 1.
+    }, 3, 3);
+
+  // Normalise the kernel so that the sum of its coefficients is 1.
+  kernel /= 9.0;
+
+  // Filter the image
+  return conv2d(kernel);
+}
+
+
+//--------------------------------
+Image Image::averageFilter() const
+//--------------------------------
+{
+  return meanFilter();
+}
+
+
+//----------------------------
+Image Image::boxFilter() const
+//----------------------------
+{
+  return meanFilter();
+}
+
+
+//----------------------------------
+Image Image::laplacianFilter() const
+//----------------------------------
+{
+  // Create the kernel
+  Image kernel(
+    {
+      1.,  1., 1.,
+      1., -8., 1.,
+      1.,  1., 1.
+    }, 3, 3);
+
+  // Filter the image
+  return conv2d(kernel);
+}
+```
+
+**MAKE SURE YOU COMPILE OFTEN. Write a bit of code, compile, write a bit of code, compile, and so on.**
+
+3. A spatial convolution requires values from pixels outside of the image boundaries. There are various ways of dealing with the border.
+
+- **Extend:**
+    The border pixels are extended as far as necessary to provide values for the convolution. It's easy to implement. If the pixel coordinates are not valid, use the coordinates of the closest pixel of the image:
+
+    If ![x - W_h \setminus 2+k](img/x_coord.png) is less than 0, use 0.
+    Else if ![x - W_h \setminus 2+k](img/x_coord.png) is equal to or greater than W_f, use W_f - 1.
+    Else use ![x - W_h \setminus 2+k](img/x_coord.png)
+
+    If ![y - H_h \setminus 2+l](img/y_coord.png) is less than 0, use 0.
+    Else if ![y - H_h \setminus 2+l](img/y_coord.png) is equal to or greater than H_f, use H_f - 1.
+    Else use ![y - H_h \setminus 2+l](img/y_coord.png)
+
+- **Wrap:**
+    The image is conceptually wrapped (or tiled) and values are taken from the opposite edge or corner.
+- **Mirror:**
+    The image is conceptually mirrored at the edges. For example, attempting to read a pixel 3 units outside an edge reads one 3 units inside the edge instead.
+- **Crop:**
+    Any pixel in the output image which would require values from beyond the edge is skipped. This method can result in the output image being slightly smaller, with the edges having been cropped.
+
+https://en.wikipedia.org/wiki/Kernel_(image_processing)#Edge_Handling
