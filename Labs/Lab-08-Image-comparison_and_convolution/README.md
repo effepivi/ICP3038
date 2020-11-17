@@ -26,13 +26,13 @@ This week, we will see how to
 If you are not convinced, look at my video here.
 If you are still not convinced, look at this guide: [https://floating-point-gui.de/errors/comparison/](https://floating-point-gui.de/errors/comparison/)
 
-For images, the Root Mean Squared Error (RMSE) and the Mean Absolute Error (MAE) are amongst the two most popular metrics used to compared images. There are widely used in statistics, computer vision, image analysis and machine learning. The RMSE between two images $I_1$ and $I_2$ is defined as:
+For images, the Root Mean Squared Error (RMSE) and the Mean Absolute Error (MAE) are amongst the two most popular metrics used to compared images. There are widely used in statistics, computer vision, image analysis and machine learning. The RMSE between two images <img src="https://render.githubusercontent.com/render/math?math=I_1" /> and <img src="https://render.githubusercontent.com/render/math?math=I_2" /> is defined as:
 
 <!-- ![RMSE formula](https://render.githubusercontent.com/render/math?math=RMSE(I_1, I_2)=\sqrt{\frac{1}{w\times h}\sum_j\sum_i\left(I_1(i,j)-I_1(i,j)\right)^2}) -->
 
 <img src="https://render.githubusercontent.com/render/math?math=RMSE(I_1, I_2)=\sqrt{\frac{1}{w\times h}\sum_j\sum_i\left(I_1(i,j)-I_1(i,j)\right)^2}" alt="RMSE formula" />
 
-with <img src="https://render.githubusercontent.com/render/math?math=w" /> and $h$ the number of pixels along the horizontal and vertical axes respectively. 
+with <img src="https://render.githubusercontent.com/render/math?math=w" /> and <img src="https://render.githubusercontent.com/render/math?math=h" /> the number of pixels along the horizontal and vertical axes respectively.
 
 The errors in RMSE are squared. It means that a much larger weight is assigned to larger errors: An error of 10, is 100 times worse than an error of 1.
 
