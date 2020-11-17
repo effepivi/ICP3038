@@ -250,10 +250,40 @@ Image Image::laplacianFilter() const
     - If ![y - H_h \setminus 2+l](img/y_coord.png) is less than 0, use 0.
     - Else if ![y - H_h \setminus 2+l](img/y_coord.png) is equal to or greater than <img src="https://render.githubusercontent.com/render/math?math=H_f" />, use <img src="https://render.githubusercontent.com/render/math?math=H_f - 1" />.
     - Else use ![y - H_h \setminus 2+l](img/y_coord.png)
-    
+
 - **zero padding:**
     The image is extended by adding extra zeros as necessary to provide values for the convolution. It is also easy to implement.
 - **Crop:**
     Any pixel in the output image which would require values from beyond the edge is skipped. It results in the output image being slightly smaller than the input, with the edges having been cropped.
 
 I recommend **Extend**.
+
+4. Implement the formula:
+
+![f'(x,y) = (f * h)(x,y) = \sum^{l < H_h}_{l=0}\sum^{k < W_h}_{k=0} f(x - W_h \setminus 2+k, y - H_h \setminus 2+l) \times h(k,l)](img/conv2d.png)
+
+You need four for loops:
+
+```
+for each image row
+  for each image col
+
+    Initialise the accumulator to zero
+
+    for each kernel row
+      for each kernel col
+
+        Get the pixel position using the equation above
+        Deal with the border if necessary
+
+        Multiply the corresponding pixel value to the corresponding kernel element
+        Add the result to the accumulator
+      endfor
+    endfor
+
+    Set corresponding output image pixel to accumulator    
+  endfor
+endfor
+```
+
+Implement the pseudo code above in `Image Image::conv2d(const Image& aKernel) const`.
