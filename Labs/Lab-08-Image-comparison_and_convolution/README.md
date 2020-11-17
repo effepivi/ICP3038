@@ -287,3 +287,82 @@ endfor
 ```
 
 Implement the pseudo code above in `Image Image::conv2d(const Image& aKernel) const`.
+
+5. Add a new utility program, e.g. `gaussianFilter.cxx` with:
+
+```cpp
+#include <iostream>
+#include <exception>
+#include <string>
+
+#include "Image.h"
+
+using namespace std;
+
+int main(int argc, char** argv)
+{
+    try
+    {
+        if argc == 3)
+        {
+            Image input(argv[1]);
+            Image output(input.gaussianFilter());
+            output.save(argv[2]);
+        }
+        else
+        {
+            string error_message = "Usage: " + argv[0] + " input_image output_image";
+            throw error_message;
+        }
+    }
+    catch (const exception& e)
+    {
+        cerr << "An error occured, see the message below." << endl;
+        cerr << e.what() << endl;
+        return 1;
+    }
+    catch (const string& e)
+    {
+        cerr << "An error occured, see the message below." << endl;
+        cerr << e << endl;
+        return 2;
+    }
+    catch (const char* e)
+    {
+        cerr << "An error occured, see the message below." << endl;
+        cerr << e << endl;
+        return 3;
+    }
+
+    return 0;
+}
+```
+
+In CMakeLists.txt, you need:
+
+```cmake
+# Compilation
+ADD_EXECUTABLE(gaussianFilter
+    include/Image.h
+    src/Image.cxx
+    src/gaussianFilter.cxx)
+
+# Add include directories
+TARGET_INCLUDE_DIRECTORIES(gaussianFilter PUBLIC include)
+
+IF(OpenCV_FOUND)
+    target_include_directories(gaussianFilter PUBLIC ${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+# Add linkage
+target_link_libraries(gaussianFilter ${OpenCV_LIBS})
+```
+
+Make sure you compile often. You can test your code now to see if you can blur an image.
+
+6. Write two new tools in:
+
+  1. `boxFilter.cxx`
+  2. `laplacianFilter.cxx`
+
+to test the other filters.
