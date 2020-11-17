@@ -238,24 +238,21 @@ Image Image::laplacianFilter() const
 
 **MAKE SURE YOU COMPILE OFTEN. Write a bit of code, compile, write a bit of code, compile, and so on.**
 
-3. A spatial convolution requires values from pixels outside of the image boundaries. There are various ways of dealing with the border.
+3. You must choose how to deal with the border. A spatial convolution requires values from pixels outside of the image boundaries. There are various ways of dealing with the border. The three most popular methods are:
 
 - **Extend:**
     The border pixels are extended as far as necessary to provide values for the convolution. It's easy to implement. If the pixel coordinates are not valid, use the coordinates of the closest pixel of the image:
 
     If ![x - W_h \setminus 2+k](img/x_coord.png) is less than 0, use 0.
-    Else if ![x - W_h \setminus 2+k](img/x_coord.png) is equal to or greater than W_f, use W_f - 1.
+    Else if ![x - W_h \setminus 2+k](img/x_coord.png) is equal to or greater than <img src="https://render.githubusercontent.com/render/math?math=W_f" />, use <img src="https://render.githubusercontent.com/render/math?math=W_f - 1" />.
     Else use ![x - W_h \setminus 2+k](img/x_coord.png)
 
     If ![y - H_h \setminus 2+l](img/y_coord.png) is less than 0, use 0.
-    Else if ![y - H_h \setminus 2+l](img/y_coord.png) is equal to or greater than H_f, use H_f - 1.
+    Else if ![y - H_h \setminus 2+l](img/y_coord.png) is equal to or greater than <img src="https://render.githubusercontent.com/render/math?math=H_f" />, use <img src="https://render.githubusercontent.com/render/math?math=H_f - 1" />.
     Else use ![y - H_h \setminus 2+l](img/y_coord.png)
-
-- **Wrap:**
-    The image is conceptually wrapped (or tiled) and values are taken from the opposite edge or corner.
-- **Mirror:**
-    The image is conceptually mirrored at the edges. For example, attempting to read a pixel 3 units outside an edge reads one 3 units inside the edge instead.
+- **zero padding:**
+    The image is extended by adding extra zeros as necessary to provide values for the convolution. It is also easy to implement.
 - **Crop:**
-    Any pixel in the output image which would require values from beyond the edge is skipped. This method can result in the output image being slightly smaller, with the edges having been cropped.
+    Any pixel in the output image which would require values from beyond the edge is skipped. It results in the output image being slightly smaller than the input, with the edges having been cropped.
 
-https://en.wikipedia.org/wiki/Kernel_(image_processing)#Edge_Handling
+I recommend **Extend**.
