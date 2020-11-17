@@ -122,3 +122,17 @@ double value2 = I1.getZNCC(10. + 4. * I3);
 ASSERT_GT(value2, -1.0);
 ASSERT_LT(value2, 1.0);
 ```
+
+# Spatial filtering using a convolution
+
+For this method, we will use use a "kernel", also known as "sliding window" to filter an image.
+The method performs a convolution between a kernel and an image. It is used for blurring, sharpening, embossing, edge detection, and more. This is probably the most used technique in image processing and image filtering.
+It's discrete formula is:
+
+<img src="https://render.githubusercontent.com/render/math?math=f'(x,y) = (f * h)(x,y) = \sum^{l < H_h}_{l=0}\sum^{k < W_h}_{k=0} f(i - W_h \setminus 2 + k, j - H_h \setminus 2 + l) \times h(k,l)" />
+
+- <img src="https://render.githubusercontent.com/render/math?math=f" /> is the input image, and <img src="https://render.githubusercontent.com/render/math?math=h" /> is the kernel (sliding window).
+- <img src="https://render.githubusercontent.com/render/math?math=f" />  has a width of <img src="https://render.githubusercontent.com/render/math?math=W_f" /> and height of <img src="https://render.githubusercontent.com/render/math?math=H_f" />,
+- <img src="https://render.githubusercontent.com/render/math?math=h" />  has a width of <img src="https://render.githubusercontent.com/render/math?math=W_h" /> and height of <img src="https://render.githubusercontent.com/render/math?math=H_h" />.
+- <img src="https://render.githubusercontent.com/render/math?math=f'" /> is the result of the convolution of <img src="https://render.githubusercontent.com/render/math?math=f" /> by <img src="https://render.githubusercontent.com/render/math?math=h" />
+- <img src="https://render.githubusercontent.com/render/math?math=x" /> the pixel index along the X-axis, and <img src="https://render.githubusercontent.com/render/math?math=y" /> the pixel index along the Y-axis.
