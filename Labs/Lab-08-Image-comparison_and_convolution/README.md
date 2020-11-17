@@ -243,13 +243,14 @@ Image Image::laplacianFilter() const
 - **Extend:**
     The border pixels are extended as far as necessary to provide values for the convolution. It's easy to implement. If the pixel coordinates are not valid, use the coordinates of the closest pixel of the image:
 
-    If ![x - W_h \setminus 2+k](img/x_coord.png) is less than 0, use 0.
-    Else if ![x - W_h \setminus 2+k](img/x_coord.png) is equal to or greater than <img src="https://render.githubusercontent.com/render/math?math=W_f" />, use <img src="https://render.githubusercontent.com/render/math?math=W_f - 1" />.
-    Else use ![x - W_h \setminus 2+k](img/x_coord.png)
+    - If ![x - W_h \setminus 2+k](img/x_coord.png) is less than 0, use 0.
+    - Else if ![x - W_h \setminus 2+k](img/x_coord.png) is equal to or greater than <img src="https://render.githubusercontent.com/render/math?math=W_f" />, use <img src="https://render.githubusercontent.com/render/math?math=W_f - 1" />.
+    - Else use ![x - W_h \setminus 2+k](img/x_coord.png)
 
-    If ![y - H_h \setminus 2+l](img/y_coord.png) is less than 0, use 0.
-    Else if ![y - H_h \setminus 2+l](img/y_coord.png) is equal to or greater than <img src="https://render.githubusercontent.com/render/math?math=H_f" />, use <img src="https://render.githubusercontent.com/render/math?math=H_f - 1" />.
-    Else use ![y - H_h \setminus 2+l](img/y_coord.png)
+    - If ![y - H_h \setminus 2+l](img/y_coord.png) is less than 0, use 0.
+    - Else if ![y - H_h \setminus 2+l](img/y_coord.png) is equal to or greater than <img src="https://render.githubusercontent.com/render/math?math=H_f" />, use <img src="https://render.githubusercontent.com/render/math?math=H_f - 1" />.
+    - Else use ![y - H_h \setminus 2+l](img/y_coord.png)
+    
 - **zero padding:**
     The image is extended by adding extra zeros as necessary to provide values for the convolution. It is also easy to implement.
 - **Crop:**
