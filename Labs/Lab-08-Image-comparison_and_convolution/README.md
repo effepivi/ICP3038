@@ -36,6 +36,26 @@ with <img src="https://render.githubusercontent.com/render/math?math=w" /> and <
 
 The errors in RMSE are squared. It means that a much larger weight is assigned to larger errors: An error of 10, is 100 times worse than an error of 1.
 
+1. Add the declaration, e.g. `double getRMSE(const Image& anImage) const` in `Image.h`.
+2. Add the definition in `Image.cxx`. `sqrt` is declared in `<cmath>`. There are several ways of implementing RMSE. Some students may use the point operator (`-`) and add a new one `square`. Some students may just use a `for` loop. Both solution are perfectly valid as long as you
+
+1. Handle possible errors (e.g. different size of image), and
+2. Test your code.
+
+You may use unit testing to validate your function. Note that:
+
+```cpp
+Image I1({1, 1, 1, 1, 1, 1}, 2, 3);
+I1.getRMSE(I1); // <-- must be close to 0
+ASSERT_NEAR(I1.getRMSE(I1), 0.0, 1e-6);
+
+
+I1.getRMSE(I1 * 3); // must be close to sqrt(6 * (1 - 3)^2), i.e. sqrt(24)
+ASSERT_NEAR(I1.getRMSE(I1 * 3), sqrt(24), 1e-6);
+```
+
+
+
 
 <!--
 
