@@ -90,23 +90,9 @@ To make your life easier, I make sure DLLs are copied from OpenCV's directory in
 
 `${JPEG_INCLUDE_DIR}` becomes `${OpenCV_INCLUDE_DIRS}`
 
-`${JPEG_LIBRARY}` becomes `${OpenCV_LIBS}`
+`${JPEG_LIBRARY}` becomes `${OpenCV_LIBS}` and
 
 `${JPEG_FOUND}` becomes `${OpenCV_FOUND}`
-
-```cmake
-${JPEG_LIBRARY}
-```
-
-becomes
-
-```cmake
-${OpenCV_LIBS}
-```
-
-and
-
-JPEG_FOUND
 
 
 2. In `Image.cxx`, change the header file inclusion:
