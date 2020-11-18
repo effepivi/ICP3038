@@ -49,7 +49,7 @@ This week, we will see how to
 *                        then display (default value: true)
 */
 //--------------------------------------------------------------------------
-void display(bool aNormaliseFlag) const;
+void display(bool aNormaliseFlag = true) const;
 ```
 
 2. Add the definition in `Image.cxx`:
