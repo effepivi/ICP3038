@@ -163,7 +163,7 @@ For images, the Root Mean Squared Error (RMSE) and the Mean Absolute Error (MAE)
 
 <!-- ![RMSE formula](https://render.githubusercontent.com/render/math?math=RMSE(I_1, I_2)=\sqrt{\frac{1}{w\times h}\sum_j\sum_i\left(I_1(i,j)-I_1(i,j)\right)^2}) -->
 
-<img src="https://render.githubusercontent.com/render/math?math=\mathrm{RMSE}(I_1, I_2)=\sqrt{\frac{1}{w\times h}\sum_y\sum_x\left(I_1(x,y)-I_1(x,y)\right)^2}" alt="RMSE formula" />
+<img src="https://render.githubusercontent.com/render/math?math=\mathrm{RMSE}(I_1, I_2)=\sqrt{\frac{1}{w\times h}\sum_y\sum_x\left(I_1(x,y)-I_2(x,y)\right)^2}" alt="RMSE formula" />
 
 with <img src="https://render.githubusercontent.com/render/math?math=w" /> and <img src="https://render.githubusercontent.com/render/math?math=h" /> the number of pixels along the horizontal and vertical axes respectively.
 
