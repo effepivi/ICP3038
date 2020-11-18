@@ -186,10 +186,10 @@ Image I1({1, 1, 1, 1, 1, 1}, 2, 3);
 ASSERT_NEAR(I1.getRMSE(I1), 0.0, 1e-6);
 
 // I1.getRMSE(I1 * 3); must be close to sqrt(1/6 * 6 * (1 - 3)^2), i.e. 2
-ASSERT_NEAR(I1.getRMSE(I1 * 3), 2.0, 1e-6);
+ASSERT_NEAR(I1.getRMSE(I1 * 3), 2.0, 1e-5);
 
 // I1.getRMSE(I1 * 9); must be close to sqrt(1/6 * 6 * (1 - 9)^2), i.e. 8
-ASSERT_NEAR(I1.getRMSE(I1 * 9), 8.0, 1e-6);
+ASSERT_NEAR(I1.getRMSE(I1 * 9), 8.0, 1e-5);
 ```
 
 # Zero mean Normalised-Cross Correlation: ZNCC
@@ -230,14 +230,14 @@ Image I3(0, 2, 3); // A black image
 
 // Same image
 // I1.getZNCC(I1); <-- must be close to 1
-ASSERT_NEAR(I1.getZNCC(I1), 1.0, 1e-6);
+ASSERT_NEAR(I1.getZNCC(I1), 1.0, 1e-5);
 
 // I1.getZNCC(10. + 4. * I1); <-- must be close to 1
-ASSERT_NEAR(I1.getZNCC(10. + 4. * I1), 1.0, 1e-6);
+ASSERT_NEAR(I1.getZNCC(10. + 4. * I1), 1.0, 1e-5);
 
 // Negative image
 // I1.getZNCC(I2); <-- must be close to -1
-ASSERT_NEAR(I1.getZNCC(I2), -1.0, 1e-6);
+ASSERT_NEAR(I1.getZNCC(I2), -1.0, 1e-5);
 
 // I1.getZNCC(10. + 4. * I2); <-- must be close to -1
 ASSERT_NEAR(I1.getZNCC(10. + 4. * I2), -1.0, 1e-6);
