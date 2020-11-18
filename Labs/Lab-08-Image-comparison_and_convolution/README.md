@@ -33,8 +33,123 @@ Last week we replaced the use of the LibJPEG with OpenCV. We also wrote a few pr
 
 This week, we will see how to
 
+- Write a method to display an image.
 - Compare two images using he Root Mean Squared Error (RMSE) and the Zero mean Normalised-Cross Correlation (ZNCC or simply NCC).
 - Filter images using the convolution.
+
+# Display an image using OpenCV
+
+1. Add the declaration in `Image.h`:
+
+```cpp
+//--------------------------------------------------------------------------
+/// Display the image
+/**
+* @param aNormaliseFlag: a flag used to optionally normalise the data first,
+*                        then display (default value: true)
+*/
+//--------------------------------------------------------------------------
+void display(bool aNormaliseFlag) const;
+```
+
+2. Add the definition in `Image.cxx`:
+
+```cpp
+//--------------------------------------------
+void Image::display(bool aNormaliseFlag) const
+//--------------------------------------------
+{
+  #ifdef HAS_OPENCV
+    Image display_image = *this;
+
+    // Normalise the image if needed
+    if (aNormaliseFlag)
+        display_image = display_image.normalise();
+
+    // Convert the data into an OpenCV Mat instance.
+    cv::Mat cv_image(m_height, m_width, CV_32FC1, (float*) display_image.getPixelPointer());
+
+    // Display the image
+    cv::imshow("Display window", cv_image);
+
+    // Wait for a keystroke in the window
+    cv::waitKey(0);
+#endif // HAS_OPENCV
+}
+```
+
+3. Compile and test your code.
+
+4. You may write a small utility tool in `display.cxx` that to display an image.
+
+```cpp
+#include <iostream>
+#include <exception>
+#include <string>
+
+#include "Image.h"
+
+using namespace std;
+
+int main(int argc, char** argv)
+{
+    try
+    {
+        if argc == 2)
+        {
+            Image input(argv[1]);
+            input.display();
+        }
+        else
+        {
+            string error_message = "Usage: " + argv[0] + " input_image";
+            throw error_message;
+        }
+    }
+    catch (const exception& e)
+    {
+        cerr << "An error occured, see the message below." << endl;
+        cerr << e.what() << endl;
+        return 1;
+    }
+    catch (const string& e)
+    {
+        cerr << "An error occured, see the message below." << endl;
+        cerr << e << endl;
+        return 2;
+    }
+    catch (const char* e)
+    {
+        cerr << "An error occured, see the message below." << endl;
+        cerr << e << endl;
+        return 3;
+    }
+
+    return 0;
+}
+```
+
+In CMakeLists.txt, you need:
+
+```cmake
+# Compilation
+ADD_EXECUTABLE(display
+    include/Image.h
+    src/Image.cxx
+    src/display.cxx)
+
+# Add include directories
+TARGET_INCLUDE_DIRECTORIES(display PUBLIC include)
+
+IF(OpenCV_FOUND)
+    target_include_directories(display PUBLIC ${OpenCV_INCLUDE_DIRS})
+ENDIF(OpenCV_FOUND)
+
+# Add linkage
+target_link_libraries(display ${OpenCV_LIBS})
+```
+
+5. To close the visualisation window, just press any key on your keyboard.
 
 # Root Mean Squared Error: RMSE
 
@@ -382,3 +497,13 @@ Make sure you compile often. You can test your code now to see if you can blur a
   2. `laplacianFilter.cxx`
 
 to test the other filters.
+
+7. Modify the command line of
+
+    - `boxFilter.cxx`,
+    - `laplacianFilter.cxx`,
+    - `gaussianFilter.cxx`,
+    - `blending.cxx` (this is is from last week), and
+    - `normalise.cxx` (this is is from last week)
+
+so that you add a special option `-display` that can enable the user display the images that your code produces.
