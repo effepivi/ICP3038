@@ -226,7 +226,7 @@ Read more on [Wikipedia](https://en.wikipedia.org/wiki/Cross-correlation#Zero-no
 ```cpp
 Image I1({1, 2, 3, 4, 5, 6}, 2, 3);
 Image I2(!I1); // Negative of I1
-Image I3(0, 2, 3); // A black image
+Image I3({6, 6, 6, 0, 0, 0}, 2, 3); // A two-tone image
 
 // Same image
 // I1.getZNCC(I1); <-- must be close to 1
