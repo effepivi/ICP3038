@@ -40,10 +40,12 @@ There are two ways to compute the gradient magnitude from <img src="https://rend
 
 1. A fast approximation:
 
-<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G} = |\mathrm{G}_x| + |\mathrm{G}_y|" alt="G=|Gx| + |Gy|" />
+![G=|Gx| + |Gy|](img/G-abs.png)
+<!-- <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G} = |\mathrm{G}_x| + |\mathrm{G}_y|" alt="G=|Gx| + |Gy|" /> -->
 
 2. A slower, but more accurate, calculation
 
-<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G} = \sqrt{\mathrm{G}_x^2 + \mathrm{G}_y^2}" alt="G=sqrt(Gx^2 + Gy^2)" />
+![sqrt(Gx^2 + Gy^2)](img/G-square.png)
+<!-- <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G} = \sqrt{\mathrm{G}_x^2 + \mathrm{G}_y^2}" alt="G=sqrt(Gx^2 + Gy^2)" /> -->
 
-Both methods are equally fine. Choose one. 
+Both methods are equally fine. Choose one.
