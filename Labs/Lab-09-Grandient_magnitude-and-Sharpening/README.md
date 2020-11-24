@@ -64,8 +64,12 @@ The table below shows the statistics for the different images.
 
 |  Input: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{Img}" alt="Img" /> | <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x=\|" alt="\|Gx\|" /> | <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_y\|" alt="\|Gy\|" /> |<img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x\|" alt="\|Gx\|" /> + <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_y\|" alt="\|Gy\|" /> |
 |-------|-------|-------|-------|
-![Example image: Img](img/Img.png) | ![$G_x$](img/vertical-derivative-abs.png) |![$G_y$](img/horizontal-derivative-abs.png) |![$G_y$](img/img-G-abs.png)|
+![Example image: Img](img/Img.png) | ![$G_x$](img/vertical-derivative-abs.png) |![$G_y$](img/horizontal-derivative-abs.png) |![$G$](img/img-G-abs.png)|
 
+
+|  Input: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{Img}" alt="Img" /> | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x^2=" alt="Gx" /> | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y^2" alt="Gy" /> |<img src="https://render.githubusercontent.com/render/math?math=\sqrt{\mathrm{G}_x^2+\mathrm{G}_y^2}" alt="sqrt(Gx^2+Gy^2)" /> |
+|-------|-------|-------|-------|
+![Example image: Img](img/Img.png) | ![$G_x^2$](img/vertical-derivative-square.png) |![$G_y^2$](img/horizontal-derivative-square.png) |![$G$](img/img-G-square.png)|
 
 
 **As you can see, even if the dynamic range of the input image is withn the [0,255] range, the output images are not.** In other words, before saving the data in an image file format such as JPEG, make sure to normalise the image. For an ASCII file, do not normalise the image. You may wish to use the code below:
