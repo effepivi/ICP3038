@@ -56,4 +56,8 @@ If you choose 2., well maybe you want to add two new point operators `Image Imag
 | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y" alt="Gy" /> | 0.078   | 41.165  | -580.667 | 520.000 |
 | <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x\|" alt="\|Gx\|" /> | 27.056 | 31.024 |0 |580.667 |
 | <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_y\|" alt="\|Gy\|" /> | 25.560 | 29.132 | 0 | 659.333 |
-| <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x\| + \|\mathrm{G}_y\|" alt="\|Gx\|+\|Gy\|" /> | 52.617	49.340 | 0 | 848.667 |
+| <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x\|" alt="\|Gx\|" /> + <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_y\|" alt="\|Gy\|" /> | 52.617 | 49.340 | 0 | 848.667 |
+
+| <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x^2" alt="Gx^2" /> | 1694.552 | 5247.248 | 0 | 337173.812 |
+| <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y^2" alt="Gy^2" /> | 1502.017 | 4540.478 | 0 | 434720.500 |
+| <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G} = \sqrt{\mathrm{G}_x^2 + \mathrm{G}_y^2}" alt="G=sqrt(Gx^2 + Gy^2)" /> |  41.438 | 38.464 | 0 | 659.527 |
