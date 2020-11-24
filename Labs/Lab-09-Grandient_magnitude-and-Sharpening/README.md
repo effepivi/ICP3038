@@ -159,7 +159,7 @@ int main(int argc, char** argv)
         }
         else
         {
-            string error_message = "Usage: " + argv[0] + " input_image output_image";
+            string error_message = "Usage: " + argv[0] + " input_image output_image [-display]";
             throw error_message;
         }
     }
