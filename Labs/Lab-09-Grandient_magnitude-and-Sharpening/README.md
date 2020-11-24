@@ -211,7 +211,7 @@ target_link_libraries(gradientMagnitude ${OpenCV_LIBS})
 
 Have a look at Slides 53-54 of Week 8 on Blackboard. It's what we are going to implement.
 
-![Original](img/original.png) - ![Gaussian blur (5x5)](img/original.png) = ![Details](img/details.png)
+![Original](img/original.png) - ![Gaussian blur (5x5)](img/blur.png) = ![Details](img/details.png)
 
 ![Original](img/original.png) + <img src="https://render.githubusercontent.com/render/math?math=\alpha" alt="alpha" /> * ![Details](img/details.png) = ![Sharpen](img/sharpen.png)
 
