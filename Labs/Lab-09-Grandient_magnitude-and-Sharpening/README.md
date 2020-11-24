@@ -96,3 +96,13 @@ if (std::string(aFilename).size() > 4)
     }
 }
 ```
+
+## Tasks
+
+1. Add new point operators in `Image.h` and `Image.cxx`:
+    - `Image Image::abs() const`
+    - `Image Image::square() const`
+    - `Image Image::sqrt() const`
+2. Add a new method in `Image.h` and `Image.cxx`:
+    - `Image Image::gradientMagnitude() const`
+3. Add a new program similar to `guassianFilter` in [Lab 8](../Lab-08-Image-comparison_and_convolution), but to use your new method.
