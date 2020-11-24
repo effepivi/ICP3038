@@ -38,14 +38,22 @@ Convolutions using <img src="https://render.githubusercontent.com/render/math?ma
 
 There are two ways to compute the gradient magnitude from <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x" alt="Gx" /> and <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y" alt="Gy" />:
 
-1. A fast approximation:
-
-![G=|Gx| + |Gy|](img/G-abs.png)
+1. A fast approximation: ![G=|Gx| + |Gy|](img/G-abs.png)
 <!-- <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G} = |\mathrm{G}_x| + |\mathrm{G}_y|" alt="G=|Gx| + |Gy|" /> -->
 
-2. A slower, but more accurate, calculation
-
-![sqrt(Gx^2 + Gy^2)](img/G-square.png)
+2. A slower, but more accurate, calculation: ![sqrt(Gx^2 + Gy^2)](img/G-square.png)
 <!-- <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G} = \sqrt{\mathrm{G}_x^2 + \mathrm{G}_y^2}" alt="G=sqrt(Gx^2 + Gy^2)" /> -->
 
 Both methods are equally fine. Choose one.
+If you choose 1., well maybe you want to add a new point operator `Image Image::abs() const` (hint, hint).
+If you choose 2., well maybe you want to add two new point operators `Image Image::square() const` and `Image Image::sqrt() const` (hint, hint).
+
+
+| Image  | Mean    | Std dev | Min      | Max     |
+|--------|---------|---------|----------|---------|
+| **Img**| 135.511 | 25.599  | 5        | 253.667 |
+| <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x" alt="Gx" /> | -0.160  | 38.756  | -659.333 | 432.000 |
+| <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y" alt="Gy" /> | 0.078   | 41.165  | -580.667 | 520.000 |
+| <img src="https://render.githubusercontent.com/render/math?math=|\mathrm{G}_x|" alt="|Gx|" /> | 27.056 | 31.024 |0 |580.667 |
+| <img src="https://render.githubusercontent.com/render/math?math=|\mathrm{G}_y|" alt="|Gy|" /> | 25.560 | 29.132 | 0 | 659.333 |
+| <img src="https://render.githubusercontent.com/render/math?math=|\mathrm{G}_x|+|\mathrm{G}_y|" alt="|Gx|+|Gy|" /> | 52.617	49.340 | 0 | 848.667 |
