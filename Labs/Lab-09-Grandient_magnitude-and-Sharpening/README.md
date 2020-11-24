@@ -62,7 +62,7 @@ The table below shows the statistics for the different images.
 | <img src="https://render.githubusercontent.com/render/math?math=\sqrt{\mathrm{G}_x^2 + \mathrm{G}_y^2}" alt="G=sqrt(Gx^2 + Gy^2)" /> |  41.438 | 38.464 | 0 | 659.527 |
 
 
-|  Input: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{Img}" alt="Img" /> | Vertical derivative: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x=\mathrm{g}_x * \mathrm{Img}" alt="Gx = gx * Img" /> | Horizontal derivative: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y=\mathrm{g}_y * \mathrm{Img}" alt="Gy = gy * Img" /> |<img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x\|" alt="\|Gx\|" /> + <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_y\|" alt="\|Gy\|" /> |
+|  Input: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{Img}" alt="Img" /> | <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x=\|" alt="\|Gx\|" /> | <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_y\|" alt="\|Gy\|" /> |<img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x\|" alt="\|Gx\|" /> + <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_y\|" alt="\|Gy\|" /> |
 |-------|-------|-------|-------|
 ![Example image: Img](img/Img.png) | ![$G_x$](img/vertical-derivative-abs.png) |![$G_y$](img/horizontal-derivative-abs.png) |![$G_y$](img/img-G-abs.png)|
 
