@@ -22,9 +22,9 @@ The Sobel operator makes use of two 3×3 convolution kernels <img src="https://r
 <!-- \mathbf{G}_y=\left[\begin{array}{ccc}+1&+2&+1\\0&0&0\\-1&-2&-1\\\end{array}\right]-->
 
 The first one is used to compute an approximation of the vertical derivative (<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x" alt="Gx" />); the second to compute an approximation of the horizontal derivative (<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y" alt="Gy" />).
-Consider the following images. **Img** is the input image.
+Consider the following images.
 
-| **Img** | Vertical derivative: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x=\mathrm{g}_x * \mathrm{Img}" alt="Gx = gx * Img" /> | Horizontal derivative: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y=\mathrm{g}_y * \mathrm{Img}" alt="Gy = gy * Img" /> |
+|  Input: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{Img}" alt="Img" /> | Vertical derivative: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x=\mathrm{g}_x * \mathrm{Img}" alt="Gx = gx * Img" /> | Horizontal derivative: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y=\mathrm{g}_y * \mathrm{Img}" alt="Gy = gy * Img" /> |
 |-------|-------|-------|
 ![Example image: Img](img/Img.png) | ![$G_x$](img/vertical-derivative.png) |![$G_y$](img/horizontal-derivative.png)|
 
@@ -35,3 +35,15 @@ Convolutions using <img src="https://render.githubusercontent.com/render/math?ma
 | **Img**| 135.511 | 25.599  | 5        | 253.667 |
 | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x" alt="Gx" /> | -0.160  | 38.756  | -659.333 | 432.000 |
 | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y" alt="Gy" /> | 0.078   | 41.165  | -580.667 | 520.000 |
+
+There are two ways to compute the gradient magnitude from <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x" alt="Gx" /> and <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y" alt="Gy" />:
+
+1. A fast approximation:
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G} = |\mathrm{G}_x| + |\mathrm{G}_y|" alt="G=|Gx| + |Gy|" />
+
+2. A slower, but more accurate, calculation
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G} = \sqrt{\mathrm{G}_x^2 + \mathrm{G}_y^2}" alt="G=sqrt(Gx^2 + Gy^2)" />
+
+Both methods are equally fine. Choose one. 
