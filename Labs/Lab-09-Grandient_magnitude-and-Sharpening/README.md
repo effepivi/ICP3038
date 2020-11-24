@@ -212,6 +212,7 @@ target_link_libraries(gradientMagnitude ${OpenCV_LIBS})
 Have a look at Slides 53-54 of Week 8 on Blackboard. It's what we are going to implement.
 
 ![Original](img/original.png) - ![Gaussian blur (5x5)](img/original.png) = ![Details](img/details.png)
+
 ![Original](img/original.png) + <img src="https://render.githubusercontent.com/render/math?math=\alpha" alt="alpha" /> * ![Details](img/details.png) = ![Sharpen](img/sharpen.png)
 
 
@@ -225,12 +226,12 @@ Have a look at Slides 53-54 of Week 8 on Blackboard. It's what we are going to i
     ```cpp
         Image gaussian_5x5_kernel(
             {
-                1.,  4.,  7., 4., 1.,
-                4., 16., 26. 16., 4.,
-                7., 26., 41.,26., 7.,
-                4., 16., 26. 16., 4.,
-                1.,  4.,  7., 4., 1.
-            }, 5, 5):
+                1.,  4.,  7.,  4., 1.,
+                4., 16., 26., 16., 4.,
+                7., 26., 41., 26., 7.,
+                4., 16., 26., 16., 4.,
+                1.,  4.,  7.,  4., 1.
+            }, 5, 5);
         gaussian_5x5_kernel /= 273.;
     ```
 
