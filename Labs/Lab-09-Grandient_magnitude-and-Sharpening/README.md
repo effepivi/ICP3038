@@ -13,7 +13,7 @@ Last week we implemented the spatial convolution. We will use it this week. We w
 
 # Gradient magnitude using the Sobel operator
 
-The Sobel operator makes use of two 3×3 convolution kernels **g**x and **g**y.
+The Sobel operator makes use of two 3×3 convolution kernels <img src="https://render.githubusercontent.com/render/math?math=\mathrm{g}_x" alt="gx" /> and <img src="https://render.githubusercontent.com/render/math?math=\mathrm{g}_y" alt="gy" />.
 
 ![$g_x$ Sobel kernel](img/g_x.png)
 <!-- mathbf{g}_x=\left[\begin{array}{ccc}+1&0&-1\\+2&0&-2\\+1&0&-1\\\end{array}\right]" alt="g_x Sobel kernel" /> -->
@@ -21,27 +21,27 @@ The Sobel operator makes use of two 3×3 convolution kernels **g**x and **g**y.
 ![$g_y$ Sobel kernel](img/g_y.png)
 <!-- \mathbf{G}_y=\left[\begin{array}{ccc}+1&+2&+1\\0&0&0\\-1&-2&-1\\\end{array}\right]-->
 
-The first one is used to compute an approximation of the vertical derivative (**G**x); the second to compute an approximation of the horizontal derivative (**G**y).
+The first one is used to compute an approximation of the vertical derivative (<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x" alt="Gx" />); the second to compute an approximation of the horizontal derivative (<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y" alt="Gy" />).
 Consider the image **Img** as follows:
 
 ![Example image: Img](img/Img.png)
 
-**G**x =  **g**x * **Img**:
+<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x=\mathrm{g}_x * \mathrm{Img}" alt="Gx = gx * Img" />
 
 ![$G_x$](img/vertical-derivative.png)
 <!-- mathbf{g}_x=\left[\begin{array}{ccc}+1&0&-1\\+2&0&-2\\+1&0&-1\\\end{array}\right]" alt="g_x Sobel kernel" /> -->
 
-**G**y =  **g**y * **Img**:
+<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y=\mathrm{g}_y * \mathrm{Img}" alt="Gy = gy * Img" />
 
 ![$G_y$](img/horizontal-derivative.png)
 
 <!-- \mathbf{G}_y=\left[\begin{array}{ccc}+1&+2&+1\\0&0&0\\-1&-2&-1\\\end{array}\right]-->
 
 
-Convolutions using <img src="https://render.githubusercontent.com/render/math?math=\mathrm{g}_x" alt="gx" /> and **g**y produce output images with pixels values that are negative, null and positive.
+Convolutions using <img src="https://render.githubusercontent.com/render/math?math=\mathrm{g}_x" alt="gx" /> and <img src="https://render.githubusercontent.com/render/math?math=\mathrm{g}_y" alt="gy" /> produce output images with pixels values that are negative, null and positive.
 
 | Image  | Mean    | Std dev | Min      | Max     |
 |--------|---------|---------|----------|---------|
 | Im     | 135.511 | 25.599  | 5        | 253.667 |
-| **G**x | -0.160  | 38.756  | -659.333 | 432.000 |
-| **G**y | 0.078   | 41.165  | -580.667 | 520.000 |
+| <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x" alt="Gx" /> | -0.160  | 38.756  | -659.333 | 432.000 |
+| <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y" alt="Gy" /> | 0.078   | 41.165  | -580.667 | 520.000 |
