@@ -211,9 +211,17 @@ target_link_libraries(gradientMagnitude ${OpenCV_LIBS})
 
 Have a look at Slides 53-54 of Week 8 on Blackboard. It's what we are going to implement.
 
+Original - Gaussian blur (5x5) = Details
+
+Original + <img src="https://render.githubusercontent.com/render/math?math=\alpha\times" alt="alpha *" /> = Sharpen
+
+**DO NOT NORMALISE THE FINAL IMAGE!** Instead you need to clamp the pixel values to preserve the same dynamic range as the input image. See below.
+
+## Example with <img src="https://render.githubusercontent.com/render/math?math=\alpha=4" alt="alpha=4" />
+
 ![Original](img/original.jpg) - ![Gaussian blur (5x5)](img/blur.jpg) = ![Details](img/details.jpg)
 
-![Original](img/original.jpg) + <img src="https://render.githubusercontent.com/render/math?math=\alpha" alt="alpha" /> * ![Details](img/details.jpg) = ![Sharpen](img/sharpen.jpg)
+![Original](img/original.jpg) + <img src="https://render.githubusercontent.com/render/math?math=\alpha\times" alt="alpha *" /> ![Details](img/details.jpg) = ![Sharpen](img/sharpen.jpg)
 
 
 ## Tasks
@@ -257,7 +265,6 @@ Have a look at Slides 53-54 of Week 8 on Blackboard. It's what we are going to i
 
 with <img src="https://render.githubusercontent.com/render/math?math=\mathbf{Input}" alt="Input" /> = `*this` and <img src="https://render.githubusercontent.com/render/math?math=\mathbf{Output}" alt="Output" /> the image returned by the `clamp` method.
 
-**DO NOT NORMALISE THE FINAL IMAGE!** Instead you need to clamp the pixel values to preserve the same dynamic range as the input image. See below.
 
 
 ### Executable
