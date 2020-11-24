@@ -434,7 +434,7 @@ int main(int argc, char** argv)
 {
     try
     {
-        if argc == 3)
+        if (argc == 3)
         {
             Image input(argv[1]);
             Image output(input.gaussianFilter());
