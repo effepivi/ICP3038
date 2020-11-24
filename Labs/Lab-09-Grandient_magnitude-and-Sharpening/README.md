@@ -38,7 +38,7 @@ Consider the image **Img** as follows:
 <!-- \mathbf{G}_y=\left[\begin{array}{ccc}+1&+2&+1\\0&0&0\\-1&-2&-1\\\end{array}\right]-->
 
 
-Convolutions using  **g**x and **g**y produce output images with pixels values that are negative, null and positive.
+Convolutions using <img src="https://render.githubusercontent.com/render/math?math=\mathrm{g}_x" / alt="gx"> and **g**y produce output images with pixels values that are negative, null and positive.
 
 | Image  | Mean    | Std dev | Min      | Max     |
 |--------|---------|---------|----------|---------|
