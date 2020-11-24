@@ -54,6 +54,6 @@ If you choose 2., well maybe you want to add two new point operators `Image Imag
 | **Img**| 135.511 | 25.599  | 5        | 253.667 |
 | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x" alt="Gx" /> | -0.160  | 38.756  | -659.333 | 432.000 |
 | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y" alt="Gy" /> | 0.078   | 41.165  | -580.667 | 520.000 |
-| <img src="https://render.githubusercontent.com/render/math?math=|\mathrm{G}_x|" alt="|Gx|" /> | 27.056 | 31.024 |0 |580.667 |
-| <img src="https://render.githubusercontent.com/render/math?math=|\mathrm{G}_y|" alt="|Gy|" /> | 25.560 | 29.132 | 0 | 659.333 |
-| <img src="https://render.githubusercontent.com/render/math?math=|\mathrm{G}_x|+|\mathrm{G}_y|" alt="|Gx|+|Gy|" /> | 52.617	49.340 | 0 | 848.667 |
+| <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x\|" alt="\|Gx\|" /> | 27.056 | 31.024 |0 |580.667 |
+| <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_y\|" alt="\|Gy\|" /> | 25.560 | 29.132 | 0 | 659.333 |
+| <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x\|+\|\mathrm{G}_y\|" alt="\|Gx\|+\|Gy\|" /> | 52.617	49.340 | 0 | 848.667 |
