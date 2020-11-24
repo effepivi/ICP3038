@@ -13,6 +13,10 @@ Last week we implemented the spatial convolution. We will use it this week. We w
 
 # Gradient magnitude using the Sobel operator
 
+| +1 | 0 | -1 |
+| +2 | 0 | -2 |
+| +1 | 0 | -1 |
+
 $\mathbf{G}_x = \left[\begin{array}{ccc}
 +1 & 0 & -1\\
 +2 & 0 & -2\\
