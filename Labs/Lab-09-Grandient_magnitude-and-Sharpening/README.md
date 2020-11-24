@@ -13,6 +13,9 @@ Last week we implemented the spatial convolution. We will use it this week. We w
 
 # Gradient magnitude using the Sobel operator
 
-<img src="https://render.githubusercontent.com/render/math?math=\mathbf{G}_x=\left[\begin{array}{ccc}+1&0&-1\\+2&0&-2\\+1&0&-1\\\end{array}\right]" alt="G_x Sobel kernel" />
+![$G_x$ Sobel kernel](img/g_x.png)
+<!-- mathbf{G}_x=\left[\begin{array}{ccc}+1&0&-1\\+2&0&-2\\+1&0&-1\\\end{array}\right]" alt="G_x Sobel kernel" /> -->
 
-<img src="https://render.githubusercontent.com/render/math?math=\mathbf{G}_y=\left[\begin{array}{ccc}+1&+2&+1\\0&0&0\\-1&-2&-1\\\end{array}\right]" alt="G_y Sobel kernel" />
+![$G_$ Sobel kernel](img/g_y.png)
+
+<!-- \mathbf{G}_y=\left[\begin{array}{ccc}+1&+2&+1\\0&0&0\\-1&-2&-1\\\end{array}\right]
