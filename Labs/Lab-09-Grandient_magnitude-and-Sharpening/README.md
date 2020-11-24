@@ -213,7 +213,7 @@ Have a look at Slides 53-54 of Week 8 on Blackboard. It's what we are going to i
 
 Original - Gaussian blur (5x5) = Details
 
-Original + <img src="https://render.githubusercontent.com/render/math?math=\alpha\times" alt="alpha *" /> = Sharpen
+Original + <img src="https://render.githubusercontent.com/render/math?math=\alpha\times" alt="alpha *" /> Details = Sharpen
 
 **DO NOT NORMALISE THE FINAL IMAGE!** Instead you need to clamp the pixel values to preserve the same dynamic range as the input image. See below.
 
@@ -284,6 +284,10 @@ The code is as follows:
 #include <exception>
 #include <string>
 
+#ifdef HAS_OPENCV
+#include <opencv2/opencv.hpp>
+#endif
+
 #include "Image.h"
 
 using namespace std;
@@ -326,6 +330,7 @@ int main(int argc, char** argv)
             // Filter the image
             g_output = g_input.sharpen(g_alpha);
 
+#ifdef HAS_OPENCV
             // Display the image
             if (argv_3 == "-display || argc == 5)
             {
@@ -333,6 +338,9 @@ int main(int argc, char** argv)
               cv::createTrackbar( "Alpha", "Sharpening", &g_alpha_slider, g_alpha_slider_int_max, on_trackbar );
 
               onTrackbar( g_alpha_slider, 0 );            }
+            }
+#endif HAS_OPENCV
+
 
             // Save the output
             output.save(argv[2]);
