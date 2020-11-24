@@ -64,12 +64,12 @@ The table below shows the statistics for the different images.
 | <img src="https://render.githubusercontent.com/render/math?math=\sqrt{\mathbf{G}_x^2 + \mathbf{G}_y^2}" alt="G=sqrt(Gx^2 + Gy^2)" /> |  41.438 | 38.464 | 0 | 659.527 |
 
 
-|  Input: <img src="https://render.githubusercontent.com/render/math?math=\mathbf{Img}" alt="Img" /> | <img src="https://render.githubusercontent.com/render/math?math=\|\mathbf{G}_x=\|" alt="\|Gx\|" /> | <img src="https://render.githubusercontent.com/render/math?math=\|\mathbf{G}_y\|" alt="\|Gy\|" /> |<img src="https://render.githubusercontent.com/render/math?math=\|\mathbf{G}_x\|" alt="\|Gx\|" /> + <img src="https://render.githubusercontent.com/render/math?math=\|\mathbf{G}_y\|" alt="\|Gy\|" /> |
+|  Input: <img src="https://render.githubusercontent.com/render/math?math=\mathbf{Img}" alt="Img" /> | <img src="https://render.githubusercontent.com/render/math?math=\|\mathbf{G}_x\|" alt="\|Gx\|" /> | <img src="https://render.githubusercontent.com/render/math?math=\|\mathbf{G}_y\|" alt="\|Gy\|" /> |<img src="https://render.githubusercontent.com/render/math?math=\|\mathbf{G}_x\|" alt="\|Gx\|" /> + <img src="https://render.githubusercontent.com/render/math?math=\|\mathbf{G}_y\|" alt="\|Gy\|" /> |
 |-------|-------|-------|-------|
 ![Example image: Img](img/Img.png) | ![$G_x$](img/vertical-derivative-abs.png) |![$G_y$](img/horizontal-derivative-abs.png) |![$G$](img/img-G-abs.png)|
 
 
-|  Input: <img src="https://render.githubusercontent.com/render/math?math=\mathbf{Img}" alt="Img" /> | <img src="https://render.githubusercontent.com/render/math?math=\mathbf{G}_x^2=" alt="Gx" /> | <img src="https://render.githubusercontent.com/render/math?math=\mathbf{G}_y^2" alt="Gy" /> |<img src="https://render.githubusercontent.com/render/math?math=\sqrt{\mathbf{G}_x^2+\mathbf{G}_y^2}" alt="sqrt(Gx^2+Gy^2)" /> |
+|  Input: <img src="https://render.githubusercontent.com/render/math?math=\mathbf{Img}" alt="Img" /> | <img src="https://render.githubusercontent.com/render/math?math=\mathbf{G}_x^2" alt="Gx" /> | <img src="https://render.githubusercontent.com/render/math?math=\mathbf{G}_y^2" alt="Gy" /> |<img src="https://render.githubusercontent.com/render/math?math=\sqrt{\mathbf{G}_x^2+\mathbf{G}_y^2}" alt="sqrt(Gx^2+Gy^2)" /> |
 |-------|-------|-------|-------|
 ![Example image: Img](img/Img.png) | ![$G_x^2$](img/vertical-derivative-square.png) |![$G_y^2$](img/horizontal-derivative-square.png) |![$G$](img/img-G-quare.png)|
 
