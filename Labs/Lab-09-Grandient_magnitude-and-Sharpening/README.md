@@ -46,8 +46,8 @@ There are two ways to compute the gradient magnitude from <img src="https://rend
 
 Both methods are equally fine. Choose one.
 If you choose 1., well maybe you want to add a new point operator `Image Image::abs() const` (hint, hint).
-If you choose 2., well maybe you want to add two new point operators `Image Image::square() const` and `Image Image::sqrt() const` (hint, hint).
-
+If you choose 2., maybe you want to add two new point operators `Image Image::square() const` and `Image Image::sqrt() const`.
+The table below shows the statistics for the different images.
 
 | Image  | Mean    | Std dev | Min      | Max     |
 |--------|---------|---------|----------|---------|
@@ -59,4 +59,36 @@ If you choose 2., well maybe you want to add two new point operators `Image Imag
 | <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x\|" alt="\|Gx\|" /> + <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_y\|" alt="\|Gy\|" /> | 52.617 | 49.340 | 0 | 848.667 |
 | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x^2" alt="Gx^2" /> | 1694.552 | 5247.248 | 0 | 337173.812 |
 | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y^2" alt="Gy^2" /> | 1502.017 | 4540.478 | 0 | 434720.500 |
-| <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G} = \sqrt{\mathrm{G}_x^2 + \mathrm{G}_y^2}" alt="G=sqrt(Gx^2 + Gy^2)" /> |  41.438 | 38.464 | 0 | 659.527 |
+| <img src="https://render.githubusercontent.com/render/math?math=\sqrt{\mathrm{G}_x^2 + \mathrm{G}_y^2}" alt="G=sqrt(Gx^2 + Gy^2)" /> |  41.438 | 38.464 | 0 | 659.527 |
+
+
+|  Input: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{Img}" alt="Img" /> | Vertical derivative: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x=\mathrm{g}_x * \mathrm{Img}" alt="Gx = gx * Img" /> | Horizontal derivative: <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y=\mathrm{g}_y * \mathrm{Img}" alt="Gy = gy * Img" /> |<img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_x\|" alt="\|Gx\|" /> + <img src="https://render.githubusercontent.com/render/math?math=\|\mathrm{G}_y\|" alt="\|Gy\|" /> |
+|-------|-------|-------|-------|
+![Example image: Img](img/Img.png) | ![$G_x$](img/vertical-derivative-abs.png) |![$G_y$](img/horizontal-derivative-abs.png) |![$G_y$](img/img-G-abs.png)|
+
+
+
+**As you can see, even if the dynamic range of the input image is withn the [0,255] range, the output images are not.** In other words, before saving the data in an image file format such as JPEG, make sure to normalise the image. For an ASCII file, do not normalise the image. You may wish to use the code below:
+
+```cpp
+std::string output_filename = argv[2];
+std::string capital_filename;
+
+// Capitalise
+for (int i = 0; i < temp_filename.size(); ++i)
+    capital_filename += std::toupper(temp_filename[i]);
+
+if (std::string(aFilename).size() > 4)
+{
+    // Save an ASCII image file: Do not normalise
+    if(capital_filename.substr( capital_filename.length() - 4 ) == ".TXT")
+    {
+        output.save(output_filename);
+    }
+    // Save the data using an image file format: Normalise
+    else
+    {
+        (output.normalise() * 255).save(output_filename);
+    }
+}
+```
