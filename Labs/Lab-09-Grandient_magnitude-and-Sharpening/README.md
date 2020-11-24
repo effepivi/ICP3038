@@ -13,9 +13,22 @@ Last week we implemented the spatial convolution. We will use it this week. We w
 
 # Gradient magnitude using the Sobel operator
 
-![$G_x$ Sobel kernel](img/g_x.png)
-<!-- mathbf{G}_x=\left[\begin{array}{ccc}+1&0&-1\\+2&0&-2\\+1&0&-1\\\end{array}\right]" alt="G_x Sobel kernel" /> -->
+The Sobel operator makes use of two 3×3 convolution kernels **g**x and **g**y. The first one is used to compute an approximation of the vertical derivative; the second to compute an approximation of the horizontal derivative.
 
-![$G_$ Sobel kernel](img/g_y.png)
+![$g_x$ Sobel kernel](img/g_x.png)
+<!-- mathbf{g}_x=\left[\begin{array}{ccc}+1&0&-1\\+2&0&-2\\+1&0&-1\\\end{array}\right]" alt="g_x Sobel kernel" /> -->
 
-<!-- \mathbf{G}_y=\left[\begin{array}{ccc}+1&+2&+1\\0&0&0\\-1&-2&-1\\\end{array}\right]
+![$g_$ Sobel kernel](img/g_y.png)
+
+<!-- \mathbf{G}_y=\left[\begin{array}{ccc}+1&+2&+1\\0&0&0\\-1&-2&-1\\\end{array}\right]-->
+
+Convolutions using  **g**x and **g**y produce output images with pixels values that are negative, null and positive. Consider the image **Img** as follows:
+
+![Example image: Img](img/Img.jpg)
+
+![$G_x$](img/vertical-derivative.png)
+<!-- mathbf{g}_x=\left[\begin{array}{ccc}+1&0&-1\\+2&0&-2\\+1&0&-1\\\end{array}\right]" alt="g_x Sobel kernel" /> -->
+
+![$G_y$](img/horizontal-derivative.png)
+
+<!-- \mathbf{G}_y=\left[\begin{array}{ccc}+1&+2&+1\\0&0&0\\-1&-2&-1\\\end{array}\right]-->
