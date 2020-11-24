@@ -24,8 +24,8 @@ The Sobel operator makes use of two 3×3 convolution kernels <img src="https://r
 The first one is used to compute an approximation of the vertical derivative (<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x" alt="Gx" />); the second to compute an approximation of the horizontal derivative (<img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y" alt="Gy" />).
 Consider the following images. **Img** is the input image.
 
-| Input | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x=\mathrm{g}_x * \mathrm{Img}" alt="Gx = gx * Img" /> | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y=\mathrm{g}_y * \mathrm{Img}" alt="Gy = gy * Img" /> |
-|-------|--------------------------|---------------------------------------|------------------|
+| **Img** | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_x=\mathrm{g}_x * \mathrm{Img}" alt="Gx = gx * Img" /> | <img src="https://render.githubusercontent.com/render/math?math=\mathrm{G}_y=\mathrm{g}_y * \mathrm{Img}" alt="Gy = gy * Img" /> |
+|-------|-------|-------|
 ![Example image: Img](img/Img.png) | ![$G_x$](img/vertical-derivative.png) |![$G_y$](img/horizontal-derivative.png)|
 
 Convolutions using <img src="https://render.githubusercontent.com/render/math?math=\mathrm{g}_x" alt="gx" /> and <img src="https://render.githubusercontent.com/render/math?math=\mathrm{g}_y" alt="gy" /> produce output images with pixels values that are negative, null and positive.
