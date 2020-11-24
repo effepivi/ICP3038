@@ -257,6 +257,8 @@ Have a look at Slides 53-54 of Week 8 on Blackboard. It's what we are going to i
 
 with <img src="https://render.githubusercontent.com/render/math?math=\mathbf{Input}" alt="Input" /> = `*this` and <img src="https://render.githubusercontent.com/render/math?math=\mathbf{Output}" alt="Output" /> the image returned by the `clamp` method.
 
+**DO NOT NORMALISE THE FINAL IMAGE!** Instead you need to clamp the pixel values to preserve the same dynamic range as the input image. See below.
+
 
 ### Executable
 
