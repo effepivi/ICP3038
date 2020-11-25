@@ -78,13 +78,13 @@ ENDIF (UNIX)
 
 
 # Specify MainTest's link libraries
-IF (UNIX)
+IF (UNIX AND NOT APPLE)
     list(APPEND GTEST_LIBRARIES gtest gtest_main)
-ELSE (UNIX)
+ELSE (UNIX AND NOT APPLE)
     SET (GTEST_LIBRARIES
       debug gtestd
       optimized gtest
       debug gtest_maind
       optimized gtest_main
     )
-ENDIF (UNIX)
+ENDIF (UNIX AND NOT APPLE)
