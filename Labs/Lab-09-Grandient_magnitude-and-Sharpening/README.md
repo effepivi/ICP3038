@@ -47,8 +47,8 @@ There are two ways to compute the gradient magnitude from <img src="https://rend
 <!-- <img src="https://render.githubusercontent.com/render/math?math=\mathbf{G} = \sqrt{\mathbf{G}_x^2 + \mathbf{G}_y^2}" alt="G=sqrt(Gx^2 + Gy^2)" /> -->
 
 Both methods are equally fine. Choose one.
-If you choose 1., well maybe you want to add a new point operator `Image Image::abs() const` (hint, hint).
-If you choose 2., maybe you want to add two new point operators `Image Image::square() const` and `Image Image::sqrt() const`.
+If you choose 1., well maybe you want to add a new point operator `Image Image::absoluteValue() const` (hint, hint).
+If you choose 2., maybe you want to add two new point operators `Image Image::square() const` and `Image Image::squareRoot() const`.
 The table below shows the statistics for the different images.
 
 | Image  | Mean    | Std dev | Min      | Max     |
@@ -77,34 +77,36 @@ The table below shows the statistics for the different images.
 **As you can see, even if the dynamic range of the input image is withn the [0,255] range, the output images are not.** In other words, before saving the data in an image file format such as JPEG, make sure to normalise the image. For an ASCII file, do not normalise the image. You may wish to use the code below:
 
 ```cpp
-std::string output_filename = argv[2];
-std::string capital_filename;
+            // Save the image
+            std::string output_filename = argv[2];
+            std::string capital_filename;
 
-// Capitalise
-for (int i = 0; i < temp_filename.size(); ++i)
-    capital_filename += std::toupper(temp_filename[i]);
+            // Capitalise
+            for (int i = 0; i < output_filename.size(); ++i)
+                capital_filename += std::toupper(output_filename[i]);
 
-if (std::string(aFilename).size() > 4)
-{
-    // Save an ASCII image file: Do not normalise
-    if(capital_filename.substr( capital_filename.length() - 4 ) == ".TXT")
-    {
-        output.save(output_filename);
-    }
-    // Save the data using an image file format: Normalise
-    else
-    {
-        (output.normalise() * 255).save(output_filename);
-    }
-}
+            // There are enough characters for a file extension
+            if (std::string(output_filename).size() > 4)
+            {
+                // Save an ASCII image file: Do not normalise
+                if(capital_filename.substr( capital_filename.length() - 4 ) == ".TXT")
+                {
+                    output.save(output_filename);
+                }
+                // Save the data using an image file format: Normalise
+                else
+                {
+                    (output.normalise() * 255).save(output_filename);
+                }
+            }
 ```
 
 ## Tasks
 
 1. Add new point operators in `Image.h` and `Image.cxx`:
-    - `Image Image::abs() const`
+    - `Image Image::absoluteValue() const`
     - `Image Image::square() const`
-    - `Image Image::sqrt() const`
+    - `Image Image::squareRoot() const`
 2. Add a new method in `Image.h` and `Image.cxx`:
     - `Image Image::gradientMagnitude() const`
 3. Add a new program `gradientMagnitude.cxx` (similar to `guassianFilter` from [Lab 8](../Lab-08-Image-comparison_and_convolution)) to use your new `gradientMagnitude` method.
@@ -133,11 +135,11 @@ int main(int argc, char** argv)
             std::string capital_filename;
 
             // Capitalise
-            for (int i = 0; i < temp_filename.size(); ++i)
-                capital_filename += std::toupper(temp_filename[i]);
+            for (int i = 0; i < output_filename.size(); ++i)
+                capital_filename += std::toupper(output_filename[i]);
 
             // There are enough characters for a file extension
-            if (std::string(aFilename).size() > 4)
+            if (std::string(output_filename).size() > 4)
             {
                 // Save an ASCII image file: Do not normalise
                 if(capital_filename.substr( capital_filename.length() - 4 ) == ".TXT")
@@ -159,7 +161,7 @@ int main(int argc, char** argv)
         }
         else
         {
-            string error_message = "Usage: " + argv[0] + " input_image output_image [-display]";
+            string error_message = string("Usage: ") + argv[0] + " input_image output_image [-display]";
             throw error_message;
         }
     }
@@ -293,7 +295,7 @@ The code is as follows:
 using namespace std;
 
 
-void onTrackbar( int, void* )
+void onTrackbar( int, void* );
 
 
 Image g_input;
@@ -332,22 +334,24 @@ int main(int argc, char** argv)
 
 #ifdef HAS_OPENCV
             // Display the image
-            if (argv_3 == "-display || argc == 5)
+            if (argv_3 == "-display" || argc == 5)
             {
-              cv::namedWindow("Sharpening", cv::WINDOW_AUTOSIZE); // Create Window
-              cv::createTrackbar( "Alpha", "Sharpening", &g_alpha_slider, g_alpha_slider_int_max, on_trackbar );
+                cv::namedWindow("Sharpening", cv::WINDOW_AUTOSIZE); // Create Window
+                cv::createTrackbar( "Alpha", "Sharpening", &g_alpha_slider, g_alpha_slider_int_max, onTrackbar );
 
-              onTrackbar( g_alpha_slider, 0 );            }
+                onTrackbar( g_alpha_slider, 0 );
+
+                cv::waitKey(0);
             }
-#endif HAS_OPENCV
+#endif // HAS_OPENCV
 
 
             // Save the output
-            output.save(argv[2]);
+            g_output.save(argv[2]);
         }
         else
         {
-            string error_message = "Usage: " + argv[0] + " input_image output_image [alpha] [-display]";
+            string error_message = string("Usage: ") + argv[0] + " input_image output_image [alpha] [-display]";
             throw error_message;
         }
     }
@@ -382,7 +386,7 @@ void onTrackbar( int, void* )
     g_alpha = g_alpha_slider_double_max * g_alpha_slider / g_alpha_slider_int_max;
 
     // Sharpen
-    g_output = g_input.sharpen(g_alpha)
+    g_output = g_input.sharpen(g_alpha);
 
     // Normalise for floating-point numbers
     Image display_image = g_output / 255.0;
