@@ -279,6 +279,10 @@ Add a new program `sharpen` in `sharpen.cxx`. Its command line is:
 - `argc[3]`: alpha (default=1) (optional)
 - `argc[4]`: -display (optional)
 
+If the option `-display` is used, you'll see this UI:
+
+![Sharpen UI](img/screenshot.png)
+
 The code is as follows:
 
 ```cpp
