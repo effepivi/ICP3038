@@ -281,7 +281,7 @@ Add a new program `sharpen` in `sharpen.cxx`. Its command line is:
 
 If the option `-display` is used, you'll see this UI:
 
-![Sharpen UI](img/screenshot.png)
+![Sharpen UI](img/screenshot.gif)
 
 The code is as follows:
 
