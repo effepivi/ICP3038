@@ -504,7 +504,7 @@ int main(int argc, char** argv)
         }
         else
         {
-            string error_message = str("Usage: ") + argv[0] + " input_image output_image";
+            string error_message = std::string("Usage: ") + argv[0] + " input_image output_image";
             throw error_message;
         }
     }
