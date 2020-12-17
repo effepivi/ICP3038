@@ -102,7 +102,9 @@ int main(int argc, char** argv)
         }
         else
         {
-            string error_message = "Usage: " + argv[0] + " input_image";
+            string error_message = "Usage: ";
+            error_message += argv[0];
+            error_message += " input_image";
             throw error_message;
         }
     }
@@ -442,7 +444,9 @@ int main(int argc, char** argv)
         }
         else
         {
-            string error_message = "Usage: " + argv[0] + " input_image output_image";
+            string error_message = "Usage: ";
+            error_message += argv[0];
+            error_message += " input_image output_image";
             throw error_message;
         }
     }
