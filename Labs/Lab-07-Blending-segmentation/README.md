@@ -504,7 +504,7 @@ int main(int argc, char** argv)
         }
         else
         {
-            string error_message = "Usage: " + argv[0] + " input_image output_image";
+            string error_message = std::string("Usage: ") + argv[0] + " input_image output_image";
             throw error_message;
         }
     }
@@ -889,18 +889,18 @@ int main(int argc, char** argv)
 }
 ```
 
-When I run:
+When I run on Linux or Mac:
 
 ```cpp
 $ ./blending tulips.png negative.png 50 blend
-$ convert blend_*.png blend.gif
+$ convert blend_*.png blend.gif   # Only work on systems where ImageMagick is installed
 ```
 
 I obtain this nice GIF file:
 
 ![blend.gif](docs/blend.gif)
 
-You could also use ImageJ/Fiji to view your animation. Just use the `File->Import->Image sequence` menu.
+If you use Windows (or even Linux or Mac), you could use ImageJ/Fiji to view your animation. Just use the `File->Import->Image sequence` menu.
 
 # My final `CMakeLists.txt` file
 
