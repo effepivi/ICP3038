@@ -51,15 +51,15 @@ Note that this semester I am not going to provide any test image. I expect that 
 
 # Table of Contents
 
-- [Task 1: Files](#task-1:-Files)
+- [Task 1: Files](#task-1-files)
 - [Task 2: Prepare `CMakeLists.txt`](#task-2-prepare-cmakeliststxt)
 - [Task 3: Configure and generate the project](#task-3-configure-and-generate-the-project)
 - [Task 4: Opening and Displaying an Image](#task-4-opening-and-displaying-an-image)
 - [Task 5: Converts a RGB Image in a Greyscale Image](#task-5-converts-a-rgb-image-in-a-greyscale-image)
 - [Task 6: Display an Image in the Log Scale](#task-6-display-an-image-in-the-log-scale)
 - [Task 7: Mean Filter](#task-7-mean-filter)
-- [Task 8: Median Filter](#task-8-and-9)
-- [Task 9: Gaussian Filter](#task-8-and-9)
+- [Task 8: Median Filter](#tasks-8-and-9)
+- [Task 9: Gaussian Filter](#tasks-8-and-9)
 
 # Installing OpenCV
 
