@@ -182,44 +182,47 @@ TARGET_LINK_LIBRARIES (cartoonise     ${OpenCV_LIBS})
 ```cmake
 SET (CV_VERSION_STRING ${OpenCV_VERSION_MAJOR}${OpenCV_VERSION_MINOR}${OpenCV_VERSION_PATCH})
 IF (WIN32)
-
-    IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg${CV_VERSION_STRING}_64.dll")
-        FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg${CV_VERSION_STRING}_64.dll"
-              DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
-    ELSE ()
-	    MESSAGE (WARNING "opencv_ffmpeg${CV_VERSION_STRING}_64.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
-    ENDIF ()
+    IF ( ${OpenCV_VERSION_MAJOR} EQUAL 4)
+        IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_videoio_ffmpeg${CV_VERSION_STRING}_64.dll")
+            FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_videoio_ffmpeg${CV_VERSION_STRING}_64.dll"
+                  DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+        ELSE ()
+      MESSAGE (WARNING "opencv_videoio_ffmpeg${CV_VERSION_STRING}_64.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+        ENDIF ()
+  ELSE ()
+        IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg${CV_VERSION_STRING}_64.dll")
+            FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_ffmpeg${CV_VERSION_STRING}_64.dll"
+                  DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+        ELSE ()
+      MESSAGE (WARNING "opencv_ffmpeg${CV_VERSION_STRING}_64.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+        ENDIF ()
+  ENDIF ()
 
     IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}.dll")
         FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}.dll"
               DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
     ELSE ()
-	    MESSAGE (WARNING "opencv_world${CV_VERSION_STRING}.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+      MESSAGE (WARNING "opencv_world${CV_VERSION_STRING}.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
     ENDIF ()
 
     IF (EXISTS "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}d.dll")
         FILE (COPY        "${OpenCV_DIR}/x64/vc15/bin/opencv_world${CV_VERSION_STRING}d.dll"
               DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
     ELSE ()
-	    MESSAGE (WARNING "opencv_world${CV_VERSION_STRING}d.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
+      MESSAGE (WARNING "opencv_world${CV_VERSION_STRING}d.dll is not in ${OpenCV_DIR}/x64/vc15/bin/, you have to make sure is it in the PATH or to copy it manually in your project binary directory")
     ENDIF ()
-
-ENDIF (WIN32)
+ENDIF (WIN32)    
 ```
-<!--
-Configuring the project on MS Windows using the lab machines is
-relatively straightforward after following the instructions provided in
-Section [1](#sec:Installing OpenCV){reference-type="ref"
-reference="sec:Installing OpenCV"} (see
-Figure [2](#fig:config proj){reference-type="ref"
-reference="fig:config proj"}).
 
-![[\[fig:config proj\]]{#fig:config proj label="fig:config proj"}Project
-configuration using CMake.](cmake.png){#fig:config proj
-width="\\textwidth"}
+# Task 3: Configure and generate the project
 
-Opening and Displaying an Image
-===============================
+Configuring the project using CMake is relatively straightforward. **MAKE SURE YOU USE A GENERATOR THAT SUPPORT 64 BITS.** Every year some people use Win32 instead of Win64. OpenCV is now shipped with the libs compiled in 64 bits only. Win32 won't work.
+
+Do not compile (see "Where to build the binaries:") in the same directory a your source code.
+
+![Project configuration using CMake.](doc/cmake.png)
+
+# Task 4: Opening and Displaying an Image
 
 Headers
 -------
