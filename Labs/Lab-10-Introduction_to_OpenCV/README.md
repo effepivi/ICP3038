@@ -16,9 +16,8 @@ The aim of today's lab is to become familiar with OpenCV and its usage in C/C++.
 2.   Display an image using OpenCV;
 3.   Convert from RGB to luminance;
 4.   Convert from `unsigned char` to `float`;
-5.   Save an image into a file;
-6.   Apply some basic filtering techniques;
-7.   Do some more fun on videos.
+5.   Save an image into a file; and
+6.   Apply some basic filtering techniques.
 
 To achieve these goals, we will create several programs:
 
@@ -32,7 +31,6 @@ To achieve these goals, we will create several programs:
     OpenCV;
 6.  `gaussianFilter.cxx`: A program to perform the Gaussian filter using
     OpenCV.
-7.  `cartoonise.cxx`
 
 Note that this semester I am not going to provide any test image. I expect that you test your code using your own data.
 
@@ -80,9 +78,8 @@ that it is installed (so skip this section).**
 - `rgb2grey.cxx`;
 - `logScale.cxx`;
 - `meanFilter.cxx`;
-- `medianFilter.cxx`;
-- `gaussianFilter.cxx`; and
-- `cartoonise.cxx`
+- `medianFilter.cxx`; and
+- `gaussianFilter.cxx`.
 
 2. If you are using MS Windows, double-check the file extension;
 
@@ -152,7 +149,6 @@ ADD_EXECUTABLE (logScale       logScale.cxx)
 ADD_EXECUTABLE (meanFilter     meanFilter.cxx)
 ADD_EXECUTABLE (medianFilter   medianFilter.cxx)
 ADD_EXECUTABLE (gaussianFilter gaussianFilter.cxx)
-ADD_EXECUTABLE (cartoonise     cartoonise.cxx)
 ```
 
 7. Add OpenCV's header path for each program
@@ -164,7 +160,6 @@ TARGET_INCLUDE_DIRECTORIES(logScale PUBLIC ${OpenCV_INCLUDE_DIRS})
 TARGET_INCLUDE_DIRECTORIES(meanFilter PUBLIC ${OpenCV_INCLUDE_DIRS})
 TARGET_INCLUDE_DIRECTORIES(medianFilter PUBLIC ${OpenCV_INCLUDE_DIRS})
 TARGET_INCLUDE_DIRECTORIES(gaussianFilter PUBLIC ${OpenCV_INCLUDE_DIRS})
-TARGET_INCLUDE_DIRECTORIES(cartoonise PUBLIC ${OpenCV_INCLUDE_DIRS})
 ```
 
 8. Add OpenCV libraries to each executable programs
@@ -175,7 +170,6 @@ TARGET_LINK_LIBRARIES (logScale       ${OpenCV_LIBS})
 TARGET_LINK_LIBRARIES (meanFilter     ${OpenCV_LIBS})
 TARGET_LINK_LIBRARIES (medianFilter   ${OpenCV_LIBS})
 TARGET_LINK_LIBRARIES (gaussianFilter ${OpenCV_LIBS})
-TARGET_LINK_LIBRARIES (cartoonise     ${OpenCV_LIBS})
 ```
 
 9. If windows is used, copy the DLLs into the project directory
@@ -501,16 +495,21 @@ if (!cv::imwrite(output_filename, grey_image))
 }
 ```
 
+Calling `rgb2grey lena_color_512.tif lena_grey.png` should produce the output
+presented below:
+
+### Input image
+
+![Input `rgb2grey`.](doc/lena_color_512.png)
+
+### Output image
+
+![Output `rgb2grey`.](doc/lena_grey.png)
+
 ## Display the image
 
 If the option `-display` was used in the command line, display `grey_image`.
 
-Calling `rgb2grey lena_color_512.tif lena_grey.png` should produce the output
-presented below:
-
-![Input `rgb2grey`.](doc/lena_color_512.png)
-
-![Output `rgb2grey`.](doc/lena_grey.png)
 
 
 # Display an Image in the Log Scale
@@ -535,6 +534,8 @@ Make sure to update the preamble.
   - `outfile`: path to an output image file.
   - `-display`: display the greyscale image in a window. This argument is optional.
 
+## Convert from UINT8 to float32
+
 Looking at the *y* axis of the graph above, we note that it is important to store the image
 using floating point numbers. If we don't, there will be enormous quantisation problems.
 To convert the greyscale image from `unsigned char` to `float`, we use:
@@ -545,61 +546,65 @@ cv::Mat float_image;
 grey_image.convertTo(float_image, CV_32FC1);
 ```
 
-It can be seen on the figure that $\log(x) \forall x \in ]-\infty,  0]$
-is undefined. In other word, if $x$ is equal to zero or $x$ is negative,
-then there is no $y$ value. As the input image was using
+## Add 1 to every pixel and apply the log
+
+It can be seen on the graph that log(*x*) is undefined for all values of *x* less than or equal to 0. In other words, if *x* is equal to zero or *x* is negative,
+then there is no *y* value. As the input image was using
 `unsigned char`, we do not have to worry about negative values. However,
-we have to make sure no $0$ value is present in the image. To do so, we
-apply the following transformation: $$f'(x,y) = \log(f(x,y) + 1)$$ using
+we have to make sure that there is no pixel value 0 in the image.
+To do so, we add 1 to every pixel (see `float_image + 1.0` below) before applying the log function:
 
 ```cpp
 // Log transformation
-        cv::Mat log_image;
-        cv::log(float_image + 1.0, log_image);
+cv::Mat log_image;
+cv::log(float_image + 1.0, log_image);
 ```
 
-Looking at the curve, we notice another problem. In some case, $\log(x)$
+## Normalisation
+
+Looking at the curve, we notice another problem. In some case, log(*x*)
 may be negative. In this case, it is common to normalise the image so
-that its values lie in the range $[0, 1]$ using:
-$$f''(x,y) = \frac{f'(x,y) - \min(f')}{\max(f') - \min(f')}\label{eq:normal}$$
+that its values lie in the range [0, 1] using:
+
+(f - min(f)) / (max(f) - min(f))
 
 There are two ways to achieve this in OpenCV. You can implement
-Eq. [\[eq:normal\]](#eq:normal){reference-type="ref"
-reference="eq:normal"} using:
+the equation above using:
 
 ```cpp
 double min, max;
-        cv::minMaxLoc(log_image, &min, &max);
-        cv::Mat normalised_image = 255.0 * (log_image - min) / (max - min);
-        normalised_image.convertTo(normalised_image, CV_8UC1);
+cv::minMaxLoc(log_image, &min, &max);
+cv::Mat normalised_image = 255.0 * (log_image - min) / (max - min);
+normalised_image.convertTo(normalised_image, CV_8UC1);
 ```
 
 or you can use OpenCV's function:
 
 ```cpp
 // Normalisation
-        cv::Mat normalised_image;
-        cv::normalize(log_image, normalised_image, 0, 255, cv::NORM_MINMAX, CV_8UC1);
+cv::Mat normalised_image;
+cv::normalize(log_image, normalised_image, 0, 255, cv::NORM_MINMAX, CV_8UC1);
 ```
 
-Now you can display and save the image (see
-Figure [11](#fig:logFilter){reference-type="ref"
-reference="fig:logFilter"}.
+## Save the image
 
-  ------------------------------------------------------------------------------------------------------------------------------------- -----------------------------------------------------------------------------------------------------------------------------------------
-   ![[\[fig:logFilter\]]{#fig:logFilter label="fig:logFilter"}Input and output of **logScale**.](lake.png){#fig:logFilter width="35%"}   ![[\[fig:logFilter\]]{#fig:logFilter label="fig:logFilter"}Input and output of **logScale**.](lake_log.png){#fig:logFilter width="35%"}
-                                                           \(a\) Input image.                                                                                                                      \(b\) Output image.
-  ------------------------------------------------------------------------------------------------------------------------------------- -----------------------------------------------------------------------------------------------------------------------------------------
+Save `normalised_image` in the output file.
 
+Calling `logFilter lake.tif lena_grey.png` should produce the output
+presented below:
 
+### Input image
 
+![Input `logFilter`.](doc/lake.png)
 
+### Output image
 
-
-
-
+![Output `logFilter`.](doc/lake_log.png)
 
 
+## Display the image
+
+If the option `-display` was used in the command line, display `normalised_image`.
 
 
 
