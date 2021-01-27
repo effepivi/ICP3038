@@ -58,8 +58,8 @@ Note that this semester I am not going to provide any test image. I expect that 
 - [Task 5: Converts a RGB Image in a Greyscale Image](#task-5-converts-a-rgb-image-in-a-greyscale-image)
 - [Task 6: Display an Image in the Log Scale](#task-6-display-an-image-in-the-log-scale)
 - [Task 7: Mean Filter](#task-7-mean-filter)
-- [Task 8: Median Filter](#tasks-8-and-9)
-- [Task 9: Gaussian Filter](#tasks-8-and-9)
+- [Task 8: Median Filter](#tasks-8-and-9-median-and-gaussian-filters)
+- [Task 9: Gaussian Filter](#tasks-8-and-9-median-and-gaussian-filters)
 
 # Installing OpenCV
 
@@ -418,20 +418,20 @@ There are four steps to create a window and display and image:
 It can be done as follows:
 
 ```cpp
-        // Create a string to contain the window title
-        string window_title;
-        window_title  = "Display \"";
-        window_title += input_filename;
-        window_title += "\"";
+// Create a string to contain the window title
+string window_title;
+window_title  = "Display \"";
+window_title += input_filename;
+window_title += "\"";
 
-        // Create the window
-        cv::namedWindow(window_title, cv::WINDOW_AUTOSIZE);
+// Create the window
+cv::namedWindow(window_title, cv::WINDOW_AUTOSIZE);
 
-        // Show the image in the window
-        cv::imshow(window_title, image);
+// Show the image in the window
+cv::imshow(window_title, image);
 
-        // Wait for a user input to leave the window
-        cv::waitKey(0);
+// Wait for a user input to leave the window
+cv::waitKey(0);
 ```
 
 The program is now complete. You can compile it and run it with
@@ -732,9 +732,10 @@ see the differences.
 ![Mean filter when the radius is 50](doc/lena_R50.png)
 
 
-# Tasks 8 and 9:
+# Tasks 8 and 9: Median and Gaussian filters.
 
-For the assignment, you'll also have to use of the median and Gaussian filters.
+For the assignment, you'll also have to use of the median and Gaussian filters. Adapt your file `meanFilter.cxx` to apply them in `medianFilter.cxx` and `gaussianFilter.cxx` respectively.
+
 The help page for
 - Image filtering in general: [https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html](https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html)
 - Gaussian blur: [https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1](https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1)
