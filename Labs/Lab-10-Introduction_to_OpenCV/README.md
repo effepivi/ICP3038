@@ -12,24 +12,26 @@ institute: School of Computer Science and Electronic Engineering, Bangor Univers
 
 The aim of today's lab is to become familiar with OpenCV and its usage in C/C++. To achieve this, we will fulfil the objectives as follows:
 
-1.   Create an OpenCV project using CMake;
-2.   Display an image using OpenCV;
-3.   Convert from RGB to luminance;
-4.   Convert from `unsigned char` to `float`;
-5.   Save an image into a file; and
-6.   Apply some basic filtering techniques.
+1. Create an OpenCV project using CMake;
+2. Display an image using OpenCV;
+3. Convert from RGB to luminance;
+4. Convert from `unsigned char` to `float`;
+5. Save an image into a file;
+6. Add a constant to the pixels of an image;
+7. Apply a log transform to the pixels of an image; ahd
+8. Apply some basic filtering techniques.
 
 To achieve these goals, we will create several programs:
 
-1.  `displayImage.cxx`: A simple program using OpenCV to open an image
+1. `displayImage.cxx`: A simple program using OpenCV to open an image
     and display it in a window;
-2.  `rgb2grey.cxx`: A program to convert a RGB image in a greyscale
+2. `rgb2grey.cxx`: A program to convert a RGB image in a greyscale
     image using OpenCV;
-3.  `logScale.cxx`: A program to display an image in the log scale;
-4.  `meanFilter.cxx`: A program to perform the mean filter using OpenCV;
-5.  `medianFilter.cxx`: A program to perform the median filter using
+3. `logScale.cxx`: A program to display an image in the log scale;
+4. `meanFilter.cxx`: A program to perform the mean filter using OpenCV;
+5. `medianFilter.cxx`: A program to perform the median filter using
     OpenCV;
-6.  `gaussianFilter.cxx`: A program to perform the Gaussian filter using
+6. `gaussianFilter.cxx`: A program to perform the Gaussian filter using
     OpenCV.
 
 Note that this semester I am not going to provide any test image. I expect that you test your code using your own data.
@@ -44,9 +46,20 @@ Note that this semester I am not going to provide any test image. I expect that 
 6. Add a constant to an image;
 7. Apply a log transform to an image;
 8. Filter an image using a box filter;
-9. Filter an image using a Gaussin filter; and
-10. Filter an image using a Median filter.
+9. Filter an image using a median filter; and
+10. Filter an image using a Gaussian filter.
 
+# Table of Contents
+
+[Task 1: Files](#task-1:-Files)
+[Task 2: Prepare `CMakeLists.txt`](#task-2-prepare-cmakeliststxt)
+[Task 3: Configure and generate the project](#task-3-configure-and-generate-the-project)
+[Task 4: Opening and Displaying an Image](#task-4-opening-and-displaying-an-image)
+[Task 5: Converts a RGB Image in a Greyscale Image](#task-5-converts-a-rgb-image-in-a-greyscale-image)
+[Task 6: Display an Image in the Log Scale](#task-6-display-an-image-in-the-log-scale)
+[Task 7: Mean Filter](#task-7-mean-filter)
+[Task 8: Median Filter](#task-8-and-9)
+[Task 9: Gaussian Filter](#task-8-and-9)
 
 # Installing OpenCV
 
@@ -83,7 +96,7 @@ that it is installed (so skip this section).**
     4.  **Job done:** There is a new directory called `opencv` in the
         `C:` drive. -->
 
-# Task 1:
+# Task 1: Files
 
 1. Create the following empty files in the root directory of your project:
 
@@ -91,8 +104,9 @@ that it is installed (so skip this section).**
 - `rgb2grey.cxx`;
 - `logScale.cxx`;
 - `meanFilter.cxx`;
-- `medianFilter.cxx`; and
-- `gaussianFilter.cxx`.
+- `medianFilter.cxx`;
+- `gaussianFilter.cxx`; and
+- `CMakeLists.txt`.
 
 2. If you are using MS Windows, double-check the file extension;
 
@@ -102,7 +116,7 @@ that it is installed (so skip this section).**
 
 Last semester some people had problems as they did not see that the file extension was actually `.txt` rather than `.cxx`.
 
-3. Make sure every file compilable. For example we could add:
+3. Make sure every file `.cxx` is compilable. For example we could add:
 
 ```cpp
 int main(int argc, char** argv)
@@ -111,7 +125,7 @@ int main(int argc, char** argv)
 }
 ```
 
-# Tast 2: Prepare `CMakeLists.txt`
+# Task 2: Prepare `CMakeLists.txt`
 
 As some of you will use
 
@@ -123,7 +137,7 @@ As some of you will use
 it is important to keep in mind portability and we saw that toolchains
 can help us achieve it. [CMake](https://www.cmake.org/) is an example of toolchain that is user friendly. It is actually the industry standard. I assume it is still installed on your PC.
 
-1. Create a new file in the same directory as your `.cxx` files. Name the file `CMakeLists.txt`.
+1. Edit `CMakeLists.txt`.
 
 
 2. Set the minimum CMake version to at least 3.1. It is needed to enable  the C++ 11 standard.
@@ -428,7 +442,7 @@ reference="fig:displayImage"} shows a screenshot of the program.
 ![Screenshot of `displayImage`.](doc/displayImage.png)
 
 
-# Take 5: Converts a RGB Image in a Greyscale Image
+# Task 5: Converts a RGB Image in a Greyscale Image
 
 A lot of algorithms work on greyscale images. We are going to write a program that does just that.
 Copy the main function of `displayImage.cxx` into `rgb2grey.cxx`. Make sure to update the preamble.
