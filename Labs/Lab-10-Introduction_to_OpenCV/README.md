@@ -34,6 +34,19 @@ To achieve these goals, we will create several programs:
 
 Note that this semester I am not going to provide any test image. I expect that you test your code using your own data.
 
+# Learning outcomes
+
+1. Use CMake to generate a project that makes use of OpenCV;
+2. Load an image using OpenCV;
+3. Display an image using OpenCV;
+4. Convert a RGB image into a greyscale image;
+5. Convert an image stored in UINT8 into float32;
+6. Add a constant to an image;
+7. Apply a log transform to an image;
+8. Filter an image using a box filter;
+9. Filter an image using a Gaussin filter; and
+10. Filter an image using a Median filter.
+
 
 # Installing OpenCV
 
@@ -415,7 +428,7 @@ reference="fig:displayImage"} shows a screenshot of the program.
 ![Screenshot of `displayImage`.](doc/displayImage.png)
 
 
-# Converts a RGB Image in a Greyscale Image
+# Take 5: Converts a RGB Image in a Greyscale Image
 
 A lot of algorithms work on greyscale images. We are going to write a program that does just that.
 Copy the main function of `displayImage.cxx` into `rgb2grey.cxx`. Make sure to update the preamble.
@@ -512,7 +525,7 @@ If the option `-display` was used in the command line, display `grey_image`.
 
 
 
-# Display an Image in the Log Scale
+# Task 6: Display an Image in the Log Scale
 
 Sometimes, it is useful to use a `log` transform to display the pixel values.
 The shape of the log function is as follows:
@@ -607,7 +620,7 @@ presented below:
 If the option `-display` was used in the command line, display `normalised_image`.
 
 
-# Mean Filter
+# Task 7:Mean Filter
 
 We are now going to do some spatial filtering. First we consider the mean filter. Copy the main function of `rgb2grey.cxx` into `meanFilter.cxx`. Make sure to update the preamble.
 
@@ -705,7 +718,7 @@ see the differences.
 ![Mean filter when the radius is 50](doc/lena_R50.png)
 
 
-# Additional tasks
+# Tasks 8 and 9:
 
 For the assignment, you'll also have to use of the median and Gaussian filters.
 The help page for
