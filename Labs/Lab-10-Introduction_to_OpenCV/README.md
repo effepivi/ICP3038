@@ -7,6 +7,20 @@ keywords: ICP3038, Computer Vision, C/C++, image processing, OpenCV, Bangor Univ
 institute: School of Computer Science and Electronic Engineering, Bangor University
 ---
 
+# Table of Contents
+
+- [Aim and objectives](#aim-and-objectives)
+- [Learning outcomes](#learning-outcomes)
+- [Installing OpenCV](#installing-opencv)
+- [Task 1: Files](#task-1-files)
+- [Task 2: Prepare `CMakeLists.txt`](#task-2-prepare-cmakeliststxt)
+- [Task 3: Configure and generate the project](#task-3-configure-and-generate-the-project)
+- [Task 4: Opening and Displaying an Image](#task-4-opening-and-displaying-an-image)
+- [Task 5: Converts a RGB Image in a Greyscale Image](#task-5-converts-a-rgb-image-in-a-greyscale-image)
+- [Task 6: Display an Image in the Log Scale](#task-6-display-an-image-in-the-log-scale)
+- [Task 7: Mean Filter](#task-7-mean-filter)
+- [Task 8: Median Filter](#tasks-8-and-9-median-and-gaussian-filters)
+- [Task 9: Gaussian Filter](#tasks-8-and-9-median-and-gaussian-filters)
 
 # Aim and objectives
 
@@ -49,17 +63,6 @@ Note that this semester I am not going to provide any test image. I expect that 
 9. Filter an image using a median filter; and
 10. Filter an image using a Gaussian filter.
 
-# Table of Contents
-
-- [Task 1: Files](#task-1-files)
-- [Task 2: Prepare `CMakeLists.txt`](#task-2-prepare-cmakeliststxt)
-- [Task 3: Configure and generate the project](#task-3-configure-and-generate-the-project)
-- [Task 4: Opening and Displaying an Image](#task-4-opening-and-displaying-an-image)
-- [Task 5: Converts a RGB Image in a Greyscale Image](#task-5-converts-a-rgb-image-in-a-greyscale-image)
-- [Task 6: Display an Image in the Log Scale](#task-6-display-an-image-in-the-log-scale)
-- [Task 7: Mean Filter](#task-7-mean-filter)
-- [Task 8: Median Filter](#tasks-8-and-9-median-and-gaussian-filters)
-- [Task 9: Gaussian Filter](#tasks-8-and-9-median-and-gaussian-filters)
 
 # Installing OpenCV
 
