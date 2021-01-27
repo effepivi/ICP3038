@@ -607,26 +607,45 @@ presented below:
 If the option `-display` was used in the command line, display `normalised_image`.
 
 
-
-
-
-
-
 # Mean Filter
 
-Let us consider the mean filter. Copy parts of the main function of
-`rgb2grey.cxx` into `meanFilter.cxx`. The new program will take 3
-inputs:
+We are now going to do some spatial filtering. First we consider the mean filter. Copy the main function of `rgb2grey.cxx` into `meanFilter.cxx`. Make sure to update the preamble.
 
-1.  The input image;
+- NAME
+  - `meanFilter` - filter an image using a mean filter, also known as box filter and average filter.
+- SYNOPSIS
+  - `meanFilter [-display] infile outfile [radius]`
+- DESCRIPTION
+  - `meanFilter` is a program that loads an image file, apply mean filter, and optionaly displays the results into a window. OpenCV is used for that purpose.
+- OPTION(s)
+  - `infile`: path to an input image file.
+  - `outfile`: path to an output image file.
+  - `radius`: the kernel radius. This argument is optional. Default value: 1.
+  - `-display`: display the greyscale image in a window. This argument is optional.
 
-2.  The output image; and
+## Clean the code
 
-3.  The convolution kernel radius.
+The code to convert in greyscale is not needed. Delete it.
+
+## Arguments of the Command Line
+
+There are 2, 3 or 4 arguments. `infile` and `outfile` are required. `-display` is optional.
+The `radius` is an optional integer. Its default value is 1.
+
+Modify the code accordingly.
+
+**Hints:** You'll need an extra variable for the radius:
+```cpp
+int radius = 1;
+```
 
 To convert a C string into an integer, use the `atoi` function from the
 `<cstdlib>` header. It will be needed to get the kernel radius from the
-command line argument. To set the kernel size, you need to use an
+command line argument.
+
+## Set the kernel size
+
+To set the kernel size, you need to use an
 instance of the `cv::Size` class. You also have to specify its size. You
 can use:
 
@@ -646,37 +665,51 @@ filter_size.height = kernel_height;
 
 Note that
 
--   If the radius is 0, then the kernel size is $1\times1$
--   If the radius is 1, then the kernel size is $3\times3$
--   If the radius is 2, then the kernel size is $5\times5$
+-   If the radius is 0, then the kernel size is 1 * 1
+-   If the radius is 1, then the kernel size is 3 * 3
+-   If the radius is 2, then the kernel size is 5 * 5
 -   ...
--   If the radius is 7, then the kernel size is $15\times15$
+-   If the radius is 7, then the kernel size is 15 * 15
 -   etc.
+
+Have you guessed how to compute the kernel size when you know the kernel radius?
+
+Replace `kernel_width` and `kernel_height` in the code above with your guess.
+
+## Blur the image
 
 Now you are ready to filter the input image. Use either `cv::blur` or
 `cv::boxFilter`. They are the same. The first argument is the input
 image; the second is the output image; and the third one is the kernel
-size. Display and save the output image. Try different kernel sizes to
-see the differences (see Figure [9](#fig:boxFilter){reference-type="ref"
-reference="fig:boxFilter"}).
+size.
 
-  --------------------------------------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------------------------------------
-   ![[\[fig:boxFilter\]]{#fig:boxFilter label="fig:boxFilter"}Outputs of **meanFilter**.](lena_R1.png){#fig:boxFilter width="35%"}   ![[\[fig:boxFilter\]]{#fig:boxFilter label="fig:boxFilter"}Outputs of **meanFilter**.](lena_R2.png){#fig:boxFilter width="35%"}
-                                                          \(a\) Radius = 1.                                                                                                                 \(b\) Radius = 2.
-   ![[\[fig:boxFilter\]]{#fig:boxFilter label="fig:boxFilter"}Outputs of **meanFilter**.](lena_R5.png){#fig:boxFilter width="35%"}   ![[\[fig:boxFilter\]]{#fig:boxFilter label="fig:boxFilter"}Outputs of **meanFilter**.](lena_R50.png){#fig:boxFilter width="35%"}
-                                                          \(c\) Radius = 5.                                                                                                                 \(d\) Radius = 50.
-  --------------------------------------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------------------------------------
+## You got the idea now
+
+Save the result and display it if the option `-display` was used in the command line.
+
+## Try different kernel size
+
+Try different kernel sizes to
+see the differences.
+
+### Radius = 1
+![Mean filter when the radius is 1](doc/lena_R1.png)
+
+### Radius = 2
+![Mean filter when the radius is 2](doc/lena_R2.png)
+
+### Radius = 5
+![Mean filter when the radius is 5](doc/lena_R5.png)
+
+### Radius = 50
+![Mean filter when the radius is 50](doc/lena_R50.png)
 
 
-Additional tasks
-================
+# Additional tasks
 
-Investigate the use of the median and Gaussian filters. The help page
-for image filtering is availalbe at
-<https://docs.opencv.org/4.0.1/d4/d86/group__imgproc__filter.html>
-
--   For `cv::medianBlur`, look at\
-    <https://docs.opencv.org/4.0.1/d4/d86/group__imgproc__filter.html#ga564869aa33e58769b4469101aac458f9>
-
--   For `cv::GaussianBlur`, look at
-    <https://docs.opencv.org/4.0.1/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1> -->
+For the assignment, you'll also have to use of the median and Gaussian filters.
+The help page for
+- Image filtering in general: [https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html](https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html)
+- Gaussian blur: [https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1](https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html#gaabe8c836e97159a9193fb0b11ac52cf1)
+- Median blur: [https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html#ga564869aa33e58769b4469101aac458f9](https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html#ga564869aa33e58769b4469101aac458f9)
+- Box blur: [https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html#ga8c45db9afe636703801b0b2e440fce37](https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html#ga8c45db9afe636703801b0b2e440fce37) and [https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html#gad533230ebf2d42509547d514f7d3fbc3](https://docs.opencv.org/4.5.0/d4/d86/group__imgproc__filter.html#gad533230ebf2d42509547d514f7d3fbc3).
