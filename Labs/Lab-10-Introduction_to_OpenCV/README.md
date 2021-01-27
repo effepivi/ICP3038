@@ -168,13 +168,15 @@ TARGET_INCLUDE_DIRECTORIES(cartoonise PUBLIC ${OpenCV_INCLUDE_DIRS})
 ```
 
 8. Add OpenCV libraries to each executable programs
+```cmake
 TARGET_LINK_LIBRARIES (displayImage   ${OpenCV_LIBS})
 TARGET_LINK_LIBRARIES (rgb2grey       ${OpenCV_LIBS})
 TARGET_LINK_LIBRARIES (logScale       ${OpenCV_LIBS})
 TARGET_LINK_LIBRARIES (meanFilter     ${OpenCV_LIBS})
 TARGET_LINK_LIBRARIES (medianFilter   ${OpenCV_LIBS})
 TARGET_LINK_LIBRARIES (gaussianFilter ${OpenCV_LIBS})
-TARGET_LINK_LIBRARIES (cartoonise ${OpenCV_LIBS})
+TARGET_LINK_LIBRARIES (cartoonise     ${OpenCV_LIBS})
+```
 
 9. If windows is used, copy the DLLs into the project directory
 ```cmake
