@@ -224,35 +224,53 @@ Do not compile (see "Where to build the binaries:") in the same directory a your
 
 # Task 4: Opening and Displaying an Image
 
-Headers
--------
+We will write a program that opens and displays an image file.
 
-``` {.c++ language="c++" caption="Header files."}
-#include <exception> // Header for catching exceptions
-#include <iostream>  // Header to display text in the console
-#include <opencv2/opencv.hpp> // Main OpenCV header
-```
+- NAME
+  - `displayImage` - open and display an image file
+- SYNOPSIS
+  - `displayImage infile`
+- DESCRIPTION
+  - `displayImage` is a program that loads an image file, opens a window, and display the image into that window. OpenCV is used for that purpose.
+- OPTION(s)
+  - `infile`: path to an image file.
+
+## Add a preamble to `displayImage.cxx`
+
+Using C++ comments, add a preamble at the top of your file.
+It must describe the program:
+
+1. the author of the program (you),
+2. the date,
+3. the purpose of the file (inc. the command line options),
+4. the todo-list if anything is missing.
+
+
+## Header inclusion
 
 OpenCV uses exceptions. To catch them, we need `<exception>`. To display
 text in the console `<iostream>` is required. The main OpenCV header is
 `<opencv2/opencv.hpp>`.
 
-Main structure
---------------
+```cpp
+#include <exception> // Header for catching exceptions
+#include <iostream>  // Header to display text in the console
+#include <opencv2/opencv.hpp> // Main OpenCV header
+```
+
+## Main structure
 
 As stated previously, OpenCV uses exceptions. We can (or should) catch
-them to handle errors. The structure of the main is shown in
-Listing [\[lst:displayImage\]](#lst:displayImage){reference-type="ref"
-reference="lst:displayImage"}.
+them to handle errors. The structure of the main is (almost always):
 
-``` {#lst:displayImage .c++ language="c++" caption="Initial program to display an image using OpenCV." label="lst:displayImage" firstline="49" lastline="92" label="lst:displayImage"}
+```cpp
 //-----------------------------
 int main(int argc, char** argv)
 //-----------------------------
 {
     try
     {
-        // No file to display
+        // Check the command line
         if (argc != 2)
         {
             // Create an error message
@@ -286,78 +304,64 @@ int main(int argc, char** argv)
         // Display an error message in the console
         cerr << error << endl;
     }
+    catch (...)
+    {
+        // Display an error message in the console
+        cerr << "Unnown error caught" << endl;
+    }
 
 #ifdef WIN32
 #ifdef _DEBUG
     system("pause");
+#endif
+#endif
+
+    return 0;
 ```
 
-Arguments of the Command Line
------------------------------
+## Arguments of the Command Line
 
 The first program only takes one parameter. It corresponds to the path
 of an image file. To make sure the number of arguments is correct, you
 can use:
 
-``` {.c++ language="c++" caption="Checking the number of command line arguments."}
-// No file to display
-        if (argc != 2)
-        {
-            // Create an error message
-            std::string error_message;
-            error_message  = "usage: ";
-            error_message += argv[0];
-            error_message += " <input_image>";
+```cpp
+// Check the command line
+if (argc != 2)
+{
+    // Create an error message
+    std::string error_message;
+    error_message  = "usage: ";
+    error_message += argv[0];
+    error_message += " <input_image>";
 
-            // Throw an error
-            throw error_message;
-        }
+    // Throw an error
+    throw error_message;
+}
 ```
 
-To get the file name, you can use:
+If there was no error, you can use to get the file name:
 
-``` {.c++ language="c++" caption="Getting the file name from the command line arguments."}
+```cpp
 std::string input_filename(argv[1]);
 ```
 
-Reading the File
-----------------
+## Reading the File
 
 An image is stored in an instance of the class `Mat`. Note that OpenCV's
 namespace is `cv::`. To declare the variable that will hold our image,
 type:
 
-``` {.c++ language="c++"}
+```cpp
 // Create an image instance
-        cv::Mat image;
-```
-
-In OpenCV 2 and 3, the image is loaded using:
-
-``` {.c++ language="c++" caption="Open an image with OpenCV2 and 3."}
-// Open and read the image
-        image = cv::imread( input_filename, CV_LOAD_IMAGE_COLOR );
+cv::Mat image;
 ```
 
 In OpenCV 4, the image is loaded using:
 
-``` {.c++ language="c++" caption="Open an image with OpenCV4."}
+```cpp
 // Open and read the image
-        image = cv::imread( input_filename, cv::IMREAD_COLOR );
-```
-
-As a consequence, we can use the C pre-porcessor to make sure our code
-is compatible with either version of OpenCV:
-
-``` {.c++ language="c++" caption="Open an image with any version of OpenCV."}
-// Open and read the image
-#if CV_MAJOR_VERSION == 2
-        image = cv::imread( input_filename, CV_LOAD_IMAGE_COLOR );
-#elif CV_MAJOR_VERSION == 3
-        image = cv::imread( input_filename, CV_LOAD_IMAGE_COLOR );
-#elif CV_MAJOR_VERSION == 4
-        image = cv::imread( input_filename, cv::IMREAD_COLOR );
-#endif
+image = cv::imread( input_filename, cv::IMREAD_COLOR );
 ```
 
 It is a good practice to check if any error occurred, e.g. to avoid
@@ -365,39 +369,35 @@ unspecified behaviours and crashed. If the image is not loaded, its
 `data` field is empty. If it is the case we can throw an error as
 follows:
 
-``` {.c++ language="c++" caption="Check that the image contains data"}
+```cpp
 // The image has not been loaded
-        if (!image.data)
-        {
-            // Create an error message
-            std::string error_message;
-            error_message  = "Could not open or find the image \"";
-            error_message += input_filename;
-            error_message += "\".";
+if (!image.data)
+{
+    // Create an error message
+    std::string error_message;
+    error_message  = "Could not open or find the image \"";
+    error_message += input_filename;
+    error_message += "\".";
 
-            // Throw an error
-            throw error_message;
-        }
+    // Throw an error
+    throw error_message;
+}
 ```
 
-Displaying the Image
---------------------
+## Displaying the Image
 
 There are four steps to create a window and display and image:
 
 1.  Create a string to contain the window title (it is used to identify
     the window);
-
 2.  Create the window;
-
 3.  Show the image in the window;
-
 4.  Wait for a user input to leave the window.
 
 It can be done as follows:
 
-``` {.c++ language="c++" caption="Create an image."}
-// Create a string to contain the window title
+```cpp
+        // Create a string to contain the window title
         string window_title;
         window_title  = "Display \"";
         window_title += input_filename;
@@ -418,82 +418,99 @@ different image files to test it.
 Figure [3](#fig:displayImage){reference-type="ref"
 reference="fig:displayImage"} shows a screenshot of the program.
 
-![[\[fig:displayImage\]]{#fig:displayImage
-label="fig:displayImage"}Screenshot of
-**displayImage**.](displayImage.png){#fig:displayImage
-width="\\textwidth"}
+![Screenshot of `displayImage`.](doc/displayImage.png)
 
-Convert a RGB Image in a Greyscale Image
-========================================
 
+# Converts a RGB Image in a Greyscale Image
+
+A lot of algorithms work on greyscale images. We are going to write a program that does just that.
 Copy the main function of `displayImage.cxx` into `rgb2grey.cxx`.
 
-Arguments of the Command Line
------------------------------
+- NAME
+  - `rgb2grey` - convert an RGB image file into a greyscale image
+- SYNOPSIS
+  - `rgb2grey [-display] infile outfile`
+- DESCRIPTION
+  - `rgb2grey` is a program that loads an image file, converts it into greyscale, and optionaly displays the results into a window. OpenCV is used for that purpose.
+- OPTION(s)
+  - `infile`: path to an input image file.
+  - `outfile`: path to an output image file.
+  - `-display`: display the greyscale image in a window. This argument is optional.
 
-The second program takes two parameter:
+## Arguments of the Command Line
 
-1.  The path of the input RGB image file, and
+There are either 2 or 3 arguments. `infile` and `outfile` are required. `-display` is optional.
+Modify the code accordingly. Examples of suitable usage:
 
-2.  The path of the output greyscale image file.
-
-Modify the code accordingly.
-
-Converting from RGB to Greyscale
---------------------------------
-
-After displaying the RGB image and BEFORE `cv::waitKey(0)`, create a new
-image called `grey_image`. To convert the original image in greyscale,
-simply type:
-
-``` {.c++ language="c++" caption="Convert the colour model of the image in OpenCV2 and 3."}
-// If the image is not a greyscale image, then convert it.
-        cv::Mat grey_image;
-        cv::cvtColor(image, grey_image, CV_RGB2GRAY);
+```bash
+$ rgb2grey input.png output.png
+$ rgb2grey -display input.png output.png
+$ rgb2grey input.png output.png -display
+$ rgb2grey input.png -display output.png  
 ```
 
-``` {.c++ language="c++" caption="Convert the colour model of the image in OpenCV4."}
-// If the image is not a greyscale image, then convert it.
-        cv::Mat grey_image;
-        cv::cvtColor(image, grey_image, cv::COLOR_RGB2GRAY);
+The following is not suitable:
+```cpp
+$ rgb2grey input.png -display
+```
+If it occurs, generate an exception with a meaningful error message.
+
+**Hints:** You'll need an extra two local variables. For the output file:
+```cpp
+std::string output_filename;
+```
+For the display option:
+```cpp
+bool display_image = false;
+```
+
+## Converting from RGB to Greyscale
+
+To convert the original image in greyscale,
+simply type:
+
+```cpp
+cv::Mat grey_image;
+cv::cvtColor(image, grey_image, cv::COLOR_RGB2GRAY);
 ```
 
 In OpenCV in general, the first argument is the input image; the second
 argument is the output image; other arguments are the parameters of the
-function. Now create another window where to display the new image.
+function.
 
-Saving an Image into a File
----------------------------
+## Saving an Image into a File
 
 The function to save an image is `cv::imwrite(file_name, image)`. It
 returns true if the file has been successfully written; false otherwise.
 We can use the return value to handle possible errors:
 
-``` {.c++ language="c++" caption="Save an image."}
+```cxx
 // Write the image
-        if (!cv::imwrite(argv[2], grey_image))
-        {
-            // The image has not been written
+if (!cv::imwrite(output_filename, grey_image))
+{
+    // The image has not been written
 
-            // Create an error message
-            std::string error_message;
-            error_message  = "Could not write the image \"";
-            error_message += argv[2];
-            error_message += "\".";
+    // Create an error message
+    std::string error_message;
+    error_message  = "Could not write the image \"";
+    error_message += output_filename;
+    error_message += "\".";
 
-            // Throw an error
-            throw error_message;
-        }
+    // Throw an error
+    throw error_message;
+}
 ```
 
-Calling `rgb2grey lena_color_512.tif lena.png` should produce the output
-presented in Figure [5](#fig:grey){reference-type="ref"
-reference="fig:grey"}.
+## Display the image
 
-  --------------------------------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------------------------
-   ![[\[fig:grey\]]{#fig:grey label="fig:grey"}Input and output of **rgb2grey**.](lena_color_512.png){#fig:grey width="35%"}   ![[\[fig:grey\]]{#fig:grey label="fig:grey"}Input and output of **rgb2grey**.](lena_grey.png){#fig:grey width="35%"}
-                                                      \(a\) Input image.                                                                                                       \(b\) Output image.
-  --------------------------------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------------------------
+If the option `-display` was used in the command line, display `grey_image`.
+
+Calling `rgb2grey lena_color_512.tif lena_grey.png` should produce the output
+presented below:
+
+![Input `rgb2grey`.](lena_color_512.png)
+
+<!--![Output `rgb2grey`.](lena_grey.png)
 
 Mean Filter
 ===========
