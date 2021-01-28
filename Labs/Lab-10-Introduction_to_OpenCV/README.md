@@ -32,7 +32,7 @@ The aim of today's lab is to become familiar with OpenCV and its usage in C/C++.
 4. Convert from `unsigned char` to `float`;
 5. Save an image into a file;
 6. Add a constant to the pixels of an image;
-7. Apply a log transform to the pixels of an image; ahd
+7. Apply a log transform to the pixels of an image; and
 8. Apply some basic filtering techniques.
 
 To achieve these goals, we will create several programs:
