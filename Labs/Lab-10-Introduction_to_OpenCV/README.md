@@ -183,7 +183,6 @@ ADD_EXECUTABLE (gaussianFilter gaussianFilter.cxx)
 
 7. Add OpenCV's header path for each program
 ```cmake
-INCLUDE_DIRECTORIES (${OpenCV_INCLUDE_DIRS})
 TARGET_INCLUDE_DIRECTORIES(displayImage PUBLIC ${OpenCV_INCLUDE_DIRS})
 TARGET_INCLUDE_DIRECTORIES(rgb2grey PUBLIC ${OpenCV_INCLUDE_DIRS})
 TARGET_INCLUDE_DIRECTORIES(logScale PUBLIC ${OpenCV_INCLUDE_DIRS})
@@ -296,6 +295,15 @@ text in the console `<iostream>` is required. The main OpenCV header is
 #include <opencv2/opencv.hpp> // Main OpenCV header
 ```
 
+## Namespaces
+
+We'll use two namespaces `std` for the standard library, and `cv` for OpenCV. 
+
+```cpp
+using namespace std;
+using namespace cv;
+```
+
 ## Main structure
 
 As stated previously, OpenCV uses exceptions. We can (or should) catch
@@ -355,6 +363,7 @@ int main(int argc, char** argv)
 #endif
 
     return 0;
+}
 ```
 
 ## Arguments of the Command Line
