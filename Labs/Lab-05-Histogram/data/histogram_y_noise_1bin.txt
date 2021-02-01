@@ -1,2 +1,0 @@
-"Min bin value" "Count"
--0.837137 401
