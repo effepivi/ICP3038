@@ -1,0 +1,213 @@
+% !TEX root = ./ICP3038_Lab_02.tex
+
+\section*{Laboratory 2: Introduction to Classes in C++}
+
+%This is a typical script that you will be working with at each
+%laboratory session. To work with these scripts efficiently, follow the
+%guidelines below.
+%\begin{enumerate}
+%  \item The script is not a step-by-step tutorial. It introduces the
+%    problem but it is your task to solve it.
+%
+%  \item If you get stuck, make sure that you read \emph{Help} section
+%    at the end of the document.
+%
+%  \item If you still have problems, ask the lecturer, demonstrator or
+%    fellow students for help.
+%
+%  \item Try to do as much work as possible in the class, where it is
+%    easier to get help.
+%    
+%  \item If you need help when working at home, use the Blackboard
+%    discussion board.
+%    
+%  \item Finish all assignments at least a week before the deadline. If you get
+%    stuck, you will still have one week to ask for help.
+%\end{enumerate}
+
+The aims of today's lab are:
+\begin{itemize}
+\item Finish Lab~1; %(the Bubble Sort);
+\item Understand the constructor in C++ and using initialisation lists;
+\item Get familiar with the implementation of (basic) classes;
+\item Overwrite some operators (\verb+=+, \verb+<<+ and \verb+>>+);
+\item Use \verb+std::string+ instead of \verb+char*+.
+\end{itemize}
+
+Next week, we will use the STL library and write our own template class.
+
+\section*{Task 0: Last week}
+
+Make sure you finish your Bubble Sort implementation!
+You can find a good example of Bubble Sort execution on Wikipedia:
+\url{https://en.wikipedia.org/wiki/Bubble_sort}
+There is an animated GIF file.
+
+\section*{Task 1: Using CMake}
+
+Same as last week, we will use CMake to make our lifes easier. So create your MS Visual Studio solutions, Xcode projects, or Unix Makefiles using CMake.
+%In the lecture, you saw yesterday that it can be extremely complicated to use the IDE to maintain the project files, etc. particularly if students use Windows, Mac, or Linux. 
+%There is a ZIP file on Blackboard with 4 (almost) empty C++ source files. There is also a `CMakeLists.txt' file. 
+%It is a good practice to organise your source code using directories, etc. Do not compile code in the same directory as your source code. It can get messy... 
+%Extract the ZIP file, and set up the compilation environment using \verb+cmake+. 
+%In the GUI, the source directory corresponds to the direction in which `CMakeLists.txt' is. 
+%The binary directory is where the code will be compiled. Often, we call this directory `bin'. 
+%Once the paths are set, press `Configure'. 
+%The first time you run the configuration tool, you have to select a generator.
+%If you want to use MSVC++ in the lab, make sure to use \emph{Visual Studio 14 2015 Win64}. 
+%For Mac OS X, you may want to use the Xcode generator. 
+%For Linux, you may choose Makefile. 
+%Once the configuration step is over, press `Generate'. 
+%The project files are now ready in the `bin' directory. 
+%You can compile the code using the preferred IDE.
+
+\section{Task 2: Illustrating the usefulness of initialisation lists}
+
+For this task, you are given three C++ files:
+\begin{enumerate}
+  \item \verb+include/Integer.h+, the header file defining a class to handle integer numbers;
+  \item \verb+src/Integer.cpp+, the source file that implements the code;
+  \item \verb+src/TestInteger.cpp+, a test program to try the class.
+\end{enumerate}
+We want to adopt good C++ practice. 
+There are plenty of tutorials, forums, etc. on the Web that deal with how to write simple C++ classes. 
+I googled `How to write a simple class in C++?'. 
+The first item returned from Google was: \url{http://stackoverflow.com/questions/865922/how-to-write-a-simple-class-in-c}
+The answers to the question on StackOverflow are mostly correct, but not perfect. 
+Most people did not use initialisation lists. 
+%Today, we will demonstrate how bad some C++ code from the Web can be. 
+
+Initialisation lists have been around for a very long time, but many people still ignore them despite their advantages. 
+Initialisation lists are used in constructors to set the initial values of class members in an efficient manner. 
+On the web, we may often see:
+\begin{lstlisting}
+DummyClass my_instance;
+my_instance = 10;
+\end{lstlisting}
+%or
+%\begin{lstlisting}
+%DummyClass my_instance = 10;
+%\end{lstlisting}
+%
+%Both are equivalent and extremely bad. 
+This is not very good. 
+What will happen in practice?
+\begin{enumerate}
+\item One call of the default constructor (\verb+DummyClass::DummyClass()+);
+\item One call of the copy operator (\verb+DummyClass::operator=(int)+)
+\end{enumerate}
+i.e.~two function calls will be performed to declare and initialise the object. 
+It is obviously not very good if we consider how many times we may have to create objects in a large program. 
+Instead, we should use:
+\begin{lstlisting}
+DummyClass my_instance(10);
+\end{lstlisting}
+or
+\begin{lstlisting}
+DummyClass my_instance = 10;
+\end{lstlisting}
+
+Both are equivalent and only the constructor (\verb+DummyClass::DummyClass(int)+) will be called. 
+This is more effective and it is better OOP practice. 
+%Note that some compilers will automatically interpret
+%\begin{lstlisting}
+%DummyClass my_instance = 10;
+%\end{lstlisting}
+%as
+%\begin{lstlisting}
+%DummyClass my_instance(10);
+%\end{lstlisting}
+
+Have a look at the code an execute it. 
+3 instances of Integer have been created and data has been printed in the standard output. 
+Look at the different values of \verb+m_data+ that have been printed and try to understand what happened.
+
+%Create a CMakeLists.txt file to generate a project for MS VC++ or Xcode (or whatever you may want to use). 
+For Task~1, you only have to modify \verb+Integer.cpp+. 
+The methods that you need to modify are:
+\begin{verbatim}
+Integer::Integer()
+Integer::Integer(int anInteger)
+\end{verbatim}
+%\large\textbf{You need to identify what is happening.} To do this, have a look at the output in the console. 
+
+But first, look below at the code of the copy constructor. 
+It has an initialisation list. 
+See the `\verb+:+' character at the end of Line~2 and look at Line~4 to see how to set the initial value of \verb+m_data+.
+\begin{lstlisting}[numbers=left]
+//-----------------------------------------
+Integer::Integer(const Integer& anInteger):
+//-----------------------------------------
+        m_data(anInteger.m_data)
+//-----------------------------------------
+{
+    std::cout << "IN: Integer::Integer(const Integer& anInteger)" << std::endl;
+
+    std::cout << "\t" << m_data << std::endl;
+
+    std::cout << "OUT: Integer::Integer(const Integer& anInteger)" << std::endl;
+}
+\end{lstlisting}
+
+\large\textbf{Add an initialisation list to the other constructors}
+(see \verb+src/Integer.cpp+ for further instructions).
+
+The code of the initialisation list is execute first, at the instanciation of the objet. 
+Then the body of the constructor is executed. 
+It is not unusual for C++ constructors to have an empty body. 
+Using the list is faster than using the copy \verb+operator=+ in the body of the constructor. 
+
+
+\section*{Task 3: Create your own class}
+
+You are going to write a new class called ``StringInverter''. 
+You need 3 extra files:
+\begin{enumerate}
+  \item \verb+include/StringInverter.h+, the header file defining a class to handle integer numbers;
+  \item \verb+src/StringInverter.cpp+, the source file that implements the code;
+  \item \verb+src/TestStringInverter.cpp+, a test program to try the class.
+\end{enumerate}
+First, modify CMakeLists.txt to add a new project. 
+Just add:
+\begin{lstlisting}
+add_executable(Task2 
+	include/StringInverter.h 
+	src/TestStringInverter.cpp 
+	src/StringInverter.cpp)
+\end{lstlisting}
+
+Now you can start implementing the class. It should include the public methods as follows:
+\begin{lstlisting}
+    StringInverter();
+    StringInverter(const StringInverter& aString);
+    StringInverter(const char* aString);
+    StringInverter(const std::string& aString);
+    ~StringInverter();
+    void setString(const char* aString);
+    void setString(const std::string& aString);
+    const std::string& getString() const;
+    const std::string& getInvertedString() const;
+    StringInverter& operator=(const StringInverter& aString);
+    StringInverter& operator=(const char* aString);
+    StringInverter& operator=(const std::string& aString);
+    bool operator==(const StringInverter& aString) const;
+    bool operator==(const char* aString) const;
+    bool operator==(const std::string& aString) const;
+    bool operator!=(const StringInverter& aString) const;
+    bool operator!=(const char* aString) const;
+    bool operator!=(const std::string& aString) const;
+\end{lstlisting}
+
+It should also include the following private method:
+\begin{lstlisting}
+void invertString();
+\end{lstlisting}
+
+
+Also add friend functions \verb+operator<<+ and \verb+operator>>+:
+\begin{lstlisting}
+std::ostream& operator<<(std::ostream& aStream, const StringInverter& aString);
+std::istream& operator>>(std::istream& aStream, StringInverter& aString);
+\end{lstlisting}
+
+In \verb+TestStringInverter.cpp+, you have to test each method and each function. 
