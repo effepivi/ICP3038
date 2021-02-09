@@ -283,7 +283,7 @@ In `Blending.cxx`:
     - **Swap the two halves**.
     - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
 18. Reconstruct the image from one of the new pyramids.
-  - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
+    - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
 19. Reconstruct the image from the other new pyramid.
 20. **Display** both reconstructed images for testing purposes.
 21. **Save** both reconstructed images.
