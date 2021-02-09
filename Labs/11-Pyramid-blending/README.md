@@ -17,11 +17,11 @@ We will rely on multi-scale processing using pyramids to operates on an image re
 
 ![Source:[https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/500px-Image_pyramid.svg.png](https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/500px-Image_pyramid.svg.png)](https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/500px-Image_pyramid.svg.png)
 
-We will deploy what is called "pyramid blending" to merge two images together. Without pyramid blending, merging images produces a sharp edge were objects from the two images are merged:
+We will deploy a technique called "pyramid blending" to merge two images together. Direct merging, i.e. without pyramid blending, produces a sharp edge where objects from the two images are merged:
 
 ![Stitching without blending](img/stitching1.png)
 
-It is not the case with pyramid blending:
+I agree, not very nice :-( It is much nicer with pyramid blending, isn't it?
 
 ![Stitching with and without pyramid blending](img/stitching5.png)
 
@@ -33,11 +33,32 @@ You'll write your code in three different files (four if you count `CMakeLists.t
     - Display a pyramid; and
     - Reconstruct an image from its Laplacian pyramid.
 - `Pyramid.cxx`: we will write the definition of the functions.
-- `Orangeapple.cxx`: we will deploy the functions written in `Pyramid.cxx` in a program to blend the Laplacian pyramid of two images.
+- `Blending.cxx`: we will deploy the functions written in `Pyramid.cxx` in a program to blend the Laplacian pyramid of two images.
 
-# 2. Have you done your homework?
+# 2. Preliminaries
 
-This week we will reply on the knowledge learnt in the 2nd lecture of Semester, on *Multi-resolution images using Pyramids*. If you don't know what I am talking about, have a look at the slides now.
+1. Edit the `CMakeLists.txt` file from last time to add the new program:
+```cmake
+ADD_EXECUTABLE (Blending Pyramid.h Pyramid.cxx Blending.cxx)
+TARGET_INCLUDE_DIRECTORIES (Blending PUBLIC ${OpenCV_INCLUDE_DIRS})
+TARGET_LINK_LIBRARIES (Blending   ${OpenCV_LIBS})
+```
+2. Create three new files, `Pyramid.h`, `Pyramid.cxx` and `Blending.cxx`.
+3. Download [orange.jpg](./orange.jpg). Save this image in the same directory as the `CMakeLists.txt` file.
+4. Download [apple.jpg](./apple.jpg). Save this image in the same directory as the `CMakeLists.txt` file.
+5. Edit the `CMakeLists.txt` file again, this time to copy the image in your binary directory:
+```cmake
+FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/orange.jpg"
+      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+
+FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/apple.jpg"
+      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+```
+This way it will be easy for `Blending.cxx` to locate the input image files.
+
+# 3. Have you done your homework?
+
+This week we will reply on the knowledge learnt in the 2nd lecture of Semester 2, on *Multi-resolution images using Pyramids*. If you don't know what I am talking about, have a look at the slides now.
 
 There are two main types of pyramids:
 
@@ -51,14 +72,11 @@ There are two main types of pyramids:
 We will use both:
 
 - We are going to merge the Laplacian pyramids of two images to create a new image.
-- A Gaussian pyramid is needed to compute Laplacian a pyramid.
+- A Gaussian pyramid is needed to compute a Laplacian pyramid.
 
 You are expected to study the code in the following Jupyter Notebook: [https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb).
 
-
-
-
-
+# 4. The header file
 
 Let's start with the beginning, the declarations in the header file.
 Remember, put a preamble at the top of your files. ALL YOUR FILES. See here for a real example: [https://sourceforge.net/p/gvirtualxray/code/HEAD/tree/trunk/gvxr/include/gVirtualXRay/PolygonMesh.h](https://sourceforge.net/p/gvirtualxray/code/HEAD/tree/trunk/gvxr/include/gVirtualXRay/PolygonMesh.h). The preamble helps identify who wrote the file, when, and what the code does.
@@ -107,7 +125,7 @@ In `Pyramid.h`
 
 3. Add the declarations.
 
-Look at the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)) and identify all the functions.
+Look at the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)) and identify all the functions.
 
 
 4. Add the header files.
@@ -177,31 +195,34 @@ Look at the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/L
 /// Create a Gaussian pyramid.
 /**
  * @param anOriginalImage:    the image to process
+ * @param aGaussianPyramid:   the Gaussian pyramid
  * @param aNumberOfLevels:    the number of levels in the pyramid
- * @return the Gaussian pyramid
  */
 //--------------------------------------------------------------------------
-std::vector<cv::Mat> createGaussianPyramid(const cv::Mat& anOriginalImage,
-                                           size_t aNumberOfLevels);
+void createGaussianPyramid(const Mat& anOriginalImage,
+                           vector<Mat>& aGaussianPyramid,
+                           size_t aNumberOfLevels);
+
 
 //--------------------------------------------------------------------------
 /// Create an image to visualise a pyramid (Gaussian or Laplacian).
 /**
- * @param aPyramid:    the pyramid to visualise
- * @return the visualisation of the pyramid
+ * @param aPyramid: the pyramid to visualise
+ * @return  the visualisation of the pyramid
  */
 //--------------------------------------------------------------------------
-cv::Mat displayPyramid(const std::vector<cv::Mat>& aPyramid);
+Mat displayPyramid(const std::vector<Mat>& aPyramid);
 
 
 //--------------------------------------------------------------------------
 /// Create a Laplacian pyramid from a Gaussian pyramid.
 /**
- * @param aGaussianPyramid:    the Gaussian pyramid
- * @return the corresponding Laplacian pyramid
+ * @param aGaussianPyramid:   the Gaussian pyramid
+ * @param aLaplacianPyramid:  the corresponding Laplacian pyramid
  */
 //--------------------------------------------------------------------------
-std::vector<cv::Mat> createLaplacianPyramid(const std::vector<cv::Mat>& aGaussianPyramid);
+void createLaplacianPyramid(const vector<Mat>& aGaussianPyramid,
+                            vector<Mat>& aLaplacianPyramid);
 
 
 //--------------------------------------------------------------------------
@@ -212,17 +233,18 @@ std::vector<cv::Mat> createLaplacianPyramid(const std::vector<cv::Mat>& aGaussia
  * @return the corresponding reconstructed image
  */
 //--------------------------------------------------------------------------
-cv::Mat reconstruct(const std::vector<cv::Mat>& aLaplacianPyramid, int aLevel);
+Mat reconstruct(const vector<Mat>& aLaplacianPyramid, int aLevel);
 
 
 #endif // __Pyramid_h
 ```
 
+
 ## In `Pyramid.cxx`
 
 1. Add the same preamble as what you have in `Pyramid.h` (just change the file name).
 2. Include the header file (`Pyramid.h`).
-3. Add the definitions. You can find the code in the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)).
+3. Add the definitions. You can find the code in the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)).
 
 We will exploit this code in the image stitching.
 
@@ -247,3 +269,7 @@ We will exploit this code in the image stitching.
 16. **Display** both Laplacian pyramids for testing purposes.
 17. **For each level** of the Laplacian pyramids:
   - **Swap the two halves**.
+18. Reconstruct the image from one of the new pyramids.
+19. Reconstruct the image from the other new pyramid.
+20. **Display** both reconstructed images for testing purposes.
+21. **Save** both reconstructed images.
