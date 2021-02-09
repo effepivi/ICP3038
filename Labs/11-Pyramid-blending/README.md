@@ -75,6 +75,7 @@ We will use both:
 - A Gaussian pyramid is needed to compute a Laplacian pyramid.
 
 You are expected to study the code in the following Jupyter Notebook: [https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb).
+You must read both the text in English and the code.
 
 # 4. The header file
 
@@ -83,7 +84,7 @@ Remember, put a preamble at the top of your files. ALL YOUR FILES. See here for 
 
 ## In `Pyramid.h`
 
-1. Add the `#ifndef/#define/#endif`. I always like to do that first when I create a header file (just because we must not forget).
+1. Add the `#ifndef/#define/#endif`. I always do that first when I create a header file (just because I don't want to forget).
 
 ```cpp
 #ifndef __Pyramid_h
@@ -95,9 +96,7 @@ Remember, put a preamble at the top of your files. ALL YOUR FILES. See here for 
 #endif // __Pyramid_h
 ```
 
-2. Add the preamble
-
-In `Pyramid.h`
+2. Add the preamble: which file? what for? when? who? anything missing/any bug?
 
 ```cpp
 #ifndef __Pyramid_h
@@ -123,12 +122,7 @@ In `Pyramid.h`
 #endif // __Pyramid_h
 ```
 
-3. Add the declarations.
-
-Look at the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)) and identify all the functions.
-
-
-4. Add the header files.
+3. Add the header files.
 
 ```cpp
 #ifndef __Pyramid_h
@@ -161,7 +155,9 @@ Look at the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/L
 #endif // __Pyramid_h
 ```
 
-5. Add the declarations.
+4. Add the declarations.
+
+Look again at the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)) and identify all the functions. There are four or five.
 
 ```cpp
 #ifndef __Pyramid_h
@@ -240,36 +236,60 @@ Mat reconstruct(const vector<Mat>& aLaplacianPyramid, int aLevel);
 ```
 
 
-## In `Pyramid.cxx`
+# 5. In `Pyramid.cxx`
 
 1. Add the same preamble as what you have in `Pyramid.h` (just change the file name).
 2. Include the header file (`Pyramid.h`).
 3. Add the definitions. You can find the code in the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)).
 
-We will exploit this code in the image stitching.
+We will exploit this code in the image stitching. **So you must make sure you understand it. You will need to demonstrate it in your report.**
 
+# 6. The program
 
+The image below shows the principle of image blending using Laplacian pyramids, with (a) Pyramid of the left-hand side image; (b) Pyramid of the right-hand side image; and (c) Combined pyramid.
 
+![Principle of image blending using Laplacian pyramids](img/principles.png)
 
-1. Write your **preamble** to identify your file.
+In `Blending.cxx`:
+
+1. Write your **preamble** to identify your file. Which file? what for? when? who? anything missing/any bug?
 2. Include the **header files**.
+  - See your code from the previous lab.
 3. Add the **namespaces**.
+  - See your code from the previous lab.
 4. Add the **`main`** function.
-5. Load the image file of the **orange** in colour.
+5. Load the image file of the **orange**. Make sure you are using colours.
+  - See `imread` in your code from the previous lab.
 6. Check if the image **is loaded**
+  - See your code from the previous lab.
 7. Check if the image size is a **power of two**.
+  - You must write your own function in `Pyramid.h`/`Pyramid.cxx`, e.g. `bool isPowerOfTwo(int i);``
+  - It returns `true` if `i` is a power of two.
+  - It returns `false` if `i` is not a power of two.
 8. Repeat steps 5, 6 and 7 with the image file of the apple.
 9. **Display** both images for testing purposes.
-10 Choose the **number of levels** in the pyramids, e.g. 6.
+  - See `namedWindow`, `imshow`, and `waitKey` in your code from the previous lab.
+10 Choose the **number of levels** in the pyramids, e.g. 6 levels (it'll be nice if this number could be inputted from the command line interface, either `argc`/`argv` or `cin`).
+  - You may want to use `atoi`.
 11. Compute the **Gaussian pyramid** of the orange.
+  - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
 12. Compute the **Gaussian pyramid** of the apple.
-13. **Display** both Gaussian pyramids for testing purposes.
+13. **Display** both Gaussian pyramids for testing purposes (you may want to save the corresponding images for your report).
 14. Compute the **Laplacian pyramid** of the orange.
+  - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
 15. Compute the **Laplacian pyramid** of the apple.
-16. **Display** both Laplacian pyramids for testing purposes.
+16. **Display** both Laplacian pyramids for testing purposes (you may want to save the corresponding images for your report).
 17. **For each level** of the Laplacian pyramids:
   - **Swap the two halves**.
+  - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
 18. Reconstruct the image from one of the new pyramids.
+  - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
 19. Reconstruct the image from the other new pyramid.
 20. **Display** both reconstructed images for testing purposes.
 21. **Save** both reconstructed images.
+  - See `imwrite` in your code from the previous lab.
+
+My code produces this two images:
+
+![Oranapple](img/oranapple-synthesis.png)
+![Apporange](img/apporange-synthesis.png)
