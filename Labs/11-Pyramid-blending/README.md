@@ -254,40 +254,40 @@ In `Blending.cxx`:
 
 1. Write your **preamble** to identify your file. Which file? what for? when? who? anything missing/any bug?
 2. Include the **header files**.
-  - See your code from the previous lab.
+    - See your code from the previous lab.
 3. Add the **namespaces**.
-  - See your code from the previous lab.
+    - See your code from the previous lab.
 4. Add the **`main`** function.
 5. Load the image file of the **orange**. Make sure you are using colours.
-  - See `imread` in your code from the previous lab.
+    - See `imread` in your code from the previous lab.
 6. Check if the image **is loaded**
-  - See your code from the previous lab.
+    - See your code from the previous lab.
 7. Check if the image size is a **power of two**.
-  - You must write your own function in `Pyramid.h`/`Pyramid.cxx`, e.g. `bool isPowerOfTwo(int i);``
-  - It returns `true` if `i` is a power of two.
-  - It returns `false` if `i` is not a power of two.
+    - You must write your own function in `Pyramid.h`/`Pyramid.cxx`, e.g. `bool isPowerOfTwo(int i);``
+    - It returns `true` if `i` is a power of two.
+    - It returns `false` if `i` is not a power of two.
 8. Repeat steps 5, 6 and 7 with the image file of the apple.
 9. **Display** both images for testing purposes.
-  - See `namedWindow`, `imshow`, and `waitKey` in your code from the previous lab.
+    - See `namedWindow`, `imshow`, and `waitKey` in your code from the previous lab.
 10 Choose the **number of levels** in the pyramids, e.g. 6 levels (it'll be nice if this number could be inputted from the command line interface, either `argc`/`argv` or `cin`).
-  - You may want to use `atoi`.
+    - You may want to use `atoi`.
 11. Compute the **Gaussian pyramid** of the orange.
-  - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
+    - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
 12. Compute the **Gaussian pyramid** of the apple.
 13. **Display** both Gaussian pyramids for testing purposes (you may want to save the corresponding images for your report).
 14. Compute the **Laplacian pyramid** of the orange.
-  - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
+    - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
 15. Compute the **Laplacian pyramid** of the apple.
 16. **Display** both Laplacian pyramids for testing purposes (you may want to save the corresponding images for your report).
 17. **For each level** of the Laplacian pyramids:
-  - **Swap the two halves**.
-  - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
+    - **Swap the two halves**.
+    - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
 18. Reconstruct the image from one of the new pyramids.
   - You wrote the code in `Pyramid.h`/`Pyramid.cxx`.
 19. Reconstruct the image from the other new pyramid.
 20. **Display** both reconstructed images for testing purposes.
 21. **Save** both reconstructed images.
-  - See `imwrite` in your code from the previous lab.
+    - See `imwrite` in your code from the previous lab.
 
 My code produces this two images:
 
