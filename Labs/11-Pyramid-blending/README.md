@@ -242,7 +242,7 @@ Mat reconstruct(const vector<Mat>& aLaplacianPyramid, int aLevel);
 2. Include the header file (`Pyramid.h`).
 3. Add the definitions. You can find the code in the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)).
 
-We will exploit this code in the image stitching. **So you must make sure you understand it. You will need to demonstrate it in your report.**
+We will exploit this code in the image stitching. **You must make sure you understand it. You will need to demonstrate your understanding of the method in the report.**
 
 # 6. The program
 
