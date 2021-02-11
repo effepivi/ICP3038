@@ -207,7 +207,7 @@ void createGaussianPyramid(const cv::Mat& anOriginalImage,
  * @return  the visualisation of the pyramid
  */
 //--------------------------------------------------------------------------
-Mat displayPyramid(const std::vector<cv::Mat>& aPyramid);
+cv::Mat displayPyramid(const std::vector<cv::Mat>& aPyramid);
 
 
 //--------------------------------------------------------------------------
@@ -229,7 +229,7 @@ void createLaplacianPyramid(const std::vector<cv::Mat>& aGaussianPyramid,
  * @return the corresponding reconstructed image
  */
 //--------------------------------------------------------------------------
-Mat reconstruct(const std::vector<cv::Mat>& aLaplacianPyramid, int aLevel);
+cv::Mat reconstruct(const std::vector<cv::Mat>& aLaplacianPyramid, int aLevel);
 
 
 #endif // __Pyramid_h
