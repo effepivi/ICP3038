@@ -267,6 +267,7 @@ In `Blending.cxx`:
     - You must write your own function in `Pyramid.h`/`Pyramid.cxx`, e.g. `bool isPowerOfTwo(int i);``
     - It returns `true` if `i` is a power of two.
     - It returns `false` if `i` is not a power of two.
+    - If they are not, make sure they become. Either pad the image(s) in your code using OpenCV ([`cv::copyMakeBorder`](https://docs.opencv.org/3.4/d2/de8/group__core__array.html#ga2ac1049c2c3dd25c2b41bffe17658a36)), or use a program such as Gimp or Photoshop.
 8. Repeat steps 5, 6 and 7 with the image file of the apple.
 9. **Display** both images for testing purposes.
     - See `namedWindow`, `imshow`, and `waitKey` in your code from the previous lab.
