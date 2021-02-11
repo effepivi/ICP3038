@@ -40,7 +40,7 @@ You'll write your code in three different files (four if you count `CMakeLists.t
 1. Edit the `CMakeLists.txt` file from last time to add the new program:
 ```cmake
 ADD_EXECUTABLE (Blending Pyramid.h Pyramid.cxx Blending.cxx)
-TARGET_INCLUDE_DIRECTORIES (Blending PUBLIC ${OpenCV_INCLUDE_DIRS})
+TARGET_INCLUDE_DIRECTORIES (Blending PUBLIC ${OpenCV_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/include)
 TARGET_LINK_LIBRARIES (Blending   ${OpenCV_LIBS})
 ```
 2. Create three new files, `Pyramid.h`, `Pyramid.cxx` and `Blending.cxx`.
