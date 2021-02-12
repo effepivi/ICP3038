@@ -40,7 +40,7 @@ You'll write your code in three different files (four if you count `CMakeLists.t
 1. Edit the `CMakeLists.txt` file from last time to add the new program:
 ```cmake
 ADD_EXECUTABLE (Blending Pyramid.h Pyramid.cxx Blending.cxx)
-TARGET_INCLUDE_DIRECTORIES (Blending PUBLIC ${OpenCV_INCLUDE_DIRS})
+TARGET_INCLUDE_DIRECTORIES (Blending PUBLIC ${OpenCV_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/include)
 TARGET_LINK_LIBRARIES (Blending   ${OpenCV_LIBS})
 ```
 2. Create three new files, `Pyramid.h`, `Pyramid.cxx` and `Blending.cxx`.
@@ -195,8 +195,8 @@ Look again at the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/ma
  * @param aNumberOfLevels:    the number of levels in the pyramid
  */
 //--------------------------------------------------------------------------
-void createGaussianPyramid(const Mat& anOriginalImage,
-                           vector<Mat>& aGaussianPyramid,
+void createGaussianPyramid(const cv::Mat& anOriginalImage,
+                           std::vector<cv::Mat>& aGaussianPyramid,
                            size_t aNumberOfLevels);
 
 
@@ -207,7 +207,7 @@ void createGaussianPyramid(const Mat& anOriginalImage,
  * @return  the visualisation of the pyramid
  */
 //--------------------------------------------------------------------------
-Mat displayPyramid(const std::vector<Mat>& aPyramid);
+cv::Mat displayPyramid(const std::vector<cv::Mat>& aPyramid);
 
 
 //--------------------------------------------------------------------------
@@ -217,8 +217,8 @@ Mat displayPyramid(const std::vector<Mat>& aPyramid);
  * @param aLaplacianPyramid:  the corresponding Laplacian pyramid
  */
 //--------------------------------------------------------------------------
-void createLaplacianPyramid(const vector<Mat>& aGaussianPyramid,
-                            vector<Mat>& aLaplacianPyramid);
+void createLaplacianPyramid(const std::vector<cv::Mat>& aGaussianPyramid,
+                            std::vector<cv::Mat>& aLaplacianPyramid);
 
 
 //--------------------------------------------------------------------------
@@ -229,7 +229,7 @@ void createLaplacianPyramid(const vector<Mat>& aGaussianPyramid,
  * @return the corresponding reconstructed image
  */
 //--------------------------------------------------------------------------
-Mat reconstruct(const vector<Mat>& aLaplacianPyramid, int aLevel);
+cv::Mat reconstruct(const std::vector<cv::Mat>& aLaplacianPyramid, int aLevel);
 
 
 #endif // __Pyramid_h
@@ -241,6 +241,7 @@ Mat reconstruct(const vector<Mat>& aLaplacianPyramid, int aLevel);
 1. Add the same preamble as what you have in `Pyramid.h` (just change the file name).
 2. Include the header file (`Pyramid.h`).
 3. Add the definitions. You can find the code in the Jupyter notebook ([https://github.com/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)).
+4. Don't forget to add `using namespace` with `cv` and `std`.
 
 We will exploit this code in the image stitching. **You must make sure you understand it. You will need to demonstrate your understanding of the method in the report.**
 
@@ -266,6 +267,7 @@ In `Blending.cxx`:
     - You must write your own function in `Pyramid.h`/`Pyramid.cxx`, e.g. `bool isPowerOfTwo(int i);``
     - It returns `true` if `i` is a power of two.
     - It returns `false` if `i` is not a power of two.
+    - If they are not, make sure they become. Either pad the image(s) in your code using OpenCV ([`cv::copyMakeBorder`](https://docs.opencv.org/3.4/d2/de8/group__core__array.html#ga2ac1049c2c3dd25c2b41bffe17658a36)), or use a program such as Gimp or Photoshop.
 8. Repeat steps 5, 6 and 7 with the image file of the apple.
 9. **Display** both images for testing purposes.
     - See `namedWindow`, `imshow`, and `waitKey` in your code from the previous lab.
