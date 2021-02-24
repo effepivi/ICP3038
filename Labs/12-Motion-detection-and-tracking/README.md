@@ -230,17 +230,18 @@ We can easily find them using OpenCV's `findContours` function. See [here](https
 
 ![Screenshot from 2021-02-24 14-00-22](2021-02-24_14-00-22.png)
 
+See the red contours in the "Foreground" window above.
 
 # 14. Ignoring "objects" that are too small
 
 ![Screenshot from 2021-02-24 15-19-36](2021-02-24_15-19-36.png)
 
-Some of the detected objects are far too small. We can compute the area (number of pixels). For each contour (i.e. detected objects), compute its area using `contourArea`. See [here](https://docs.opencv.org/master/d3/dc0/group__imgproc__shape.html#ga2c759ed9f497d4a618048a2f56dc97f1) for the documentation.
+As we an see in the image above, some of the detected objects are far too small. We can compute the area (number of pixels). For each contour (i.e. detected objects), compute its area using `contourArea`. See [here](https://docs.opencv.org/master/d3/dc0/group__imgproc__shape.html#ga2c759ed9f497d4a618048a2f56dc97f1) for the documentation.
 If the area is large enough, draw the contour, if not ignore it. To define how big "large enough" is, define your own threshold. You may adjust it by hand (hard coded), or with a slider.
 
 ![Screenshot from 2021-02-24 14-07-11](2021-02-24_14-07-11.png)
 
-The small objects are no longer highlighted.
+As you can see above, the small objects are no longer highlighted.
 
 # 15. Updating the background
 
