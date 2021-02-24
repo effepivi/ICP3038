@@ -18,8 +18,8 @@ ADD_EXECUTABLE (MotionDetection MotionDetection.cxx)
 TARGET_INCLUDE_DIRECTORIES (MotionDetection PUBLIC ${OpenCV_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/include)
 TARGET_LINK_LIBRARIES (MotionDetection   ${OpenCV_LIBS})
 
-#FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/one_moving_object.avi"
-#      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/one_moving_object.avi"
+      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
 
 FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/change_of_lighting_conditions.avi"
       DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
