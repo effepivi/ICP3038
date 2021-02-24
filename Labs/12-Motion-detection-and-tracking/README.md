@@ -210,7 +210,15 @@ We saw how to do that in [https://github.com/effepivi/ICP3038/blob/master/Lectur
   - UCHAR to float32.
 - Don't forget to remove the `if (key == 'b')` statement in the event loop.
 
-Now, compile and run the code. If you are unhappy with the foreground mask (e.g. presence of holes or tiny islands), you can increase the size of your structuring element (mathematical morphology) and/or the size of your median filters.
+Now, compile and run the code. I get something like this:
+
+![Screenshot from 2021-02-24 13-59-27.png](2021-02-24_13-59-27.png)
+
+If, like me, you are unhappy with the foreground mask (e.g. presence of holes or tiny islands), you can increase the size of your structuring element (mathematical morphology) and/or the size of your median filters.
+
+![Screenshot from 2021-02-24 13-59-50](2021-02-24_13-59-50.png)
+
+Happier now! The foreground mask is perfect.
 
 # 13. Locating moving objects
 
@@ -220,15 +228,50 @@ We can easily find them using OpenCV's `findContours` function. See [here](https
 - Use `findContours` to find the contours in `foreground_mask`.
 - Use `drawContours` to draw the contours in `clean`.
 
+![Screenshot from 2021-02-24 14-00-22](2021-02-24_14-00-22.png)
+
+
 # 14. Ignoring "objects" that are too small
+
+![Screenshot from 2021-02-24 15-19-36](2021-02-24_15-19-36.png)
 
 Some of the detected objects are far too small. We can compute the area (number of pixels). For each contour (i.e. detected objects), compute its area using `contourArea`. See [here](https://docs.opencv.org/master/d3/dc0/group__imgproc__shape.html#ga2c759ed9f497d4a618048a2f56dc97f1) for the documentation.
 If the area is large enough, draw the contour, if not ignore it. To define how big "large enough" is, define your own threshold. You may adjust it by hand (hard coded), or with a slider.
 
+![Screenshot from 2021-02-24 14-07-11](2021-02-24_14-07-11.png)
+
+The small objects are no longer highlighted.
+
 # 15. Updating the background
 
-Bonus point: After all, the first frame as the background may not have been so clever. Something started to move, and the static object from the first frame was detected as something that moved. To further improve your code, update the background so that static objects are not detected.
+**Bonus point:** After all, the first frame as the background may not have been so clever. Something started to move, and the static object from the first frame was detected as something that moved. To further improve your code, update the background so that static objects are not detected.
 
 # 16. Compute the speed of the car
 
-Bonus point: Compute the speed of each detected object.
+- **Bonus point:** Compute the speed of each detected object.
+- **Hint**: You must find the gravity centre of all the detected objects. For this purpose, you can use image moments. See [https://docs.opencv.org/master/d0/d49/tutorial_moments.html](https://docs.opencv.org/master/d0/d49/tutorial_moments.html) for a tutorial.
+
+In particular,
+
+- Finding the moments from the `contours`:
+
+    ```cpp
+    vector<Moments> mu(contours.size() );
+    for( size_t i = 0; i < contours.size(); i++ )
+    {
+        mu[i] = moments( contours[i] );
+    }
+    ```
+
+- Finding the gravity centre of the contour using its moments:
+
+    ```cpp
+    vector<Point2f> mc( contours.size() );
+    for( size_t i = 0; i < contours.size(); i++ )
+    {
+        //add 1e-5 to avoid division by zero
+        mc[i] = Point2f( static_cast<float>(mu[i].m10 / (mu[i].m00 + 1e-5)),
+                         static_cast<float>(mu[i].m01 / (mu[i].m00 + 1e-5)) );
+        cout << "mc[" << i << "]=" << mc[i] << endl;
+    }
+    ```
