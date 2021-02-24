@@ -75,7 +75,7 @@ You are expected to have studied the code in the following Jupyter Notebooks too
 - [https://github.com/effepivi/ICP3038/blob/master/Lectures/11-motion-tracking/notebooks/1-How_to_use_webcam_using_OpenCV.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/11-motion-tracking/notebooks/1-How_to_use_webcam_using_OpenCV.ipynb), and
 - [https://github.com/effepivi/ICP3038/blob/master/Lectures/11-motion-tracking/notebooks/2-Basic_Background_Subtraction.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/11-motion-tracking/notebooks/2-Basic_Background_Subtraction.ipynb).
 
-You must read and understand both the text in English and the code.
+You must **read and understand** both 1) the text in English and 2) the code.
 
 # 4. Preamble
 
@@ -101,6 +101,13 @@ In  `MotionDetection.cxx`, add the preamble to identify the file: which file? wh
 
 # 5. Add the header files
 
+I would use the usual suspects:
+
+- `<iostream>` for printing out an error with `cerr` if there is an error;
+- `<stdexcept>` for generating an exception with an error message;
+- `<string>` maybe for the file names;
+- `<opencv2/opencv.hpp>` for OpenCV's functions.
+
 # 6. Add the `namespaces`
 
 I personally use `std` and `cv`.
@@ -111,7 +118,7 @@ Make sure you take care of the command line with `(int argc, char** argv)`.
 
 # 8. Compile
 
-At this stage you have an empty program, I know. However, I would still do it. The compilation is to test that `CMakeLists.txt` is working well and that I can start the fun part, coding.
+At this stage you have an empty program, I know, I know. However, I would still do it. The compilation is to test that `CMakeLists.txt` is working well and that I can start the fun part, coding.
 
 # 9. Adapt the code from the Jupyter Notebook
 
@@ -119,7 +126,7 @@ We can use the code from [https://github.com/effepivi/ICP3038/blob/master/Lectur
 
 - Copy the two functions to your own program:
     - `Mat cleanBinaryImage(const Mat& aBinaryImage, int elementSize = 5)`, and
-    - `Mat getForegroundMask(const Mat& aBackground, const Mat& aNewFrame, int aThreshold)`,
+    - `Mat getForegroundMask(const Mat& aBackground, const Mat& aNewFrame, int aThreshold = 128)`,
 - In the `main` function, you need most of the rest of the code:
     - Open the `VideoCapture`,
     - Create the windows (optional),
@@ -130,7 +137,7 @@ We can use the code from [https://github.com/effepivi/ICP3038/blob/master/Lectur
     - Release the VideoCapture (optional).
 - Compile and run:
     - The program is using the webcam by default,
-    - Press `B` to pick up a background,
+    - Press `B` to pick a background,
     - Press `ESC` or `Q` to quit.
 
 # 10. Load the video from a file
@@ -176,6 +183,8 @@ VideoCapture video_input(argv[1]);
     video_input.set(CAP_PROP_POS_FRAMES, 0);
     ```
 
+    It rewinds the video to the beginning of the video.
+
 - Compile and run.
 
 # 11. Save a video file
@@ -186,18 +195,20 @@ We saw how to do that in [https://github.com/effepivi/ICP3038/blob/master/Lectur
 - For a `VideoWriter`, you need to know
     - the frame size (Step `[11]`)
     - the frame rate (Step `[12]`)
-- To add a new image (called frame) in your output video, use `operator<<` (just like a `cout`), e.g.
+- To add a new image (called frame) in your output video, use `operator<<` (just like a `cout`),
     - see `video << frame;` in Step `[14]`.
     - We could save the detected foreground, e.g. `clean` in the event loop. Just use `video << clean;`.
-- Compile and run.
+- Compile, run, and check your new video with your favourite movie player, such as [VLC](https://www.videolan.org/).
 
 # 12. Choose an appropriate background
 
-In all the videos I provided, there is no motion in the first few frames, i.e. we can use the first frame as the background.
-Don't forget to remove the `if (key == 'b')` statement in the event loop. Also, don't forget how the frame was processed to produce the background:
-- RGB to greyscale;
-- blur;
-- UCHAR to float32.
+- In all the videos I provided, there is no motion in the first few frames, i.e. we can use the first frame as the background.
+- Before the event loop, use the first frame as the background.
+- Don't forget how the frame was processed to produce the background:
+  - RGB to greyscale;
+  - blur;
+  - UCHAR to float32.
+- Don't forget to remove the `if (key == 'b')` statement in the event loop.
 
 Now, compile and run the code. If you are unhappy with the foreground mask (e.g. presence of holes or tiny islands), you can increase the size of your structuring element (mathematical morphology) and/or the size of your median filters.
 
