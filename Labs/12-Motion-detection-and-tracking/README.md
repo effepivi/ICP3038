@@ -32,6 +32,12 @@ You'll write your code in a single file (two if you count `CMakeLists.txt`):
 
 # 2. Preliminaries
 
+There are 3 video files to test your code.
+
+- ![one_moving_object.gif](./one_moving_object.gif)
+- ![change_of_lighting_conditions.gif](./change_of_lighting_conditions.gif)
+- ![two_moving_objects.gif](./two_moving_objects.gif)
+
 1. Edit the `CMakeLists.txt` file from last time to add the new program:
 
     ```cmake
@@ -42,12 +48,9 @@ You'll write your code in a single file (two if you count `CMakeLists.txt`):
 
 2. Create the new file, `MotionDetection.cxx`.
 3. Download the videos I provided:
-    - ![one_moving_object.gif](./one_moving_object.gif)
-      [one_moving_object.avi](./one_moving_object.avi)
-    - ![change_of_lighting_conditions.gif](./change_of_lighting_conditions.gif)
-      [change_of_lighting_conditions.avi](./change_of_lighting_conditions.avi)
-    - ![two_moving_objects.gif](./two_moving_objects.gif)
-      [two_moving_objects.avi](./two_moving_objects.avi)
+    - [one_moving_object.avi](./one_moving_object.avi)
+    - [change_of_lighting_conditions.avi](./change_of_lighting_conditions.avi)
+    - [two_moving_objects.avi](./two_moving_objects.avi)
 4. Edit the `CMakeLists.txt` file again, this time to copy the image in your binary directory:
 
     ```cmake
