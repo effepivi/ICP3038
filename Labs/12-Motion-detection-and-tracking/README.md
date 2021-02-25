@@ -140,7 +140,7 @@ We can use the code from [https://github.com/effepivi/ICP3038/blob/master/Lectur
     - Press `B` to pick a background,
     - Press `ESC` or `Q` to quit.
 
-**MacOS users:** Apple may deny you the right to use your own webcam. `VideoCapture video_input(0)` may even prevent the program from running. Have a look at this thread: [https://stackoverflow.com/questions/62190614/error-message-opencv-not-authorized-to-capture-video-status-0-in-macos-qt](https://stackoverflow.com/questions/62190614/error-message-opencv-not-authorized-to-capture-video-status-0-in-macos-qt). I haven't been able to replicate the problem as versions of MacOS are too old. Don't worry, Step 10. below will fix that anyway.
+**MacOS users:** Apple may deny you the right to use your own webcam. `VideoCapture video_input(0)` may even prevent the program from running. Have a look at this thread: [https://stackoverflow.com/questions/62190614/error-message-opencv-not-authorized-to-capture-video-status-0-in-macos-qt](https://stackoverflow.com/questions/62190614/error-message-opencv-not-authorized-to-capture-video-status-0-in-macos-qt). I haven't been able to replicate the problem as my versions of MacOS are too old. Don't worry, Step 10. below will fix that anyway.
 
 # 10. Load the video from a file
 
