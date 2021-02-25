@@ -249,7 +249,7 @@ As you can see above, the small objects are no longer highlighted.
 
 # 16. Compute the speed of the car
 
-- **Bonus point:** Compute the speed of each detected object.
+- **Bonus point:** Compute the speed (e.g. in pixels per frame) of each detected object.
 - **Hint**: You must find the gravity centre of all the detected objects. For this purpose, you can use image moments. See [https://docs.opencv.org/master/d0/d49/tutorial_moments.html](https://docs.opencv.org/master/d0/d49/tutorial_moments.html) for a tutorial.
 
 In particular,
