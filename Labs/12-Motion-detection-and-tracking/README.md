@@ -140,6 +140,8 @@ We can use the code from [https://github.com/effepivi/ICP3038/blob/master/Lectur
     - Press `B` to pick a background,
     - Press `ESC` or `Q` to quit.
 
+**MacOS users:** Apple may deny you the right to use your own webcam. `VideoCapture video_input(0)` may even prevent the program from running. Don't worry, Step 10. below will fix that.
+
 # 10. Load the video from a file
 
 The program needs to know:
