@@ -140,6 +140,8 @@ We can use the code from [https://github.com/effepivi/ICP3038/blob/master/Lectur
     - Press `B` to pick a background,
     - Press `ESC` or `Q` to quit.
 
+**MacOS users:** Apple may deny you the right to use your own webcam. `VideoCapture video_input(0)` may even prevent the program from running. Have a look at this thread: [https://stackoverflow.com/questions/62190614/error-message-opencv-not-authorized-to-capture-video-status-0-in-macos-qt](https://stackoverflow.com/questions/62190614/error-message-opencv-not-authorized-to-capture-video-status-0-in-macos-qt). I haven't been able to replicate the problem as my versions of MacOS are too old. Don't worry, Step 10. below will fix that anyway.
+
 # 10. Load the video from a file
 
 The program needs to know:
@@ -249,7 +251,7 @@ As you can see above, the small objects are no longer highlighted.
 
 # 16. Compute the speed of the car
 
-- **Bonus point:** Compute the speed of each detected object.
+- **Bonus point:** Compute the speed (e.g. in pixels per frame) of each detected object.
 - **Hint**: You must find the gravity centre of all the detected objects. For this purpose, you can use image moments. See [https://docs.opencv.org/master/d0/d49/tutorial_moments.html](https://docs.opencv.org/master/d0/d49/tutorial_moments.html) for a tutorial.
 
 In particular,
