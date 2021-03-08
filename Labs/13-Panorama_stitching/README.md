@@ -119,7 +119,11 @@ At this stage you have an empty program, I know, I know. However, I would still 
 
 # 9. Inputs/output
 
-The program will load at least two images and generate a new image. The most elegant way to handle this is to use the command line arguments. You can of course hard-code the filenames, but it is not as flexible as the command line.
+The program will load at least two images and generate a new image. The most elegant way to handle this is to use the command line arguments. I would use:
+```bash
+$ panorama left_image.jpg right_image.jpg panorama.jpg
+```
+You can of course hard-code the filenames, but it is not as flexible as the command line.
 
 # 10. Adapt the code from the Jupyter Notebook
 
