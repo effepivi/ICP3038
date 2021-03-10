@@ -33,11 +33,17 @@ You'll write your code in a single file (two if you count `CMakeLists.txt`):
 There are 3 sets of image files to test your code:
 
 -The first set has only two images [left-1.jpg](left-1.jpg) and [right-1.jpg](right-1.jpg):
-    - ![Left image](left-1.jpg)
-    - ![Right image](right-1.jpg)
+
+    | Left image | Right image |
+    |------------|-------------|
+    | ![Left image](left-1.jpg) | ![Right image](right-1.jpg) |
+
 - The second set has only two images [left-2.jpg](left-2.jpg) and [right-2.jpg](right-2.jpg):
-    - ![Left image](left-2.jpg)
-    - ![Right image](right-2.jpg)
+
+    | Left image | Right image |
+    |------------|-------------|
+    | ![Left image](left-2.jpg) | ![Right image](right-2.jpg) |
+
 - The third set has three images [left-3.jpg](left-3.jpg), [middle-3.jpg](middle-3.jpg) and [right-3.jpg](right-3.jpg):
 - ![Left image](left-3.jpg)
 - ![Middle image](middle-3.jpg)
@@ -192,6 +198,11 @@ Mat autoCrop(const Mat& anImage)
         }
     }
 
+    // Crop the image
+    Rect bounding_rectangle(0, 0, width, height);
+    binary_image = binary_image(bounding_rectangle).clone();
+    pixelPtr = (uint8_t*) binary_image.data;
+
     // Crop along the vertical axis
     for (int x = binary_image.cols - 1; x > 0; --x)
     {
@@ -207,7 +218,7 @@ Mat autoCrop(const Mat& anImage)
         }
     }
 
-    Rect bounding_rectangle(0, 0, width, height);
+    bounding_rectangle = Rect(0, 0, width, height);
     return (anImage(bounding_rectangle));
 }
 ```
@@ -241,26 +252,29 @@ Mat autoCrop(const Mat& anImage)
     <!-- ![Right image descriptor](img/left_image_descriptors.png) -->
 
 4. Pairwise matching between the features of the left and right images:
-    - Match keypoints in `left_image` and `right_image` by comparing their corresponding feature vectors. Here we use a brute-force algorithm and the L2-norm (also known as Euclidean norm or Euclidean distance).
+    - Match keypoints in `left_image` and `right_image` by comparing their corresponding feature vectors. Here we use a brute-force algorithm and the [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance).
     ```cpp
-    BFMatcher matcher(NORM_L2);
+    BFMatcher matcher(NORM_HAMMING);
     vector<DMatch> matches;
     matcher.match(left_image_descriptors, right_image_descriptors, matches);
     ```
     - Now the features have been matched, we need to filter the result. We want to limit the number of false-positives: Only small distances are valid. Create two variables to store the smallest and largest distance between two features of `matches`.
     ```cpp
-    double max_distance = -numeric_limits<double>::max();
     double min_distance = numeric_limits<double>::max();
+    double max_distance = -numeric_limits<double>::max();
     ```
     You need to write a for loop to compute the min and max distances in `matches`. Accessing the distance between the features of the i-th match is easy, just use `matches[i].distance`.
-    ```cpp
+
+    __WRITE OUR OWN CODE TO COMPUTE `min_distance` and `max_distance` IN `matches`.__
+
+    <!-- ```cpp
     for (int i = 0; i < matches.size(); i++ )
     {
         double dist = matches[i].distance;
         if( dist < min_distance ) min_distance = dist;
         if( dist > max_distance ) max_distance = dist;
     }
-    ```
+    ``` -->
     - We will only consider matches whose distance is less than a given threshold, e.g. `mid_distance = min_distance + (max_distance - min_distance) / 2.0`. We must store these in a new STL vector as follows:
     ```cpp
     vector<DMatch> good_matches;
