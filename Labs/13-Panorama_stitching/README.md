@@ -30,11 +30,16 @@ You'll write your code in a single file (two if you count `CMakeLists.txt`):
 
 # 2. Preliminaries
 
-There are 3 image files to test your code.
+There are 2 sets of image files to test your code.
 
-- ![Left image](left_image.jpg)
-- ![Middle image](middle_image.jpg)
-- ![Right image](right_image.jpg)
+The first set has only two images [left-1.jpg](left-1.jpg) and [right-1.jpg](right-1.jpg):
+- ![Left image](left-1.jpg)
+- ![Right image](right-1.jpg)
+
+The second set has three images [left-2.jpg](left-2.jpg), [middle-2.jpg](middle-2.jpg) and [right-2.jpg](right-2.jpg):
+- ![Left image](left-2.jpg)
+- ![Middle image](middle-2.jpg)
+- ![Right image](right-2.jpg)
 
 You can of course use your own images. In fact you should always use your own data. It's more fun to see the results using your own images.
 
@@ -48,19 +53,28 @@ You can of course use your own images. In fact you should always use your own da
 
 2. Create the new file, `panorama.cxx`.
 3. Download the images I provided:
-    - [./left_image.jpg](left_image.jpg)
-    - [./middle_image.jpg](middle_image.jpg)
-    - [./right_image.jpg](right_image.jpg)
-4. Edit the `CMakeLists.txt` file again, this time to copy the image in your binary directory:
+    - [left-1.jpg](left-1.jpg)
+    - [right-1.jpg](right-1.jpg)
+    - [left-2.jpg](left-2.jpg)
+    - [middle-2.jpg](middle-2.jpg)
+    - [right-2.jpg](right-2.jpg)
+4. Move them in the same directory as `CMakeLists.txt`.
+5. Edit the `CMakeLists.txt` file again, this time to copy the image in your binary directory:
 
     ```cmake
-    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/left_image.jpg"
+    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/left-1.jpg"
           DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
 
-    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/middle_image.jpg"
+    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/right-1.jpg"
           DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
 
-    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/right_image.jpg"
+    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/left-2.jpg"
+          DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+
+    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/middle-2.jpg"
+          DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+
+    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/right-2.jpg"
           DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
     ```
 
@@ -121,21 +135,68 @@ At this stage you have an empty program, I know, I know. However, I would still 
 
 The program will load at least two images and generate a new image. The most elegant way to handle this is to use the command line arguments. I would use:
 ```bash
-$ panorama left_image.jpg right_image.jpg panorama.jpg
+$ panorama left-1.jpg right-1.jpg panorama-1.jpg
+$ panorama left-2.jpg middle-2.jpg right-2.jpg panorama-2.jpg
 ```
 You can of course hard-code the filenames, but it is not as flexible as the command line.
 
 # 10. Adapt the code from the Jupyter Notebook
 
-Look at [Slide 41](https://blackboard.bangor.ac.uk/bbcswebdav/pid-3411334-dt-content-rid-10605129_1/courses/1542.202021/14-transformations_and_panoramas/ICP3038-Chapter_14-transformations_and_panoramas.html#(41)) of the 7th week of Semester 2. You can see that the main steps required to stitch images:
+Look at [Slide 41](https://blackboard.bangor.ac.uk/bbcswebdav/pid-3411334-dt-content-rid-10605129_1/courses/1542.202021/14-transformations_and_panoramas/ICP3038-Chapter_14-transformations_and_panoramas.html#(41)) of the 7th week of Semester 2. You can see that the main steps required to stitch images.
+Steps 1. to 4. are already covered in the Jupyter notebook [https://github.com/effepivi/ICP3038/blob/master/Lectures/12-feature-detection/notebooks/1-detect-describe-match-using-ORB-in-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/12-feature-detection/notebooks/1-detect-describe-match-using-ORB-in-opencv.ipynb). We'll use it as a starting point.
 
-1. Import left and right images;
-2. For each image, detect keypoints;
-3. For each keypoint, describe features;
-4. Pairwise matching between the features of the left and right images;
+
+1. Import the left and right images (use `cv::imread`);
+2. For each image, detect keypoints:
+  - Create a feature detector, e.g. using the Oriented FAST and Rotated BRIEF (ORB) method:
+  ```cpp
+  Ptr<FeatureDetector> detector = ORB::create();
+  ```
+  - Detect the keypoints in `left_image` and `right_image`:
+  ```cpp
+  vector<KeyPoint> keypoints_left, keypoints_right;
+  detector->detect(left_image, keypoints_left);
+  detector->detect(right_image, keypoints_right);
+  ```
+3. For each keypoint, describe features:
+  - Create a compatible feature extractor:
+  ```cpp
+  Ptr<DescriptorExtractor> extractor = ORB::create();
+  ```
+  - Create the feature vector for the keypoints.
+  ```cpp
+  Mat descriptors_left, descriptors_right;
+  extractor->compute(left_image, keypoints_left, descriptors_left);
+  extractor->compute(right_image, keypoints_right, descriptors_right);
+  ```  
+4. Pairwise matching between the features of the left and right images:
+  - Match keypoints in `left_image` and `right_image` by comparing their corresponding feature vectors. Here we use a brute-force algorithm and the L2-norm.
+  ```cpp
+  BFMatcher matcher(NORM_L2);
+  vector<DMatch> matches;
+  matcher.match(descriptors_left, descriptors_right, matches);
+  ```
+  - Now the features have been matched, we need to filter the result. We want to limit the number of false-positives: Only small distances are valid. Create two variables to store the smallest and largest
+  distance between two features of `matches`.
+  ```cpp
+  double max_distance = -numeric_limits<double>::max();
+  double min_distance = numeric_limits<double>::max();
+  ```
+  You need to write a for loop to compute the min and max distances in `matches`. Accessing the distance between the features of the i-th match is easy, just use `matches[i].distance`.
+  We will only consider matches whose distance is less than a given threshold, e.g. `mid_distance = min_distance + (max_distance - min_distance) / 2.0`. We must store these in a new STL vector as follows:
+  ```cpp
+  vector<DMatch> good_matches;
+
+  for (int i = 0; i < matches.size(); i++ )
+  {
+      if (matches[i].distance < mid_distance)
+      {
+          good_matches.push_back(matches[i]);
+      }
+  }
+  ```
 5. Warping images (compute the projection matrix $R_{10}$).
 
-Steps 1. to 4. are already covered in the Jupyter notebook [https://github.com/effepivi/ICP3038/blob/master/Lectures/12-feature-detection/notebooks/1-detect-describe-match-using-ORB-in-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/12-feature-detection/notebooks/1-detect-describe-match-using-ORB-in-opencv.ipynb). We'll use it as a starting point.
 
 
 <!--
