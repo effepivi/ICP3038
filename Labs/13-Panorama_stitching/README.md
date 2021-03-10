@@ -9,6 +9,8 @@ fontsize: 11pt
 lang: en-gb
 ---
 
+![A panorama](img/ouput.jpg)
+
 # 1. Synopsis
 
 This lab relies on the 5th, 6th and 7th lectures of Semester 2:
@@ -49,7 +51,7 @@ There are 3 sets of image files to test your code:
 
     | Left image | Middle image | Right image |
     |------------|--------------|-------------|
-    | ![Left image](left-3.jpg) | ![Middle image](right-3.jpg) | ![Right image](right-3.jpg) |
+    | ![Left image](left-3.jpg) | ![Centre image](centre-3.jpg) | ![Right image](right-3.jpg) |
 
 You can of course use your own images. In fact you should always use your own data. It's more fun to see the results using your own images.
 
@@ -68,7 +70,7 @@ You can of course use your own images. In fact you should always use your own da
     - [left-2.jpg](left-2.jpg)
     - [right-2.jpg](right-2.jpg)
     - [left-3.jpg](left-3.jpg)
-    - [middle-3.jpg](middle-3.jpg)
+    - [centre-3.jpg](centre-3.jpg)
     - [right-3.jpg](right-3.jpg)
 4. Move them in the same directory as `CMakeLists.txt`.
 5. Edit the `CMakeLists.txt` file again, this time to copy the image in your binary directory:
@@ -89,7 +91,7 @@ You can of course use your own images. In fact you should always use your own da
     FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/left-3.jpg"
           DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
 
-    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/middle-3.jpg"
+    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/centre-3.jpg"
           DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
 
     FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/right-3.jpg"
