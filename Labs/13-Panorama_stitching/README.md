@@ -32,11 +32,12 @@ You'll write your code in a single file (two if you count `CMakeLists.txt`):
 
 There are 3 sets of image files to test your code:
 
--The first set has only two images [left-1.jpg](left-1.jpg) and [right-1.jpg](right-1.jpg):
+- The first set has only two images [left-1.jpg](left-1.jpg) and [right-1.jpg](right-1.jpg):
 
     | Left image | Right image |
     |------------|-------------|
     | ![Left image](left-1.jpg) | ![Right image](right-1.jpg) |
+
 
 - The second set has only two images [left-2.jpg](left-2.jpg) and [right-2.jpg](right-2.jpg):
 
