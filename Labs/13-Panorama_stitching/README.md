@@ -170,7 +170,7 @@ Steps 1. to 4. are already covered in the Jupyter notebook [https://github.com/e
     extractor->compute(right_image, keypoints_right, descriptors_right);
     ```  
 4. Pairwise matching between the features of the left and right images:
-    - Match the keypoints in `left_image` and `right_image` by comparing their corresponding feature vectors. Here we use a brute-force algorithm and the L2-norm (also known as Euclidean norm or Euclidean distance).
+    - Match keypoints in `left_image` and `right_image` by comparing their corresponding feature vectors. Here we use a brute-force algorithm and the L2-norm (also known as Euclidean norm or Euclidean distance).
     ```cpp
     BFMatcher matcher(NORM_L2);
     vector<DMatch> matches;
@@ -195,11 +195,7 @@ Steps 1. to 4. are already covered in the Jupyter notebook [https://github.com/e
         }
     }
     ```
-5. Warping images (compute the projection matrix
-  $$
-  R_{10}
-  $$
-  ).
+5. Warping images (compute the projection matrix $`R_{10}`$).
 
 
 
