@@ -262,7 +262,7 @@ During this step, we need to compute the transformation matrix that will convert
         left_image_point_set.push_back(left_image_keypoint.pt);
         right_image_point_set.push_back(right_image_keypoint.pt);
     }
-    ```cpp
+    ```
     - Now, we need to find the perspective transformation between two planes to transform the
     coordinates in `left_image_point_set` into the same plane as the coordinates in
     `right_image_point_set`. We use the RANdom SAmple Consensus (RANSAC) algorithm to do so:
