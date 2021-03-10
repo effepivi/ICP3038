@@ -145,6 +145,43 @@ You can of course hard-code the filenames, but it is not as flexible as the comm
 Look at [Slide 41](https://blackboard.bangor.ac.uk/bbcswebdav/pid-3411334-dt-content-rid-10605129_1/courses/1542.202021/14-transformations_and_panoramas/ICP3038-Chapter_14-transformations_and_panoramas.html#(41)) of the 7th week of Semester 2. You can see that the main steps required to stitch images.
 Steps 1. to 4. are already covered in the Jupyter notebook [https://github.com/effepivi/ICP3038/blob/master/Lectures/12-feature-detection/notebooks/1-detect-describe-match-using-ORB-in-opencv.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/12-feature-detection/notebooks/1-detect-describe-match-using-ORB-in-opencv.ipynb). We'll use it as a starting point.
 
+Note that I wrote a function to crop images. You'll need it:
+
+```cpp
+//------------------------------
+Mat autoCrop(const Mat& anImage)
+//------------------------------
+{
+    // Convert to grey scale
+    Mat grey_image;
+    cvtColor(anImage, grey_image, COLOR_BGR2GRAY);
+
+    // Convert to binary
+    Mat binary_image;
+    threshold(grey_image, binary_image, 1, 255, THRESH_BINARY);
+
+    // Find contours
+    std::vector<std::vector<Point> > p_contour_set;
+    std::vector<Vec4i> p_hierarchy_set;
+
+#if CV_MAJOR_VERSION == 2 // OpenCV 2
+	throw "Old OpenCV 2 is no longer supported"
+
+#elif CV_MAJOR_VERSION == 3 // OpenCV 3
+		findContours(binary_image, p_contour_set, p_hierarchy_set, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+
+#else // OpenCV 4
+		findContours(binary_image, p_contour_set, p_hierarchy_set, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0));
+#endif
+
+    Rect bounding_rectangle(boundingRect(p_contour_set.front()));
+
+    // Crop the input image using the bounding rectangle
+    Mat output(anImage(bounding_rectangle));
+
+    return output;
+}
+```
 
 1. Import the left and right images (use `cv::imread`);
 2. For each image, detect keypoints:
@@ -154,9 +191,9 @@ Steps 1. to 4. are already covered in the Jupyter notebook [https://github.com/e
     ```
     - Detect the keypoints in `left_image` and `right_image`:
     ```cpp
-    vector<KeyPoint> keypoints_left, keypoints_right;
-    detector->detect(left_image, keypoints_left);
-    detector->detect(right_image, keypoints_right);
+    vector<KeyPoint> left_image_keypoints, right_image_keypoints;
+    detector->detect(left_image, left_image_keypoints);
+    detector->detect(right_image, right_image_keypoints);
     ```
 3. For each keypoint, describe features:
     - Create a compatible feature extractor:
@@ -165,25 +202,32 @@ Steps 1. to 4. are already covered in the Jupyter notebook [https://github.com/e
     ```
     - Create the feature vector for the keypoints.
     ```cpp
-    Mat descriptors_left, descriptors_right;
-    extractor->compute(left_image, keypoints_left, descriptors_left);
-    extractor->compute(right_image, keypoints_right, descriptors_right);
+    Mat left_image_descriptors, right_image_descriptors;
+    extractor->compute(left_image, left_image_keypoints, left_image_descriptors);
+    extractor->compute(right_image, right_image_keypoints, right_image_descriptors);
     ```  
 4. Pairwise matching between the features of the left and right images:
     - Match keypoints in `left_image` and `right_image` by comparing their corresponding feature vectors. Here we use a brute-force algorithm and the L2-norm (also known as Euclidean norm or Euclidean distance).
     ```cpp
     BFMatcher matcher(NORM_L2);
     vector<DMatch> matches;
-    matcher.match(descriptors_left, descriptors_right, matches);
+    matcher.match(left_image_descriptors, right_image_descriptors, matches);
     ```
-    - Now the features have been matched, we need to filter the result. We want to limit the number of false-positives: Only small distances are valid. Create two variables to store the smallest and largest
-    distance between two features of `matches`.
+    - Now the features have been matched, we need to filter the result. We want to limit the number of false-positives: Only small distances are valid. Create two variables to store the smallest and largest distance between two features of `matches`.
     ```cpp
     double max_distance = -numeric_limits<double>::max();
     double min_distance = numeric_limits<double>::max();
     ```
     You need to write a for loop to compute the min and max distances in `matches`. Accessing the distance between the features of the i-th match is easy, just use `matches[i].distance`.
-    We will only consider matches whose distance is less than a given threshold, e.g. `mid_distance = min_distance + (max_distance - min_distance) / 2.0`. We must store these in a new STL vector as follows:
+    ```cpp
+    for (int i = 0; i < matches.size(); i++ )
+    {
+        double dist = matches[i].distance;
+        if( dist < min_distance ) min_distance = dist;
+        if( dist > max_distance ) max_distance = dist;
+    }
+    ```
+    - We will only consider matches whose distance is less than a given threshold, e.g. `mid_distance = min_distance + (max_distance - min_distance) / 2.0`. We must store these in a new STL vector as follows:
     ```cpp
     vector<DMatch> good_matches;
 
@@ -195,166 +239,69 @@ Steps 1. to 4. are already covered in the Jupyter notebook [https://github.com/e
         }
     }
     ```
-5. Warping images (compute the projection matrix $`R_{10}`$).
-```math
-SE = \frac{\sigma}{\sqrt{n}}
-```
-
-
-<!--
-
-
-- Copy the two functions to your own program:
-    - `Mat cleanBinaryImage(const Mat& aBinaryImage, int elementSize = 5)`, and
-    - `Mat getForegroundMask(const Mat& aBackground, const Mat& aNewFrame, int aThreshold = 128)`,
-- In the `main` function, you need most of the rest of the code:
-    - Open the `VideoCapture`,
-    - Create the windows (optional),
-    - Create the `threshold` and the slider (called `trackbar` in OpenCV),
-    - Declare the `background` variable,
-    - Add the event loop,
-    - Destroy the windows (optional), and
-    - Release the VideoCapture (optional).
-- Compile and run:
-    - The program is using the webcam by default,
-    - Press `B` to pick a background,
-    - Press `ESC` or `Q` to quit.
-
-**MacOS users:** Apple may deny you the right to use your own webcam. `VideoCapture video_input(0)` may even prevent the program from running. Have a look at this thread: [https://stackoverflow.com/questions/62190614/error-message-opencv-not-authorized-to-capture-video-status-0-in-macos-qt](https://stackoverflow.com/questions/62190614/error-message-opencv-not-authorized-to-capture-video-status-0-in-macos-qt). I haven't been able to replicate the problem as my versions of MacOS are too old. Don't worry, Step 10. below will fix that anyway.
-
-# 10. Load the video from a file
-
-The program needs to know:
-
-1. the name of the input video file, and
-2. the name of the output video file.
-
-You must perform this action at the beginning of your `main` function. You have two options. The nice one and the ugly one:
-
-- Use the arguments of the command line, or
-- Hard code the file names,
-    - it is not as elegant,
-    - you'll need to re-compile when changing the file names, but then
-    - the point of the lab is not parsing the command line arguments.
-
-To open a video file, use the appropriate `VideoCapture` constructor. See [here](https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html#a949d90b766ba42a6a93fe23a67785951) for the documentation. For example, we can use
-
-```cpp
-VideoCapture video_input("one_moving_object.avi");
-```
-
-or
-
-```cpp
-VideoCapture video_input(argv[1]);
-```
-
-- Compile and run.
-- You'll see that the video plays very quickly.
-    - Once all the frames from the input video file are read, `video_input >> frame;` will produce an empty frame, which will end the event loop.
-    - To loop through the video, replace:
-
+5. Warping images (compute the projection matrix ![$R_{10}$](R_10.gif)).
+During this step, we need to compute the transformation matrix that will convert the 2D positions of the keypoints of one image into the same space as the ones of the other image.
+    - First of all, we need to store the 2D positions of the keypoints for both images. We create two STL vectors of `Point2f`
+(one per set of keypoints):
     ```cpp
-    video_input.release(); // We are now done with the camera, stop it
-    throw runtime_error("OpenCV cannot grab a new frame from the camera, the program will terminate");
+    std::vector<cv::Point2f> left_image_point_set;
+    std::vector<cv::Point2f> right_image_point_set;
     ```
-
-    with
-
+    - Now we look at each good match in `good_matches` and add the corresponding 2D points to the corresponding vector:
     ```cpp
-    video_input.set(CAP_PROP_POS_FRAMES, 0);
-    ```
-
-    It rewinds the video to the beginning of the video.
-
-- Compile and run.
-
-# 11. Save a video file
-
-We saw how to do that in [https://github.com/effepivi/ICP3038/blob/master/Lectures/11-motion-tracking/notebooks/1-How_to_use_webcam_using_OpenCV.ipynb](https://nbviewer.jupyter.org/github/effepivi/ICP3038/blob/master/Lectures/11-motion-tracking/notebooks/1-How_to_use_webcam_using_OpenCV.ipynb). Before the event loop,
-
-- You need a `VideoWriter` (see Step `[13]` of the notebook),
-- For a `VideoWriter`, you need to know
-    - the frame size (Step `[11]`)
-    - the frame rate (Step `[12]`)
-- To add a new image (called frame) in your output video, use `operator<<` (just like a `cout`),
-    - see `video << frame;` in Step `[14]`.
-    - We could save the detected foreground, e.g. `clean` in the event loop. Just use `video << clean;`.
-- Compile, run, and check your new video with your favourite movie player, such as [VLC](https://www.videolan.org/).
-
-# 12. Choose an appropriate background
-
-- In all the videos I provided, there is no motion in the first few frames, i.e. we can use the first frame as the background.
-- Before the event loop, use the first frame as the background.
-- Don't forget how the frame was processed to produce the background:
-  - RGB to greyscale;
-  - blur;
-  - UCHAR to float32.
-- Don't forget to remove the `if (key == 'b')` statement in the event loop.
-
-Now, compile and run the code. I get something like this:
-
-![Screenshot from 2021-02-24 13-59-27.png](2021-02-24_13-59-27.png)
-
-If, like me, you are unhappy with the foreground mask (e.g. presence of holes or tiny islands), you can increase the size of your structuring element (mathematical morphology) and/or the size of your median filters.
-
-![Screenshot from 2021-02-24 13-59-50](2021-02-24_13-59-50.png)
-
-Happier now! The foreground mask is perfect.
-
-# 13. Locating moving objects
-
-Moving objects, will be white in the `foreground_mask`.
-We can easily find them using OpenCV's `findContours` function. See [here](https://docs.opencv.org/master/df/d0d/tutorial_find_contours.html) for the corresponding documentation.
-
-- Use `findContours` to find the contours in `foreground_mask`.
-- Use `drawContours` to draw the contours in `clean`.
-
-![Screenshot from 2021-02-24 14-00-22](2021-02-24_14-00-22.png)
-
-See the red contours in the "Foreground" window above.
-
-# 14. Ignoring "objects" that are too small
-
-![Screenshot from 2021-02-24 15-19-36](2021-02-24_15-19-36.png)
-
-As we an see in the image above, some of the detected objects are far too small. We can compute the area (number of pixels). For each contour (i.e. detected objects), compute its area using `contourArea`. See [here](https://docs.opencv.org/master/d3/dc0/group__imgproc__shape.html#ga2c759ed9f497d4a618048a2f56dc97f1) for the documentation.
-If the area is large enough, draw the contour, if not ignore it. To define how big "large enough" is, define your own threshold. You may adjust it by hand (hard coded), or with a slider.
-
-![Screenshot from 2021-02-24 14-07-11](2021-02-24_14-07-11.png)
-
-As you can see above, the small objects are no longer highlighted.
-
-# 15. Updating the background
-
-**Bonus point:** After all, the first frame as the background may not have been so clever. Something started to move, and the static object from the first frame was detected as something that moved. To further improve your code, update the background so that static objects are not detected.
-
-# 16. Compute the speed of the car
-
-- **Bonus point:** Compute the speed (e.g. in pixels per frame) of each detected object.
-- **Hint**: You must find the gravity centre of all the detected objects. For this purpose, you can use image moments. See [https://docs.opencv.org/master/d0/d49/tutorial_moments.html](https://docs.opencv.org/master/d0/d49/tutorial_moments.html) for a tutorial.
-
-In particular,
-
-- Finding the moments from the `contours`:
-
-    ```cpp
-    vector<Moments> mu(contours.size() );
-    for( size_t i = 0; i < contours.size(); i++ )
+    // Look at each good match
+    for (std::vector< cv::DMatch >::const_iterator ite =good_matches.begin();
+         ite != good_matches.end();
+         ++ite)
     {
-        mu[i] = moments( contours[i] );
+        // Get the keypoints from the good match
+        cv::KeyPoint left_image_keypoint(left_image_keypoints[ite->queryIdx]);
+        cv::KeyPoint right_image_keypoint(right_image_keypoints[ite->trainIdx]);
+
+        // Add the corresponding 2D points
+        left_image_point_set.push_back(left_image_keypoint.pt);
+        right_image_point_set.push_back(right_image_keypoint.pt);
     }
-    ```
-
-- Finding the gravity centre of the contour using its moments:
-
     ```cpp
-    vector<Point2f> mc( contours.size() );
-    for( size_t i = 0; i < contours.size(); i++ )
-    {
-        //add 1e-5 to avoid division by zero
-        mc[i] = Point2f( static_cast<float>(mu[i].m10 / (mu[i].m00 + 1e-5)),
-                         static_cast<float>(mu[i].m01 / (mu[i].m00 + 1e-5)) );
-        cout << "mc[" << i << "]=" << mc[i] << endl;
-    }
-    ``` -->
+    - Now, we need to find the perspective transformation between two planes to transform the
+    coordinates in `left_image_point_set` into the same plane as the coordinates in
+    `right_image_point_set`. We use the RANdom SAmple Consensus (RANSAC) algorithm to do so:
+    ```cpp
+    Mat homography_matrix(findHomography(left_image_point_set, right_image_point_set, RANSAC));
+    ```
+    - Then we apply the new transformation matrix to deform the image, then we crop it:
+    ```cpp
+    // Then we apply the new transformation matrix to deform the right image:
+    Mat transformed_right_image;
+    warpPerspective(right_image, transformed_right_image, homography_matrix, Size(left_image.cols + right_image.cols, left_image.rows));
+    // imshow("transformed_right_image", transformed_right_image);
+
+    // Crop the image to its boundingbox
+    transformed_right_image = autoCrop(transformed_right_image);
+    // imshow("cropped_transformed_right_image", transformed_right_image);
+    ```
+    I used `imshow` for debugging purposes.
+    - We create a new image where to store the panorama. It's the left image. We increase its size to stitch the right image:
+    ```cpp
+    Mat panorama_image;
+    copyMakeBorder(left_image,
+                   panorama_image,
+                   0, 0, 0, transformed_right_image.cols,
+                   BORDER_CONSTANT, 0);
+    // imshow("padded left image", panorama_image);
+    ```
+    - Now we can copy the transformed image to the right of the left image
+    ```cpp
+    Mat right_ROI(panorama_image(Rect(left_image.cols,
+                                 0,
+                                 transformed_right_image.cols,
+                                 transformed_right_image.rows)));
+    transformed_right_image.copyTo(right_ROI);
+
+    // imshow("right_ROI", right_ROI);
+    // imshow("panorama", panorama_image);
+    ```
+6. Visualise and save the panorama. Job done!
+
+- **Bonus point:** Make it possible to stitch together 3 or more images.
+- **Hint**: 1) At the end of Step 5. `panorama_image` becomes `left_image`, 2) add a for loop to repeat Steps 1. to 5.
