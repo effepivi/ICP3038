@@ -46,9 +46,10 @@ There are 3 sets of image files to test your code:
     | ![Left image](left-2.jpg) | ![Right image](right-2.jpg) |
 
 - The third set has three images [left-3.jpg](left-3.jpg), [middle-3.jpg](middle-3.jpg) and [right-3.jpg](right-3.jpg):
-- ![Left image](left-3.jpg)
-- ![Middle image](middle-3.jpg)
-- ![Right image](right-3.jpg)
+
+    | Left image | Middle image | Right image |
+    |------------|--------------|-------------|
+    | ![Left image](left-3.jpg) | ![Middle image](right-3.jpg) | ![Right image](right-3.jpg) |
 
 You can of course use your own images. In fact you should always use your own data. It's more fun to see the results using your own images.
 
