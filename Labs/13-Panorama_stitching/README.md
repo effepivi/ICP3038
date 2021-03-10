@@ -351,4 +351,4 @@ During this step, we need to compute the transformation matrix that will convert
 6. Visualise and save the panorama. Job done!
 
 - **Bonus point:** Make it possible to stitch together 3 or more images.
-- **Hint**: 1) At the end of Step 5. `panorama_image` becomes `left_image`, 2) add a for loop to repeat Steps 1. to 5.
+- **Hint**: 1) make sure you use the command line arguments to load the image files, 2) at the end of Step 5. `panorama_image` becomes `left_image`, 3) add a for loop to repeat Steps 1. to 5.
