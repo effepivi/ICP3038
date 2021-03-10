@@ -148,53 +148,53 @@ Steps 1. to 4. are already covered in the Jupyter notebook [https://github.com/e
 
 1. Import the left and right images (use `cv::imread`);
 2. For each image, detect keypoints:
-  - Create a feature detector, e.g. using the Oriented FAST and Rotated BRIEF (ORB) method:
-  ```cpp
-  Ptr<FeatureDetector> detector = ORB::create();
-  ```
-  - Detect the keypoints in `left_image` and `right_image`:
-  ```cpp
-  vector<KeyPoint> keypoints_left, keypoints_right;
-  detector->detect(left_image, keypoints_left);
-  detector->detect(right_image, keypoints_right);
-  ```
+    - Create a feature detector, e.g. using the Oriented FAST and Rotated BRIEF (ORB) method:
+    ```cpp
+    Ptr<FeatureDetector> detector = ORB::create();
+    ```
+    - Detect the keypoints in `left_image` and `right_image`:
+    ```cpp
+    vector<KeyPoint> keypoints_left, keypoints_right;
+    detector->detect(left_image, keypoints_left);
+    detector->detect(right_image, keypoints_right);
+    ```
 3. For each keypoint, describe features:
-  - Create a compatible feature extractor:
-  ```cpp
-  Ptr<DescriptorExtractor> extractor = ORB::create();
-  ```
-  - Create the feature vector for the keypoints.
-  ```cpp
-  Mat descriptors_left, descriptors_right;
-  extractor->compute(left_image, keypoints_left, descriptors_left);
-  extractor->compute(right_image, keypoints_right, descriptors_right);
-  ```  
+    - Create a compatible feature extractor:
+    ```cpp
+    Ptr<DescriptorExtractor> extractor = ORB::create();
+    ```
+    - Create the feature vector for the keypoints.
+    ```cpp
+    Mat descriptors_left, descriptors_right;
+    extractor->compute(left_image, keypoints_left, descriptors_left);
+    extractor->compute(right_image, keypoints_right, descriptors_right);
+    ```  
 4. Pairwise matching between the features of the left and right images:
-  - Match keypoints in `left_image` and `right_image` by comparing their corresponding feature vectors. Here we use a brute-force algorithm and the L2-norm.
-  ```cpp
-  BFMatcher matcher(NORM_L2);
-  vector<DMatch> matches;
-  matcher.match(descriptors_left, descriptors_right, matches);
-  ```
-  - Now the features have been matched, we need to filter the result. We want to limit the number of false-positives: Only small distances are valid. Create two variables to store the smallest and largest
-  distance between two features of `matches`.
-  ```cpp
-  double max_distance = -numeric_limits<double>::max();
-  double min_distance = numeric_limits<double>::max();
-  ```
-  You need to write a for loop to compute the min and max distances in `matches`. Accessing the distance between the features of the i-th match is easy, just use `matches[i].distance`.
-  We will only consider matches whose distance is less than a given threshold, e.g. `mid_distance = min_distance + (max_distance - min_distance) / 2.0`. We must store these in a new STL vector as follows:
-  ```cpp
-  vector<DMatch> good_matches;
+    - Match keypoints in `left_image` and `right_image` by comparing their corresponding feature vectors. Here we use a brute-force algorithm and the L2-norm.
+    ```cpp
+    BFMatcher matcher(NORM_L2);
+    vector<DMatch> matches;
+    matcher.match(descriptors_left, descriptors_right, matches);
+    ```
+    - Now the features have been matched, we need to filter the result. We want to limit the number of false-positives: Only small distances are valid. Create two variables to store the smallest and largest
+    distance between two features of `matches`.
+    ```cpp
+    double max_distance = -numeric_limits<double>::max();
+    double min_distance = numeric_limits<double>::max();
+    ```
+    You need to write a for loop to compute the min and max distances in `matches`. Accessing the distance between the features of the i-th match is easy, just use `matches[i].distance`.
+    We will only consider matches whose distance is less than a given threshold, e.g. `mid_distance = min_distance + (max_distance - min_distance) / 2.0`. We must store these in a new STL vector as follows:
+    ```cpp
+    vector<DMatch> good_matches;
 
-  for (int i = 0; i < matches.size(); i++ )
-  {
-      if (matches[i].distance < mid_distance)
-      {
-          good_matches.push_back(matches[i]);
-      }
-  }
-  ```
+    for (int i = 0; i < matches.size(); i++ )
+    {
+        if (matches[i].distance < mid_distance)
+        {
+            good_matches.push_back(matches[i]);
+        }
+    }
+    ```
 5. Warping images (compute the projection matrix $R_{10}$).
 
 
