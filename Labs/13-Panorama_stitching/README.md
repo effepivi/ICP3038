@@ -30,16 +30,18 @@ You'll write your code in a single file (two if you count `CMakeLists.txt`):
 
 # 2. Preliminaries
 
-There are 2 sets of image files to test your code.
+There are 3 sets of image files to test your code:
 
-The first set has only two images [left-1.jpg](left-1.jpg) and [right-1.jpg](right-1.jpg):
-- ![Left image](left-1.jpg)
-- ![Right image](right-1.jpg)
-
-The second set has three images [left-2.jpg](left-2.jpg), [middle-2.jpg](middle-2.jpg) and [right-2.jpg](right-2.jpg):
-- ![Left image](left-2.jpg)
-- ![Middle image](middle-2.jpg)
-- ![Right image](right-2.jpg)
+-The first set has only two images [left-1.jpg](left-1.jpg) and [right-1.jpg](right-1.jpg):
+    - ![Left image](left-1.jpg)
+    - ![Right image](right-1.jpg)
+- The second set has only two images [left-2.jpg](left-2.jpg) and [right-2.jpg](right-2.jpg):
+    - ![Left image](left-2.jpg)
+    - ![Right image](right-2.jpg)
+- The third set has three images [left-3.jpg](left-3.jpg), [middle-3.jpg](middle-3.jpg) and [right-3.jpg](right-3.jpg):
+- ![Left image](left-3.jpg)
+- ![Middle image](middle-3.jpg)
+- ![Right image](right-3.jpg)
 
 You can of course use your own images. In fact you should always use your own data. It's more fun to see the results using your own images.
 
@@ -56,8 +58,10 @@ You can of course use your own images. In fact you should always use your own da
     - [left-1.jpg](left-1.jpg)
     - [right-1.jpg](right-1.jpg)
     - [left-2.jpg](left-2.jpg)
-    - [middle-2.jpg](middle-2.jpg)
     - [right-2.jpg](right-2.jpg)
+    - [left-3.jpg](left-3.jpg)
+    - [middle-3.jpg](middle-3.jpg)
+    - [right-3.jpg](right-3.jpg)
 4. Move them in the same directory as `CMakeLists.txt`.
 5. Edit the `CMakeLists.txt` file again, this time to copy the image in your binary directory:
 
@@ -71,10 +75,16 @@ You can of course use your own images. In fact you should always use your own da
     FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/left-2.jpg"
           DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
 
-    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/middle-2.jpg"
+    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/right-2.jpg"
           DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
 
-    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/right-2.jpg"
+    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/left-3.jpg"
+          DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+
+    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/middle-3.jpg"
+          DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+
+    FILE (COPY "${CMAKE_CURRENT_SOURCE_DIR}/right-3.jpg"
           DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
     ```
 
@@ -160,28 +170,46 @@ Mat autoCrop(const Mat& anImage)
     Mat binary_image;
     threshold(grey_image, binary_image, 1, 255, THRESH_BINARY);
 
-    // Find contours
-    std::vector<std::vector<Point> > p_contour_set;
-    std::vector<Vec4i> p_hierarchy_set;
+    // Initialise the size of the bounding box
+    int width = binary_image.cols;
+    int height = binary_image.rows;
 
-#if CV_MAJOR_VERSION == 2 // OpenCV 2
-	throw "Old OpenCV 2 is no longer supported"
+    uint8_t* pixelPtr = (uint8_t*) binary_image.data;
+    int cn = binary_image.channels();
 
-#elif CV_MAJOR_VERSION == 3 // OpenCV 3
-		findContours(binary_image, p_contour_set, p_hierarchy_set, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+    // Crop along the horizontal axis
+    for (int y = binary_image.rows - 1; y > 0; --y)
+    {
+        bool still_black = true;
+        for (int x = binary_image.cols - 1; x > 0; --x)
+        {
+            if (pixelPtr[y * binary_image.cols * cn + x * cn] != 0 && still_black)
+            {
+                still_black = false;
 
-#else // OpenCV 4
-		findContours(binary_image, p_contour_set, p_hierarchy_set, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0));
-#endif
+                if (width > x) width = x;
+            }
+        }
+    }
 
-    Rect bounding_rectangle(boundingRect(p_contour_set.front()));
+    // Crop along the vertical axis
+    for (int x = binary_image.cols - 1; x > 0; --x)
+    {
+        bool still_black = true;
+        for (int y = binary_image.rows - 1; y > 0; --y)
+        {
+            if (pixelPtr[y * binary_image.cols * cn + x * cn] != 0 && still_black)
+            {
+                still_black = false;
 
-    // Crop the input image using the bounding rectangle
-    Mat output(anImage(bounding_rectangle));
+                if (height > y) height = y;
+            }
+        }
+    }
 
-    return output;
-}
-```
+    Rect bounding_rectangle(0, 0, width, height);
+    return (anImage(bounding_rectangle));
+}```
 
 1. Import the left and right images (use `cv::imread`);
 2. For each image, detect keypoints:
@@ -267,40 +295,35 @@ During this step, we need to compute the transformation matrix that will convert
     coordinates in `left_image_point_set` into the same plane as the coordinates in
     `right_image_point_set`. We use the RANdom SAmple Consensus (RANSAC) algorithm to do so:
     ```cpp
-    Mat homography_matrix(findHomography(left_image_point_set, right_image_point_set, RANSAC));
+    Mat homography_matrix(findHomography(right_image_point_set, left_image_point_set, RANSAC));
     ```
     - Then we apply the new transformation matrix to deform the image, then we crop it:
     ```cpp
-    // Then we apply the new transformation matrix to deform the right image:
-    Mat transformed_right_image;
-    warpPerspective(right_image, transformed_right_image, homography_matrix, Size(left_image.cols + right_image.cols, left_image.rows));
-    // imshow("transformed_right_image", transformed_right_image);
-
-    // Crop the image to its boundingbox
-    transformed_right_image = autoCrop(transformed_right_image);
-    // imshow("cropped_transformed_right_image", transformed_right_image);
+    Mat panorama_image;
+    warpPerspective(right_image, panorama_image, homography_matrix, Size(left_image.cols + right_image.cols, left_image.rows + right_image.rows));
+    // imshow("transformed_right_image", panorama_image);
     ```
     I used `imshow` for debugging purposes.
-    - We create a new image where to store the panorama. It's the left image. We increase its size to stitch the right image:
-    ```cpp
-    Mat panorama_image;
-    copyMakeBorder(left_image,
-                   panorama_image,
-                   0, 0, 0, transformed_right_image.cols,
-                   BORDER_CONSTANT, 0);
-    // imshow("padded left image", panorama_image);
-    ```
+    ![Right image after warping](img/transformed_right_image.png)
     - Now we can copy the transformed image to the right of the left image
     ```cpp
-    Mat right_ROI(panorama_image(Rect(left_image.cols,
+    Mat left_ROI(panorama_image(Rect(0,
                                  0,
-                                 transformed_right_image.cols,
-                                 transformed_right_image.rows)));
-    transformed_right_image.copyTo(right_ROI);
+                                 left_image.cols,
+                                 left_image.rows)));
+    left_image.copyTo(left_ROI);
 
     // imshow("right_ROI", right_ROI);
     // imshow("panorama", panorama_image);
     ```
+    ![Image before cropping](img/before_cropping_panorama.png)
+
+    - Now we can crop the image with the autoCrop function I provided:
+    ```cpp
+    panorama_image = autoCrop(panorama_image);
+    ```
+    ![Image after cropping](img/final_panorama.png)
+
 6. Visualise and save the panorama. Job done!
 
 - **Bonus point:** Make it possible to stitch together 3 or more images.
