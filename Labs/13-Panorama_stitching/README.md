@@ -196,7 +196,9 @@ Steps 1. to 4. are already covered in the Jupyter notebook [https://github.com/e
     }
     ```
 5. Warping images (compute the projection matrix $`R_{10}`$).
-
+```math
+SE = \frac{\sigma}{\sqrt{n}}
+```
 
 
 <!--
