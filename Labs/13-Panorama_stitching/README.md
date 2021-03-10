@@ -209,7 +209,8 @@ Mat autoCrop(const Mat& anImage)
 
     Rect bounding_rectangle(0, 0, width, height);
     return (anImage(bounding_rectangle));
-}```
+}
+```
 
 1. Import the left and right images (use `cv::imread`);
 2. For each image, detect keypoints:
@@ -234,6 +235,11 @@ Mat autoCrop(const Mat& anImage)
     extractor->compute(left_image, left_image_keypoints, left_image_descriptors);
     extractor->compute(right_image, right_image_keypoints, right_image_descriptors);
     ```  
+    The keypoint descriptors of an image is a huge matrix, with one row per keypoint, one column per feature:
+
+    ![Left image descriptor](img/left_image_descriptors.png)
+    <!-- ![Right image descriptor](img/left_image_descriptors.png) -->
+
 4. Pairwise matching between the features of the left and right images:
     - Match keypoints in `left_image` and `right_image` by comparing their corresponding feature vectors. Here we use a brute-force algorithm and the L2-norm (also known as Euclidean norm or Euclidean distance).
     ```cpp
@@ -305,7 +311,7 @@ During this step, we need to compute the transformation matrix that will convert
     ```
     I used `imshow` for debugging purposes.
     ![Right image after warping](img/transformed_right_image.png)
-    - Now we can copy the transformed image to the right of the left image
+    - Now we can copy the left image onto the transformed right image:
     ```cpp
     Mat left_ROI(panorama_image(Rect(0,
                                  0,
