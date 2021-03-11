@@ -292,7 +292,7 @@ Mat autoCrop(const Mat& anImage)
     }
     ```
     __IN YOUR REPORT, YOU `cv::drawMatches` TO SHOW THE GOOD MATCHES. SEE THE NOTEBOOK FOR AN EXAMPLE.__
-    *Drwaing the good matches will help you in adjusting the threshold (if needed, of course)*.
+    *Drawing the good matches will help you in adjusting the threshold (if needed, of course). You could even add a slider (trackbar).*.
 
 5. Warping images (compute the projection matrix ![$R_{10}$](R_10.gif)).
 During this step, we need to compute the transformation matrix that will convert the 2D positions of the keypoints of one image into the same space as the ones of the other image.
