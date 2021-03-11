@@ -221,6 +221,13 @@ If, like me, you are unhappy with the foreground mask (e.g. presence of holes or
 
 Happier now! The foreground mask is perfect.
 
+**NOTE**: If the performance on your system is poor, you can improve the speed of the program by tuning the code:
+- Reduce the size of `medianBlur`, e.g. from 5 to 3;
+- Or even faster, change the `medianBlur` into a `gaussianBlur`;
+- Resize every frame (maybe a bit too brutal);
+- Reduce size of the structuring element in `cleanBinaryImage`, e.g. from 15 into something much smaller;
+- **Compile and execute in Release rather than Debug.**
+
 # 13. Locating moving objects
 
 Moving objects, will be white in the `foreground_mask`.
