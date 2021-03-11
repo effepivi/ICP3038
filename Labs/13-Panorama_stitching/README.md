@@ -279,18 +279,21 @@ Mat autoCrop(const Mat& anImage)
         if( dist > max_distance ) max_distance = dist;
     }
     ``` -->
-    - We will only consider matches whose distance is less than a given threshold, e.g. `mid_distance = min_distance + (max_distance - min_distance) / 2.0`. We must store these in a new STL vector as follows:
+    - We will only consider matches whose distance is less than a given threshold, e.g. `threshold = min_distance + (max_distance - min_distance) / 2.0`. We must store these in a new STL vector as follows:
     ```cpp
     vector<DMatch> good_matches;
 
     for (int i = 0; i < matches.size(); i++ )
     {
-        if (matches[i].distance < mid_distance)
+        if (matches[i].distance < threshold)
         {
             good_matches.push_back(matches[i]);
         }
     }
     ```
+    __IN YOUR REPORT, YOU `cv::drawMatches` TO SHOW THE GOOD MATCHES. SEE THE NOTEBOOK FOR AN EXAMPLE.__
+    *Drwaing the good matches will help you in adjusting the threshold (if needed, of course)*.
+
 5. Warping images (compute the projection matrix ![$R_{10}$](R_10.gif)).
 During this step, we need to compute the transformation matrix that will convert the 2D positions of the keypoints of one image into the same space as the ones of the other image.
     - First of all, we need to store the 2D positions of the keypoints for both images. We create two STL vectors of `Point2f`
@@ -347,6 +350,8 @@ During this step, we need to compute the transformation matrix that will convert
     panorama_image = autoCrop(panorama_image);
     ```
     ![Image after cropping](img/final_panorama.png)
+
+    __NOTE: IN YOUR REPORT YOU MAY WANT TO DISPLAY THE INTERMEDIATE IMAGES TO ILLUSTRATE WHAT THE CODE DOES.__ As we say, "an image is worth 10,000 words".
 
 6. Visualise and save the panorama. Job done!
 
