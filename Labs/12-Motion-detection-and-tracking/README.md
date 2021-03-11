@@ -244,7 +244,7 @@ If the area is large enough, draw the contour, if not ignore it. To define how b
 
 As you can see above, the small objects are no longer highlighted.
 
-In the `VideoWriter` store the image that shows the objects that are detected.
+In the `VideoWriter` store the image that shows the objects that are detected (see the "Foreground" window above).
 <!-- - We could save the detected foreground, e.g. `clean` in the event loop. Just use `video << clean;`.-->
 
 
