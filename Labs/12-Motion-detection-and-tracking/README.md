@@ -198,8 +198,7 @@ We saw how to do that in [https://github.com/effepivi/ICP3038/blob/master/Lectur
     - the frame size (Step `[11]`)
     - the frame rate (Step `[12]`)
 - To add a new image (called frame) in your output video, use `operator<<` (just like a `cout`),
-    - see `video << frame;` in Step `[14]`.
-    - We could save the detected foreground, e.g. `clean` in the event loop. Just use `video << clean;`.
+    - see `video << frame;` in Step `[14]`. This is just an example.
 - Compile, run, and check your new video with your favourite movie player, such as [VLC](https://www.videolan.org/).
 
 # 12. Choose an appropriate background
@@ -221,6 +220,13 @@ If, like me, you are unhappy with the foreground mask (e.g. presence of holes or
 ![Screenshot from 2021-02-24 13-59-50](2021-02-24_13-59-50.png)
 
 Happier now! The foreground mask is perfect.
+
+**NOTE**: If the performance on your system is poor, you can improve the speed of the program by tuning the code:
+- Reduce the size of `medianBlur`, e.g. from 5 to 3;
+- Or even faster, change the `medianBlur` into a `gaussianBlur`;
+- Resize every frame (maybe a bit too brutal);
+- Reduce size of the structuring element in `cleanBinaryImage`, e.g. from 15 into something much smaller;
+- **Compile and execute in Release rather than Debug.**
 
 # 13. Locating moving objects
 
@@ -244,6 +250,10 @@ If the area is large enough, draw the contour, if not ignore it. To define how b
 ![Screenshot from 2021-02-24 14-07-11](2021-02-24_14-07-11.png)
 
 As you can see above, the small objects are no longer highlighted.
+
+In the `VideoWriter` store the image that shows the objects that are detected (see the "Foreground" window above).
+<!-- - We could save the detected foreground, e.g. `clean` in the event loop. Just use `video << clean;`.-->
+
 
 # 15. Updating the background
 
