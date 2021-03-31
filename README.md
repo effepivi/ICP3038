@@ -7,13 +7,15 @@
 
 Jupyter notebooks:
 
--  [Load and display an image](Lectures/8-Segmentation/notebooks/1-opencv-cxx-load-display.ipynb) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/effepivi/ICP3038/HEAD?filepath=https%3A%2F%2Fgithub.com%2Feffepivi%2FICP3038%2Fblob%2Fmaster%2FLectures%2F8-Segmentation%2Fnotebooks%2F1-opencv-cxx-load-display.ipynb)
--  [Segmentation of cells in a solution using OpenCV](Lectures/8-Segmentation/notebooks/2-segmentation-of-cells-using-opencv.ipynb)
--  [My own region growing segmentation algorithm](Lectures/8-Segmentation/notebooks/3-region-growing-opencv.ipynb)
--  [](Lectures/9-Pyramids/notebooks/1-create-gaussian-pyranid-using-opencv.ipynb)
--  [](Lectures/9-Pyramids/notebooks/2-create-gaussian-pyranid-without-blur.ipynb)
--  [](Lectures/9-Pyramids/notebooks/3-create-laplacian-pyranid-using-opencv.ipynb)
--  [](Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)
+-  Image segmentation:
+    -  [Load and display an image](Lectures/8-Segmentation/notebooks/1-opencv-cxx-load-display.ipynb) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/effepivi/ICP3038/HEAD?filepath=https%3A%2F%2Fgithub.com%2Feffepivi%2FICP3038%2Fblob%2Fmaster%2FLectures%2F8-Segmentation%2Fnotebooks%2F1-opencv-cxx-load-display.ipynb)
+    -  [Segmentation of cells in a solution using OpenCV](Lectures/8-Segmentation/notebooks/2-segmentation-of-cells-using-opencv.ipynb) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/effepivi/ICP3038/HEAD?filepath=https://github.com/effepivi/ICP3038/Lectures/8-Segmentation/notebooks/2-segmentation-of-cells-using-opencv.ipynb)
+    -  [Our own region growing segmentation algorithm](Lectures/8-Segmentation/notebooks/3-region-growing-opencv.ipynb) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/effepivi/ICP3038/HEAD?filepath=https://github.com/effepivi/ICP3038/)
+- Pyramids:
+    -  [The main steps to create a Gaussian Pyramid](Lectures/9-Pyramids/notebooks/1-create-gaussian-pyranid-using-opencv.ipynb) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/effepivi/ICP3038/HEAD?filepath=https://github.com/effepivi/ICP3038/Lectures/9-Pyramids/notebooks/1-create-gaussian-pyranid-using-opencv.ipynb)
+    -  [What if we forget blurring?](Lectures/9-Pyramids/notebooks/2-create-gaussian-pyranid-without-blur.ipynb) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/effepivi/ICP3038/HEAD?filepath=https://github.com/effepivi/ICP3038/Lectures/9-Pyramids/notebooks/2-create-gaussian-pyranid-without-blur.ipynb)
+    -  [Laplacian pyramid](Lectures/9-Pyramids/notebooks/3-create-laplacian-pyranid-using-opencv.ipynb) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/effepivi/ICP3038/HEAD?filepath=https://github.com/effepivi/ICP3038/Lectures/9-Pyramids/notebooks/3-create-laplacian-pyranid-using-opencv.ipynb)
+    -  [Image stitching with Laplacian pyramid](Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/effepivi/ICP3038/HEAD?filepath=https://github.com/effepivi/ICP3038/Lectures/9-Pyramids/notebooks/4-Image-stitching-with-pyramids-using-opencv.ipynb)
 -  [](Lectures/10-edge-and-line-detections/notebooks/1-Edge-detection-using-gradient-magnitude.ipynb)
 -  [](Lectures/10-edge-and-line-detections/notebooks/2-Edge-detection-using-canny.ipynb)
 -  [](Lectures/10-edge-and-line-detections/notebooks/3-line-detection-using-hough-transform.ipynb)
